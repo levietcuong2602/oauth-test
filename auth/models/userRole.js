@@ -3,14 +3,18 @@ module.exports = (sequelize, DataTypes) => {
   const UserRole = sequelize.define(
     "UserRole",
     {
-      userId: {
+      user_id: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      clientId: { type: DataTypes.STRING, allowNull: false },
-      roleId: { type: DataTypes.STRING, allowNull: false },
+      client_id: { type: DataTypes.STRING, allowNull: false },
+      role_id: { type: DataTypes.STRING, allowNull: false },
     },
-    {}
+    {
+      tableName: "user_roles",
+      underscored: true,
+      timestamps: false,
+    }
   );
   UserRole.associate = function (models) {
     // associations can be defined here

@@ -9,11 +9,15 @@ module.exports = (sequelize, DataTypes) => {
       password: {
         type: DataTypes.STRING,
       },
-      walletAddress: {
+      wallet_address: {
         type: DataTypes.STRING,
       },
     },
-    {}
+    {
+      tableName: "users",
+      underscored: true,
+      timestamps: false,
+    }
   );
   User.associate = function (models) {
     // associations can be defined here

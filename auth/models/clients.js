@@ -3,15 +3,19 @@ module.exports = (sequelize, DataTypes) => {
   const Client = sequelize.define(
     "Client",
     {
-      clientId: {
+      client_id: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      secretId: { type: DataTypes.STRING, allowNull: false },
-      redirectUris: { type: DataTypes.STRING },
+      client_secret: { type: DataTypes.STRING, allowNull: false },
+      redirect_uris: { type: DataTypes.STRING },
       grants: { type: DataTypes.STRING, allowNull: false },
     },
-    {}
+    {
+      tableName: "clients",
+      underscored: true,
+      timestamps: false,
+    }
   );
   Client.associate = function (models) {
     // associations can be defined here

@@ -9,11 +9,12 @@ const adminJs = new AdminJS({
 });
 
 dotenv.config();
-require("./config/sequelize");
+// require("./config/sequelize");
 
 const app = express();
 const port = 3030;
 const bodyParser = require("body-parser");
+const expressSwagger = require("express-swagger-generator")(app);
 const oauthServer = require("./oauth/server.js");
 
 const DebugControl = require("./utilities/debug.js");
@@ -22,6 +23,31 @@ const DebugControl = require("./utilities/debug.js");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(DebugControl.log.request());
+require("./routes")(app);
+let options = {
+  swaggerDefinition: {
+    info: {
+      description: "This is a sample server",
+      title: "Swagger",
+      version: "1.0.0",
+    },
+    host: "localhost:3000",
+    basePath: "/v1",
+    produces: ["application/json", "application/xml"],
+    schemes: ["http", "https"],
+    securityDefinitions: {
+      JWT: {
+        type: "apiKey",
+        in: "header",
+        name: "Authorization",
+        description: "",
+      },
+    },
+  },
+  basedir: __dirname, //app absolute path
+  files: ["./routes/**/*.js"], //Path to the API handle folder
+};
+expressSwagger(options);
 
 app.use("/client", require("./routes/client.js")); // Client routes
 app.use("/oauth", require("./routes/auth.js")); // routes to access the auth stuff

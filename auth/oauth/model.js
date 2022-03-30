@@ -1,7 +1,6 @@
 // See https://oauth2-server.readthedocs.io/en/latest/model/spec.html for what you can do with this
 const crypto = require("crypto");
 
-const { Client } = require("../models");
 const db = {
   // Here is a fast overview of what your db model should look like
   authorizationCode: {
@@ -29,7 +28,7 @@ const db = {
 const DebugControl = require("../utilities/debug.js");
 
 module.exports = {
-  getClient: async function (clientId, clientSecret) {
+  getClient: function (clientId, clientSecret) {
     // query db for details with client
     log({
       title: "Get Client",
@@ -38,17 +37,14 @@ module.exports = {
         { name: "clientSecret", value: clientSecret },
       ],
     });
-    // Retrieved from the database
-    const client = await Client.findOne({
-      where: { clientId },
-      raw: true,
-    });
+
     db.client = {
       clientId: clientId,
       clientSecret: clientSecret,
       grants: ["authorization_code", "refresh_token"],
       redirectUris: ["http://localhost:3030/client/app"],
     };
+    // Retrieved from the database
     return new Promise((resolve) => {
       resolve(db.client);
     });
