@@ -16,14 +16,14 @@ const port = 3030;
 const bodyParser = require("body-parser");
 const expressSwagger = require("express-swagger-generator")(app);
 const oauthServer = require("./oauth/server.js");
-
+const errorHandler = require("./middlewares/errorHandler");
 const DebugControl = require("./utilities/debug.js");
 
 //Here we are configuring express to use body-parser as middle-ware.
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(DebugControl.log.request());
-require("./routes")(app);
+
 let options = {
   swaggerDefinition: {
     info: {
@@ -65,7 +65,12 @@ app.use(
 const router = AdminJSExpress.buildRouter(adminJs);
 app.use(adminJs.options.rootPath, router);
 
+app.use("/api/admin", require("./routes/admin"));
 app.use("/", (req, res) => res.redirect("/client"));
+/**
+ * add middleware for admin api
+ */
+app.use(errorHandler);
 
 app.listen(port);
 console.log("Oauth Server listening on port ", port);
