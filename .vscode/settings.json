@@ -1,0 +1,64 @@
+{
+  "workbench.colorTheme": "One Dark Pro Vivid",
+  "workbench.activityBar.visible": true,
+  "editor.minimap.enabled": false,
+  "editor.fontWeight": "700",
+  "editor.tabSize": 2,
+  "editor.renderIndentGuides": false,
+  "editor.fontSize": 15,
+  "files.exclude": {
+    ".vscode": true,
+    "**/.DS_Store": true,
+    "**/.git": true,
+    "**/.hg": true,
+    "**/.svn": true,
+    "**/CVS": true
+  },
+  "window.zoomLevel": 0,
+  "material-icon-theme.hidesExplorerArrows": true,
+  "material-icon-theme.folders.color": "#42a5f5",
+  "workbench.iconTheme": "material-icon-theme",
+  "terminal.integrated.fontFamily": "monospace",
+  "terminal.integrated.fontSize": 15,
+  "explorer.openEditors.visible": 0,
+  "editor.rulers": [
+    80
+  ],
+  "todohighlight.isEnable": true,
+  "terminal.integrated.rendererType": "dom",
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "breadcrumbs.enabled": true,
+  "debug.toolBarLocation": "floating",
+  "editor.cursorBlinking": "smooth",
+  "editor.cursorStyle": "line",
+  "editor.fontLigatures": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "workbench.startupEditor": "newUntitledFile",
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "files.encoding": "utf8",
+    // "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "editor.formatOnSave": true,
+  "files.autoSave": "off",
+  "[vue]": {
+    "editor.defaultFormatter": "octref.vetur"
+  },
+  "diffEditor.ignoreTrimWhitespace": false,
+  "gitlens.gitCommands.closeOnFocusOut": true,
+  "gitlens.keymap": "none",
+  "remote.SSH.remotePlatform": {
+    "43.239.223.35": "linux"
+  },
+  "files.insertFinalNewline": true,
+  "prettier.enable": true,
+  "cSpell.userWords": [
+    "AICC",
+    "Duedate",
+    "PSYG",
+    "VOICEBOT",
+    "ivrs"
+  ],
+}
