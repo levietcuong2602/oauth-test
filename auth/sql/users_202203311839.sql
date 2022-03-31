@@ -1,0 +1,2 @@
+INSERT INTO `oauth-test`.users (username,password,wallet_address) VALUES
+	 ('cuonglv','7896d5bfe38c90d124dadcccfe08b290:8db6ad1c80b516ea44ddbcd54fa5b0472ad2f1b62ee900fb3e2a1c065b98375b3e14acc8e35c92eda26f7d53646084804601ccef93c11b687214deeb',NULL);
