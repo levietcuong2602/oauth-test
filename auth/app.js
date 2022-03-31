@@ -26,7 +26,7 @@ const snakecaseResponse = require("./middlewares/snakeCaseResponse");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(DebugControl.log.request());
-app.use(camelcaseRequest);
+// app.use(camelcaseRequest);
 app.use(snakecaseResponse());
 
 let options = {

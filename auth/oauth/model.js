@@ -1,5 +1,9 @@
 // See https://oauth2-server.readthedocs.io/en/latest/model/spec.html for what you can do with this
 const crypto = require("crypto");
+const camelcaseKeys = require("camelcase-keys");
+
+const clientDao = require("../daos/client");
+const authorizationCodeDao = require("../daos/authorizationCode");
 
 const db = {
   // Here is a fast overview of what your db model should look like
@@ -28,25 +32,38 @@ const db = {
 const DebugControl = require("../utilities/debug.js");
 
 module.exports = {
-  getClient: function (clientId, clientSecret) {
+  getClient: async function (clientId, clientSecret) {
     // query db for details with client
+    let client = await clientDao.findClient({ clientId });
+    if (!client) throw new Error("client not found");
+
     log({
       title: "Get Client",
       parameters: [
         { name: "clientId", value: clientId },
-        { name: "clientSecret", value: clientSecret },
+        { name: "clientSecret", value: client.client_secret },
       ],
     });
-
-    db.client = {
-      clientId: clientId,
-      clientSecret: clientSecret,
-      grants: ["authorization_code", "refresh_token"],
-      redirectUris: ["http://localhost:3030/client/app"],
-    };
+    // db.client = {
+    //   clientId: clientId,
+    //   clientSecret: clientSecret,
+    //   grants: ["authorization_code", "refresh_token"],
+    //   redirectUris: ["http://localhost:3030/client/app"],
+    // };
     // Retrieved from the database
-    return new Promise((resolve) => {
-      resolve(db.client);
+    return new Promise(async (resolve) => {
+      client = camelcaseKeys(
+        {
+          ...client,
+          grants: client.grants ? JSON.parse(client.grants) : [],
+          redirectUris: client.redirect_uris
+            ? JSON.parse(client.redirect_uris)
+            : [],
+        },
+        { deep: true }
+      );
+
+      resolve(client);
     });
   },
   generateAccessToken: (client, user, scope) => {
@@ -147,11 +164,10 @@ module.exports = {
 
     const seed = crypto.randomBytes(256);
     const code = crypto.createHash("sha1").update(seed).digest("hex");
-    // const code = "Cuonglv";
 
     return code;
   },
-  saveAuthorizationCode: (code, client, user) => {
+  saveAuthorizationCode: async (code, client, user) => {
     /* This is where you store the access code data into the database */
     log({
       title: "Save Authorization Code",
@@ -161,22 +177,26 @@ module.exports = {
         { name: "user", value: user },
       ],
     });
-    db.authorizationCode = {
-      authorizationCode: code.authorizationCode,
-      expiresAt: code.expiresAt,
+    const authorizationCode = {
+      ...code,
+      userId: user.id,
+      clientId: client.id,
       client: client,
       user: user,
     };
-    return new Promise((resolve) =>
-      resolve(
+
+    await authorizationCodeDao.createAuthorizationCode(authorizationCode);
+    // Write data code
+    return new Promise(async (resolve) => {
+      return resolve(
         Object.assign(
           {
             redirectUri: `${code.redirectUri}`,
           },
-          db.authorizationCode
+          authorizationCode
         )
-      )
-    );
+      );
+    });
   },
   getAuthorizationCode: (authorizationCode) => {
     /* this is where we fetch the stored data from the code */

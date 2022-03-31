@@ -78,13 +78,13 @@ router.post(
   async (req, res, next) => {
     try {
       DebugControl.log.flow("Initial User Authentication");
-      const { username, password, clientId } = req.body;
+      const { username, password, client_id } = req.body;
       // check username exists
       const user = await userDao.findOneUser({ username });
       if (!user) throw new Error("User not found");
 
       // check clientId exists
-      const client = await clientDao.findOneClient({ clientId });
+      const client = await clientDao.findClient({ client_id });
       if (!client) throw new Error("Client not found");
 
       // check password
@@ -94,7 +94,7 @@ router.post(
       );
       if (!isCorrectPassword) throw new Error("Password incorrect");
 
-      req.body.user = { user };
+      req.body.user = user;
       return next();
     } catch (err) {
       // const params = [
@@ -197,6 +197,8 @@ router.post(
     requireClientAuthentication: {
       // whether client needs to provide client_secret
       // 'authorization_code': false,
+      code: "eae583f2b9493699f370ff805027eaaed6901dad",
+      client_secret: "",
     },
   })
 ); // Sends back token
