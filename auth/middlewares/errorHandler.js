@@ -5,6 +5,8 @@ const { errorResponse } = require("../utilities/response");
 // eslint-disable-next-line no-unused-vars
 const errorHandler = (err, req, res, next) => {
   let statusCode = err.code;
+
+  console.log({ err });
   let { message } = err;
   const code = err.code || statusCodes.INTERNAL_SERVER_ERROR;
   switch (code) {
@@ -28,6 +30,7 @@ const errorHandler = (err, req, res, next) => {
       message = message || getErrorMessage(code);
       statusCode = 200;
   }
+
   return errorResponse({ req, res, statusCode, code });
 };
 

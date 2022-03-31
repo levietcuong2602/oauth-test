@@ -11,7 +11,10 @@ const findOneUser = async (condition) => {
   return user;
 };
 
-const createUser = async (userData) => {};
+const createUser = async (payload) => {
+  const newUser = await User.create(payload);
+  return newUser;
+};
 
 const updateUser = async (userId, dataUpdate) => {};
 

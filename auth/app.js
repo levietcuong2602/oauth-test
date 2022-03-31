@@ -19,10 +19,15 @@ const oauthServer = require("./oauth/server.js");
 const errorHandler = require("./middlewares/errorHandler");
 const DebugControl = require("./utilities/debug.js");
 
+const camelcaseRequest = require("./middlewares/camelCaseRequest");
+const snakecaseResponse = require("./middlewares/snakeCaseResponse");
+
 //Here we are configuring express to use body-parser as middle-ware.
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(DebugControl.log.request());
+app.use(camelcaseRequest);
+app.use(snakecaseResponse());
 
 let options = {
   swaggerDefinition: {
@@ -67,9 +72,6 @@ app.use(adminJs.options.rootPath, router);
 
 app.use("/api/admin", require("./routes/admin"));
 app.use("/", (req, res) => res.redirect("/client"));
-/**
- * add middleware for admin api
- */
 app.use(errorHandler);
 
 app.listen(port);

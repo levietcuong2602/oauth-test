@@ -1,8 +1,19 @@
 const path = require("path"); // has path and __dirname
 const express = require("express");
+
 const oauthServer = require("../oauth/server.js");
+const userDao = require("../daos/user");
+const clientDao = require("../daos/client");
 
 const DebugControl = require("../utilities/debug.js");
+const {
+  compareBcrypt,
+  encryptPassword,
+  generateSalt,
+} = require("../utilities/bcrypt");
+const { decrypt } = require("../utilities/security");
+const { hashSHA512 } = require("../utilities/security.js");
+const { errorResponse, successResponse } = require("../utilities/response");
 const res = require("express/lib/response");
 
 const router = express.Router(); // Instantiate a new router
@@ -14,35 +25,95 @@ router.get("/", (req, res) => {
   res.sendFile(filePath);
 });
 
+const authorizeFailure = (req, res) => {
+  const params = [
+    // Send params back down
+    "client_id",
+    "redirect_uri",
+    "response_type",
+    "grant_type",
+    "state",
+  ]
+    .map((a) => `${a}=${req.body[a]}`)
+    .join("&");
+  return res.redirect(`/oauth?success=false&${params}`);
+};
+
+router.post("/register", async (req, res, next) => {
+  try {
+    DebugControl.log.flow("Register User");
+    const { username, password } = req.body;
+    // check username exists
+    const user = await userDao.findOneUser({ username });
+    if (user) throw new Error("User already exists with same email");
+
+    const salt = generateSalt(10);
+    const newUser = await userDao.createUser({
+      password: await encryptPassword(password, salt),
+      username,
+      salt,
+    });
+
+    return successResponse(req, res, newUser);
+  } catch (err) {
+    return errorResponse({
+      req,
+      res,
+      message: err.message,
+    });
+  }
+});
+
 /**
- * This function comment is parsed by doctrine
+ * function login by username, password
  * @route POST /oauth/authorize login with username/password
  * @param {string} username.required - username or email - eg: user@domain
- * @param {string} password.requuired - user's password.
- * @param {string} client_id.requuired - user's client.
+ * @param {string} password.required - user's password.
+ * @param {string} client_id.required - user's client.
  * @returns {object} 200 - An array of user info
  * @returns {Error}  default - Unexpected error
  */
 router.post(
   "/authorize",
-  (req, res, next) => {
-    DebugControl.log.flow("Initial User Authentication");
-    const { username, password } = req.body;
-    if (username === "username" && password === "password") {
-      req.body.user = { user: 1 };
+  async (req, res, next) => {
+    try {
+      DebugControl.log.flow("Initial User Authentication");
+      const { username, password, clientId } = req.body;
+      // check username exists
+      const user = await userDao.findOneUser({ username });
+      if (!user) throw new Error("User not found");
+
+      // check clientId exists
+      const client = await clientDao.findOneClient({ clientId });
+      if (!client) throw new Error("Client not found");
+
+      // check password
+      const isCorrectPassword = await compareBcrypt(
+        hashSHA512(password),
+        decrypt(user.password)
+      );
+      if (!isCorrectPassword) throw new Error("Password incorrect");
+
+      req.body.user = { user };
       return next();
+    } catch (err) {
+      // const params = [
+      //   // Send params back down
+      //   "client_id",
+      //   "redirect_uri",
+      //   "response_type",
+      //   "grant_type",
+      //   "state",
+      // ]
+      //   .map((a) => `${a}=${req.body[a]}`)
+      //   .join("&");
+      // return res.redirect(`/oauth?success=false&${params}`);
+      return errorResponse({
+        req,
+        res,
+        message: err.message,
+      });
     }
-    const params = [
-      // Send params back down
-      "client_id",
-      "redirect_uri",
-      "response_type",
-      "grant_type",
-      "state",
-    ]
-      .map((a) => `${a}=${req.body[a]}`)
-      .join("&");
-    return res.redirect(`/oauth?success=false&${params}`);
   },
   (req, res, next) => {
     // sends us to our redirect with an authorization code in our url
