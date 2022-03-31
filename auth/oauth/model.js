@@ -4,6 +4,17 @@ const camelcaseKeys = require("camelcase-keys");
 
 const clientDao = require("../daos/client");
 const authorizationCodeDao = require("../daos/authorizationCode");
+const tokenDao = require("../daos/token");
+
+const { generateToken } = require("../utilities/auth");
+const { TOKEN_TYPE } = require("../constants");
+
+const {
+  REFRESH_TOKEN_LIFETIME,
+  ACCESS_TOKEN_LIFETIME,
+  SECRET_TOKEN,
+  SECRET_REFRESH,
+} = require("../config");
 
 const db = {
   // Here is a fast overview of what your db model should look like
@@ -30,6 +41,7 @@ const db = {
 };
 
 const DebugControl = require("../utilities/debug.js");
+const { Sequelize } = require("../models");
 
 module.exports = {
   getClient: async function (clientId, clientSecret) {
@@ -66,7 +78,7 @@ module.exports = {
       resolve(client);
     });
   },
-  generateAccessToken: (client, user, scope) => {
+  generateAccessToken: async (client, user, scope) => {
     // generates access tokens
     log({
       title: "Generate Access Token",
@@ -75,9 +87,12 @@ module.exports = {
         { name: "user", value: user },
       ],
     });
-    return "xxxx";
+    const token = await generateToken({ client, user }, SECRET_TOKEN, {
+      expiresIn: ACCESS_TOKEN_LIFETIME,
+    });
+    return token;
   },
-  saveToken: (token, client, user) => {
+  saveToken: async (token, client, user) => {
     /* This is where you insert the token into the database */
     log({
       title: "Save Token",
@@ -87,15 +102,39 @@ module.exports = {
         { name: "user", value: user },
       ],
     });
-    db.token = {
-      accessToken: token.accessToken,
-      accessTokenExpiresAt: token.accessTokenExpiresAt,
-      refreshToken: token.refreshToken, // NOTE this is only needed if you need refresh tokens down the line
-      refreshTokenExpiresAt: token.refreshTokenExpiresAt,
+
+    const {
+      accessToken,
+      refreshToken,
+      accessTokenExpiresAt,
+      refreshTokenExpiresAt,
+    } = token;
+    // save refresh token
+    const refreshTokenRecord = await tokenDao.saveToken({
+      token: accessToken,
+      tokenExpiresAt: accessTokenExpiresAt,
+      type: TOKEN_TYPE.REFRESH_TOKEN,
+      clientId: client.id,
+      userId: user.id,
+    });
+    // save token
+    const accessTokenRecord = await tokenDao.saveToken({
+      token: accessToken,
+      tokenExpiresAt: refreshTokenExpiresAt,
+      type: TOKEN_TYPE.ACCESS_TOKEN,
+      referenceId: refreshTokenRecord.id,
+      clientId: client.id,
+      userId: user.id,
+    });
+    const tokenData = {
+      accessToken,
+      accessTokenExpiresAt: accessTokenRecord.token_expires_at,
+      refreshToken, // NOTE this is only needed if you need refresh tokens down the line
+      refreshTokenExpiresAt: refreshTokenRecord.token_expires_at,
       client: client,
       user: user,
     };
-    return new Promise((resolve) => resolve(db.token));
+    return new Promise((resolve) => resolve(tokenData));
   },
   getAccessToken: (token) => {
     /* This is where you select the token from the database where the code matches */
@@ -106,7 +145,7 @@ module.exports = {
     if (!token || token === "undefined") return false;
     return new Promise((resolve) => resolve(db.token));
   },
-  generateRefreshToken: (client, user, scope) => {
+  generateRefreshToken: async (client, user, scope) => {
     // generates access tokens
     log({
       title: "Generate Refresh Token",
@@ -115,7 +154,10 @@ module.exports = {
         { name: "user", value: user },
       ],
     });
-    return "yyyy";
+    const token = await generateToken({ client, user }, SECRET_REFRESH, {
+      expiresIn: REFRESH_TOKEN_LIFETIME,
+    });
+    return token;
   },
   getRefreshToken: (token) => {
     /* Retrieves the token from the database */
@@ -184,6 +226,7 @@ module.exports = {
       client: client,
       user: user,
     };
+    console.log({ authorizationCode });
 
     await authorizationCodeDao.createAuthorizationCode(authorizationCode);
     // Write data code
@@ -198,31 +241,46 @@ module.exports = {
       );
     });
   },
-  getAuthorizationCode: (authorizationCode) => {
+  getAuthorizationCode: async (authorizationCode) => {
     /* this is where we fetch the stored data from the code */
     log({
       title: "Get Authorization code",
       parameters: [{ name: "authorizationCode", value: authorizationCode }],
+      attributes: [[Sequelize.col("User"), "user"]],
     });
+
+    let code = await authorizationCodeDao.findAuthorizationCode({
+      authorizationCode,
+    });
+    if (!code) throw new Error("Authorization Code not found");
+
+    // format data
+    code.expires_at = new Date(code.expires_at);
+    code = camelcaseKeys(code, { deep: true });
+
     return new Promise((resolve) => {
-      resolve(db.authorizationCode);
+      resolve(camelcaseKeys(code, { deep: true }));
     });
   },
-  revokeAuthorizationCode: (authorizationCode) => {
+  revokeAuthorizationCode: async (authorizationCode) => {
     /* This is where we delete codes */
     log({
       title: "Revoke Authorization Code",
       parameters: [{ name: "authorizationCode", value: authorizationCode }],
     });
-    db.authorizationCode = {
-      // DB Delete in this in memory example :)
-      authorizationCode: "", // A string that contains the code
-      expiresAt: new Date(), // A date when the code expires
-      redirectUri: "", // A string of where to redirect to with this code
-      client: null, // See the client section
-      user: null, // Whatever you want... This is where you can be flexible with the protocol
-    };
-    const codeWasFoundAndDeleted = true; // Return true if code found and deleted, false otherwise
+    const codeWasFoundAndDeleted =
+      await authorizationCodeDao.deleteAuthorizationCode({
+        id: authorizationCode.id,
+      });
+    // db.authorizationCode = {
+    //   // DB Delete in this in memory example :)
+    //   authorizationCode: "", // A string that contains the code
+    //   expiresAt: new Date(), // A date when the code expires
+    //   redirectUri: "", // A string of where to redirect to with this code
+    //   client: null, // See the client section
+    //   user: null, // Whatever you want... This is where you can be flexible with the protocol
+    // };
+    // const codeWasFoundAndDeleted = true; // Return true if code found and deleted, false otherwise
     return new Promise((resolve) => resolve(codeWasFoundAndDeleted));
   },
   verifyScope: (token, scope) => {

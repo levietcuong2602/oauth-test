@@ -20,6 +20,7 @@ module.exports = (sequelize, DataTypes) => {
   );
   AuthorizationCode.associate = function (models) {
     // associations can be defined here
+    // AuthorizationCode.belongsTo(models.User);
   };
   return AuthorizationCode;
 };

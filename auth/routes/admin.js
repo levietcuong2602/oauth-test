@@ -14,7 +14,7 @@ const router = express.Router(); // Instantiate a new router
 
 router.get("/users/:userId", async (req, res, next) => {
   const { userId } = req.params;
-  const user = await userDao.findOneUser({ id: userId });
+  const user = await userDao.findUser({ id: userId });
   if (!user) return errorResponse({ req, res, statusCode: 500 });
 
   return successResponse(req, res, user);

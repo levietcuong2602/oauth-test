@@ -1,3 +1,15 @@
-const { PEPPER } = process.env;
+const {
+  PEPPER,
+  SECRET_TOKEN,
+  SECRET_REFRESH,
+  ACCESS_TOKEN_LIFETIME,
+  REFRESH_TOKEN_LIFETIME,
+} = process.env;
 
-module.exports = { PEPPER };
+module.exports = {
+  PEPPER,
+  SECRET_TOKEN,
+  SECRET_REFRESH,
+  ACCESS_TOKEN_LIFETIME,
+  REFRESH_TOKEN_LIFETIME,
+};

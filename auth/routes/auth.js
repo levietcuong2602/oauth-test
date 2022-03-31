@@ -25,26 +25,20 @@ router.get("/", (req, res) => {
   res.sendFile(filePath);
 });
 
-const authorizeFailure = (req, res) => {
-  const params = [
-    // Send params back down
-    "client_id",
-    "redirect_uri",
-    "response_type",
-    "grant_type",
-    "state",
-  ]
-    .map((a) => `${a}=${req.body[a]}`)
-    .join("&");
-  return res.redirect(`/oauth?success=false&${params}`);
-};
-
+/**
+ * register account
+ * @route POST /oauth/register register account with username/password
+ * @param {string} username.required - username or email - eg: user@domain
+ * @param {string} password.required - user's password.
+ * @returns {object} 200 - An array of user info
+ * @returns {Error}  default - Unexpected error
+ */
 router.post("/register", async (req, res, next) => {
   try {
     DebugControl.log.flow("Register User");
     const { username, password } = req.body;
     // check username exists
-    const user = await userDao.findOneUser({ username });
+    const user = await userDao.findUser({ username });
     if (user) throw new Error("User already exists with same email");
 
     const salt = generateSalt(10);
@@ -65,7 +59,7 @@ router.post("/register", async (req, res, next) => {
 });
 
 /**
- * function login by username, password
+ * in flow login return authorization code
  * @route POST /oauth/authorize login with username/password
  * @param {string} username.required - username or email - eg: user@domain
  * @param {string} password.required - user's password.
@@ -80,7 +74,7 @@ router.post(
       DebugControl.log.flow("Initial User Authentication");
       const { username, password, client_id } = req.body;
       // check username exists
-      const user = await userDao.findOneUser({ username });
+      const user = await userDao.findUser({ username });
       if (!user) throw new Error("User not found");
 
       // check clientId exists
@@ -134,36 +128,19 @@ router.post(
 );
 
 /**
- * This function comment is parsed by doctrine
- * @route POST /oauth/authorize login
- * @param {string} wallet_address.required - username or email - eg: user@domain
+ * Authorize wallet
+ * @route POST /oauth/authorize-wallet login
  * @returns {object} 200 - An array of user info
  * @returns {Error}  default - Unexpected error
  */
 router.post(
   "/authorize-wallet",
   (req, res, next) => {
-    DebugControl.log.flow("Initial User Authentication");
-    const { username, password } = req.body;
-    if (username === "username" && password === "password") {
-      req.body.user = { user: 1 };
-      return next();
-    }
-    const params = [
-      // Send params back down
-      "client_id",
-      "redirect_uri",
-      "response_type",
-      "grant_type",
-      "state",
-    ]
-      .map((a) => `${a}=${req.body[a]}`)
-      .join("&");
-    return res.redirect(`/oauth?success=false&${params}`);
+    DebugControl.log.flow("Authorize Wallet");
   },
   (req, res, next) => {
-    // sends us to our redirect with an authorization code in our url
-    DebugControl.log.flow("Authorization");
+    // sends us to our redirect with an Authorize Wallet code in our url
+    DebugControl.log.flow("Authorize Wallet");
     return next();
   },
   oauthServer.authorize({
@@ -180,7 +157,7 @@ router.post(
 );
 
 /**
- * This function comment is parsed by doctrine
+ * in flow return access token and refresh token and remove authorization code
  * @route POST /oauth/token get access & refresh token
  * @param {string} authorization_code.required - username or email - eg: user@domain
  * @param {string} client_id.required - user's password.
@@ -197,14 +174,13 @@ router.post(
     requireClientAuthentication: {
       // whether client needs to provide client_secret
       // 'authorization_code': false,
-      code: "eae583f2b9493699f370ff805027eaaed6901dad",
-      client_secret: "",
     },
   })
 ); // Sends back token
 
 /**
- * @route POST /oauth/revoke   revoke access_token
+ *
+ * @route POST /oauth/revoke-token   revoke access_token
  */
 
 /**

@@ -2,7 +2,7 @@ const snakecaseKeys = require("snakecase-keys");
 
 const { User } = require("../models");
 
-const findOneUser = async (condition) => {
+const findUser = async (condition) => {
   const user = await User.findOne({
     where: snakecaseKeys(condition, { deep: true }),
     raw: true,
@@ -13,9 +13,9 @@ const findOneUser = async (condition) => {
 
 const createUser = async (payload) => {
   const newUser = await User.create(payload);
-  return newUser;
+  return newUserget({
+    plain: true,
+  });
 };
 
-const updateUser = async (userId, dataUpdate) => {};
-
-module.exports = { findOneUser, createUser, updateUser };
+module.exports = { findUser, createUser };
