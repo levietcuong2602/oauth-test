@@ -9,4 +9,6 @@ module.exports = new OAuthServer({
   // authorizationCodeLifetime: "",
   allowEmptyState: true,
   allowExtendedTokenAttributes: true,
+  useErrorHandler: true,
+  debug: true,
 });

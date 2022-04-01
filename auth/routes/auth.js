@@ -1,24 +1,18 @@
 const path = require("path"); // has path and __dirname
 const express = require("express");
+const router = express.Router(); // Instantiate a new router
 
 const oauthServer = require("../oauth/server.js");
 const userDao = require("../daos/user");
 const clientDao = require("../daos/client");
 
-const { authenticateRefresh } = require("../middlewares/authenticate");
+const { registerAccountValidate } = require("../validations/auth");
+const authController = require("../controllers/auth");
+
+const { authenticationUser } = require("../middlewares/authenticate");
+const asyncMiddleware = require("../middlewares/async");
 
 const DebugControl = require("../utilities/debug.js");
-const {
-  compareBcrypt,
-  encryptPassword,
-  generateSalt,
-} = require("../utilities/bcrypt");
-const { decrypt } = require("../utilities/security");
-const { hashSHA512 } = require("../utilities/security.js");
-const { errorResponse, successResponse } = require("../utilities/response");
-const res = require("express/lib/response");
-
-const router = express.Router(); // Instantiate a new router
 
 const filePath = path.join(__dirname, "../public/oauthAuthenticate.html");
 
@@ -29,36 +23,18 @@ router.get("/", (req, res) => {
 
 /**
  * register account
- * @route POST /oauth/register register account with username/password
+ * @route POST /oauth/register register account with username, password, client_id
  * @param {string} username.required - username or email - eg: user@domain
  * @param {string} password.required - user's password.
+ * @param {string} client_id.required - user's password.
  * @returns {object} 200 - An array of user info
  * @returns {Error}  default - Unexpected error
  */
-router.post("/register", async (req, res, next) => {
-  try {
-    DebugControl.log.flow("Register User");
-    const { username, password } = req.body;
-    // check username exists
-    const user = await userDao.findUser({ username });
-    if (user) throw new Error("User already exists with same email");
-
-    const salt = generateSalt(10);
-    const newUser = await userDao.createUser({
-      password: await encryptPassword(password, salt),
-      username,
-      salt,
-    });
-
-    return successResponse(req, res, newUser);
-  } catch (err) {
-    return errorResponse({
-      req,
-      res,
-      message: err.message,
-    });
-  }
-});
+router.post(
+  "/register",
+  registerAccountValidate,
+  asyncMiddleware(authController.registerAccount)
+);
 
 /**
  * in flow login return authorization code
@@ -71,46 +47,7 @@ router.post("/register", async (req, res, next) => {
  */
 router.post(
   "/authorize",
-  async (req, res, next) => {
-    try {
-      DebugControl.log.flow("Initial User Authentication");
-      const { username, password, client_id } = req.body;
-      // check username exists
-      const user = await userDao.findUser({ username });
-      if (!user) throw new Error("User not found");
-
-      // check clientId exists
-      const client = await clientDao.findClient({ client_id });
-      if (!client) throw new Error("Client not found");
-
-      // check password
-      const isCorrectPassword = await compareBcrypt(
-        hashSHA512(password),
-        decrypt(user.password)
-      );
-      if (!isCorrectPassword) throw new Error("Password incorrect");
-
-      req.body.user = user;
-      return next();
-    } catch (err) {
-      // const params = [
-      //   // Send params back down
-      //   "client_id",
-      //   "redirect_uri",
-      //   "response_type",
-      //   "grant_type",
-      //   "state",
-      // ]
-      //   .map((a) => `${a}=${req.body[a]}`)
-      //   .join("&");
-      // return res.redirect(`/oauth?success=false&${params}`);
-      return errorResponse({
-        req,
-        res,
-        message: err.message,
-      });
-    }
-  },
+  authenticationUser,
   (req, res, next) => {
     // sends us to our redirect with an authorization code in our url
     DebugControl.log.flow("Authorization");
@@ -175,33 +112,26 @@ router.post(
     next();
   },
   oauthServer.token({
-    requireClientAuthentication: {
-      // whether client needs to provide client_secret
-      // 'authorization_code': false,
-    },
+    requireClientAuthentication: {},
   })
 ); // Sends back token
 
 /**
- * get new token from refresh token
- * @route POST /oauth/refresh get new refresh token and access token from refresh token
- * @param {string} refresh_token.required - refresh token
- * @param {string} client_secret.required
- * @param {string} client_id.required
- * @param {string} grant_type.required
+ * get user info from access token
+ * @route POST /oauth/me get user info from access token
  * @returns {object} 200 -  An object token info
  * @returns {Error} default - Unexpected error
  */
 router.post(
-  "/endpoint",
+  "/me",
   (req, res, next) => {
-    DebugControl.log.flow("Refresh");
+    DebugControl.log.flow("Me");
     next();
   },
-  authenticateRefresh,
-  oauthServer.token({
-    requireClientAuthentication: { authorization_code: false },
-  })
+  oauthServer.authenticate(),
+  (req, res) => {
+    return res.send({ data: res.locals.oauth.token, status: 1 });
+  }
 );
 
 /**

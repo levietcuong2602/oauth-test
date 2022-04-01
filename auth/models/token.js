@@ -4,6 +4,13 @@ module.exports = (sequelize, DataTypes) => {
   const Token = sequelize.define(
     "Token",
     {
+      id: {
+        type: DataTypes.INTEGER(11),
+        autoIncrement: true,
+        primaryKey: true,
+        allowNull: false,
+        unique: true,
+      },
       token: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -16,6 +23,8 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         default: TOKEN_TYPE.ACCESS_TOKEN,
       },
+      reference_id: DataTypes.INTEGER(11),
+      scope: DataTypes.STRING,
     },
     {
       tableName: "tokens",
@@ -25,6 +34,13 @@ module.exports = (sequelize, DataTypes) => {
   );
   Token.associate = function (models) {
     // associations can be defined here
+    Token.belongsTo(models.Client, {
+      foreignKey: "client_id",
+    });
+
+    Token.belongsTo(models.User, {
+      foreignKey: "user_id",
+    });
   };
   return Token;
 };

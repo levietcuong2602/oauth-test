@@ -16,16 +16,19 @@ const port = 3030;
 const bodyParser = require("body-parser");
 const expressSwagger = require("express-swagger-generator")(app);
 const oauthServer = require("./oauth/server.js");
-const errorHandler = require("./middlewares/errorHandler");
-const DebugControl = require("./utilities/debug.js");
 
+const errorHandler = require("./middlewares/errorHandler");
 const snakecaseResponse = require("./middlewares/snakeCaseResponse");
+const omitReq = require("./middlewares/omitReq");
+
+const DebugControl = require("./utilities/debug.js");
 
 //Here we are configuring express to use body-parser as middle-ware.
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(DebugControl.log.request());
 app.use(snakecaseResponse());
+app.use(omitReq);
 
 let options = {
   swaggerDefinition: {

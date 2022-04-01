@@ -11,12 +11,14 @@ const errorResponse = ({
   statusCode = 500,
   code = 500,
   message = "Something went wrong",
+  details,
 }) =>
   res.status(statusCode).json({
     code,
+    status: 0,
     message,
     data: null,
-    status: 0,
+    details,
   });
 
 module.exports = { successResponse, errorResponse };

@@ -10,10 +10,10 @@ const { generateToken } = require("../utilities/auth");
 const { TOKEN_TYPE } = require("../constants");
 
 const {
-  REFRESH_TOKEN_LIFETIME,
-  ACCESS_TOKEN_LIFETIME,
-  SECRET_TOKEN,
   SECRET_REFRESH,
+  SECRET_TOKEN,
+  REFRESH_TOKEN_LIFETIME,
+  TOKEN_LIFETIME,
 } = require("../config");
 
 const db = {
@@ -88,7 +88,8 @@ module.exports = {
       ],
     });
     const token = await generateToken({ client, user }, SECRET_TOKEN, {
-      expiresIn: ACCESS_TOKEN_LIFETIME,
+      expiresIn: TOKEN_LIFETIME,
+      algorithm: "HS256",
     });
     return token;
   },
@@ -134,16 +135,32 @@ module.exports = {
       client: client,
       user: user,
     };
-    return new Promise((resolve) => resolve(tokenData));
+
+    return tokenData;
   },
-  getAccessToken: (token) => {
+  getAccessToken: async (token) => {
     /* This is where you select the token from the database where the code matches */
     log({
       title: "Get Access Token",
       parameters: [{ name: "token", value: token }],
     });
     if (!token || token === "undefined") return false;
-    return new Promise((resolve) => resolve(db.token));
+
+    let accessTokenRecord = await tokenDao.findToken({
+      token,
+      type: TOKEN_TYPE.ACCESS_TOKEN,
+    });
+    if (!accessTokenRecord) return false;
+
+    accessTokenRecord = camelcaseKeys(accessTokenRecord, { deep: true });
+    const tokenData = {
+      accessToken: accessTokenRecord.token, // Access token that the server created
+      accessTokenExpiresAt: accessTokenRecord.tokenExpiresAt, // Date the token expires
+      user: accessTokenRecord.user,
+      client: accessTokenRecord.client,
+    };
+
+    return new Promise((resolve) => resolve(tokenData));
   },
   generateRefreshToken: async (client, user, scope) => {
     // generates access tokens
@@ -156,6 +173,7 @@ module.exports = {
     });
     const token = await generateToken({ client, user }, SECRET_REFRESH, {
       expiresIn: REFRESH_TOKEN_LIFETIME,
+      algorithm: "HS256",
     });
     return token;
   },
@@ -226,7 +244,6 @@ module.exports = {
       client: client,
       user: user,
     };
-    console.log({ authorizationCode });
 
     await authorizationCodeDao.createAuthorizationCode(authorizationCode);
     // Write data code
@@ -272,15 +289,7 @@ module.exports = {
       await authorizationCodeDao.deleteAuthorizationCode({
         id: authorizationCode.id,
       });
-    // db.authorizationCode = {
-    //   // DB Delete in this in memory example :)
-    //   authorizationCode: "", // A string that contains the code
-    //   expiresAt: new Date(), // A date when the code expires
-    //   redirectUri: "", // A string of where to redirect to with this code
-    //   client: null, // See the client section
-    //   user: null, // Whatever you want... This is where you can be flexible with the protocol
-    // };
-    // const codeWasFoundAndDeleted = true; // Return true if code found and deleted, false otherwise
+
     return new Promise((resolve) => resolve(codeWasFoundAndDeleted));
   },
   verifyScope: (token, scope) => {

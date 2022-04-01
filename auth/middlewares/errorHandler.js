@@ -4,14 +4,15 @@ const { errorResponse } = require("../utilities/response");
 
 // eslint-disable-next-line no-unused-vars
 const errorHandler = (err, req, res, next) => {
-  let statusCode = err.code;
-
+  let statusCode = err.code || err.statusCode;
+  let details;
   let { message } = err;
-  const code = err.code || statusCodes.INTERNAL_SERVER_ERROR;
+  const code = err.code || err.statusCode || statusCodes.INTERNAL_SERVER_ERROR;
   console.log({ errorHandler: message, code });
   switch (code) {
     case statusCodes.BAD_REQUEST:
       message = message || "Bad Request";
+      details = err.details;
       break;
     case statusCodes.UNAUTHORIZED:
       message = "Unauthorized";
@@ -31,7 +32,7 @@ const errorHandler = (err, req, res, next) => {
       statusCode = 200;
   }
 
-  return errorResponse({ req, res, statusCode, code, message });
+  return errorResponse({ req, res, statusCode, code, message, details });
 };
 
 module.exports = errorHandler;

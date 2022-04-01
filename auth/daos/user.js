@@ -13,7 +13,7 @@ const findUser = async (condition) => {
 
 const createUser = async (payload) => {
   const newUser = await User.create(payload);
-  return newUserget({
+  return newUser.get({
     plain: true,
   });
 };

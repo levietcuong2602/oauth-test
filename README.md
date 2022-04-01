@@ -59,6 +59,7 @@
 - Nodejs 14.x++
 - Mysql 8.0
 - Redis 5.x++
+- Documents API: ${domain_url}/api-docs
 
 # Integration FLow
 
@@ -143,9 +144,10 @@ The token is then sent as a json response like this:
 
 ```js
 {
-  access_token: "38a72b9262f931a74377dc4f8c0d1d906a89af35",
-  token_type: "Bearer",
-  expires_in: 86399
+    access_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbGllbnQiOnsiaWQiOjMsIm5hbWUiOm51bGwsImNsaWVudElkIjoiTWFya2V0UGxhY2UxIiwiY2xpZW50U2VjcmV0IjoiZjcwZmU2YjItY2Y2MC00ZmI1LTk5OGEtZmI4NzQ1YTViZDRkIiwicmVkaXJlY3RVcmlzIjpbImh0dHA6Ly9sb2NhbGhvc3Q6MzAzMC9jbGllbnQvYXBwIl0sImdyYW50cyI6WyJhdXRob3JpemF0aW9uX2NvZGUiLCJyZWZyZXNoX3Rva2VuIl19LCJ1c2VyIjp7ImlkIjoxLCJ1c2VybmFtZSI6ImN1b25nbHYiLCJwYXNzd29yZCI6Ijc4OTZkNWJmZTM4YzkwZDEyNGRhZGNjY2ZlMDhiMjkwOjhkYjZhZDFjODBiNTE2ZWE0NGRkYmNkNTRmYTViMDQ3MmFkMmYxYjYyZWU5MDBmYjNlMmExYzA2NWI5ODM3NWIzZTE0YWNjOGUzNWM5MmVkYTI2ZjdkNTM2NDYwODQ4MDQ2MDFjY2VmOTNjMTFiNjg3MjE0ZGVlYiIsIndhbGxldEFkZHJlc3MiOm51bGx9LCJpYXQiOjE2NDg4MDkzODIsImV4cCI6MTY0ODgwOTM4M30._BEQRdhSgvjzTvjb5ExgLrQtEHtnaru9VhZUoj_Il-4",
+    expires_in: 1209599,
+    refresh_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbGllbnQiOnsiaWQiOjMsIm5hbWUiOm51bGwsImNsaWVudElkIjoiTWFya2V0UGxhY2UxIiwiY2xpZW50U2VjcmV0IjoiZjcwZmU2YjItY2Y2MC00ZmI1LTk5OGEtZmI4NzQ1YTViZDRkIiwicmVkaXJlY3RVcmlzIjpbImh0dHA6Ly9sb2NhbGhvc3Q6MzAzMC9jbGllbnQvYXBwIl0sImdyYW50cyI6WyJhdXRob3JpemF0aW9uX2NvZGUiLCJyZWZyZXNoX3Rva2VuIl19LCJ1c2VyIjp7ImlkIjoxLCJ1c2VybmFtZSI6ImN1b25nbHYiLCJwYXNzd29yZCI6Ijc4OTZkNWJmZTM4YzkwZDEyNGRhZGNjY2ZlMDhiMjkwOjhkYjZhZDFjODBiNTE2ZWE0NGRkYmNkNTRmYTViMDQ3MmFkMmYxYjYyZWU5MDBmYjNlMmExYzA2NWI5ODM3NWIzZTE0YWNjOGUzNWM5MmVkYTI2ZjdkNTM2NDYwODQ4MDQ2MDFjY2VmOTNjMTFiNjg3MjE0ZGVlYiIsIndhbGxldEFkZHJlc3MiOm51bGx9LCJpYXQiOjE2NDg4MDkzODIsImV4cCI6MTY0ODgwOTk4Nn0.E2sE7UzUf4E6H027Da6EPS9_teTWiaxdQU0nemgeeyk",
+    token_type: "Bearer"
 }
 ```
 
@@ -174,5 +176,3 @@ If you want to access this information in your routes, it is found in `res.local
 The refresh token flow is one of the simplest of the grants. After any successful grant flow is completed and a token is generated, a refresh token is created along-side. If the refresh token is then returned with the other information, the client will be able to use the `refresh_token` with its `client_id`, `client_secret`, and `grant_type` of refresh_token in a post to the /token route to get access to a new valid token.
 
 ![Refresh Token Gran](/resources/images/RefreshToken.png)
-
-<a id='database'></a>

@@ -3,6 +3,14 @@ module.exports = (sequelize, DataTypes) => {
   const Client = sequelize.define(
     "Client",
     {
+      id: {
+        type: DataTypes.INTEGER(14),
+        autoIncrement: true,
+        primaryKey: true,
+        allowNull: false,
+        unique: true,
+      },
+      name: DataTypes.STRING(255),
       client_id: {
         type: DataTypes.STRING,
         allowNull: false,
