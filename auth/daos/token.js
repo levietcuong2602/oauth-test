@@ -5,10 +5,13 @@ const { Token } = require("../models");
 const findToken = async (condition) => {
   const token = await Token.findOne({
     where: snakecaseKeys(condition, { deep: true }),
-    raw: true,
   });
 
-  return token;
+  return token
+    ? token.get({
+        plain: true,
+      })
+    : true;
 };
 
 const saveToken = async (payload) => {

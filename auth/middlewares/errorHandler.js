@@ -6,9 +6,9 @@ const { errorResponse } = require("../utilities/response");
 const errorHandler = (err, req, res, next) => {
   let statusCode = err.code;
 
-  console.log({ err });
   let { message } = err;
   const code = err.code || statusCodes.INTERNAL_SERVER_ERROR;
+  console.log({ errorHandler: message, code });
   switch (code) {
     case statusCodes.BAD_REQUEST:
       message = message || "Bad Request";
@@ -31,7 +31,7 @@ const errorHandler = (err, req, res, next) => {
       statusCode = 200;
   }
 
-  return errorResponse({ req, res, statusCode, code });
+  return errorResponse({ req, res, statusCode, code, message });
 };
 
 module.exports = errorHandler;

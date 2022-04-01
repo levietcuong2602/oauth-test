@@ -13,9 +13,9 @@ const findClient = async (condition) => {
 
 const createClient = async (payload) => {
   const client = await Client.create(snakecaseKeys(payload, { deep: true }));
-  return client;
+  return client.get({
+    plain: true,
+  });
 };
 
-const updateClient = async (clientData) => {};
-
-module.exports = { findClient, createClient, updateClient };
+module.exports = { findClient, createClient };

@@ -16,9 +16,11 @@ const findAuthorizationCode = async (condition) => {
     limit: 1,
   });
 
-  return code.get({
-    plain: true,
-  });
+  return code
+    ? code.get({
+        plain: true,
+      })
+    : null;
 };
 
 const createAuthorizationCode = async (payload) => {

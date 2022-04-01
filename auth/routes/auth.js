@@ -5,6 +5,8 @@ const oauthServer = require("../oauth/server.js");
 const userDao = require("../daos/user");
 const clientDao = require("../daos/client");
 
+const { authenticateRefresh } = require("../middlewares/authenticate");
+
 const DebugControl = require("../utilities/debug.js");
 const {
   compareBcrypt,
@@ -157,10 +159,12 @@ router.post(
 );
 
 /**
- * in flow return access token and refresh token and remove authorization code
+ * in flow get access token and refresh token from authorization code
  * @route POST /oauth/token get access & refresh token
- * @param {string} authorization_code.required - username or email - eg: user@domain
- * @param {string} client_id.required - user's password.
+ * @param {string} code.required - authorization code
+ * @param {string} client_secret.required
+ * @param {string} client_id.required
+ * @param {string} grant_type.required
  * @returns {object} 200 - An array of user info
  * @returns {Error}  default - Unexpected error
  */
@@ -179,9 +183,26 @@ router.post(
 ); // Sends back token
 
 /**
- *
- * @route POST /oauth/revoke-token   revoke access_token
+ * get new token from refresh token
+ * @route POST /oauth/refresh get new refresh token and access token from refresh token
+ * @param {string} refresh_token.required - refresh token
+ * @param {string} client_secret.required
+ * @param {string} client_id.required
+ * @param {string} grant_type.required
+ * @returns {object} 200 -  An object token info
+ * @returns {Error} default - Unexpected error
  */
+router.post(
+  "/endpoint",
+  (req, res, next) => {
+    DebugControl.log.flow("Refresh");
+    next();
+  },
+  authenticateRefresh,
+  oauthServer.token({
+    requireClientAuthentication: { authorization_code: false },
+  })
+);
 
 /**
  * @route POST /oauth/revoke-refresh   revoke refresh_token
@@ -201,50 +222,6 @@ router.post(
 
 /**
  * @route POST /oauth/association-link   link user with wallet
- */
-
-// api admin sso?
-// entity user
-/**
- * @route POST /users  CRUD user
- */
-
-/**
- * @route GET /users  CRUD user
- */
-
-/**
- * @route PUT /users  CRUD user
- */
-
-// entity client
-/**
- * @route POST /clients  CRUD client
- */
-/**
- * @route PUT /clients  CRUD client
- */
-
-/**
- * @route POST /clients  CRUD client
- */
-
-// entity role
-/**
- * @route POST /roles  CRUD role
- */
-
-/**
- * @route PUT /roles  CRUD role
- */
-
-// entity user role
-/**
- * @route POST /user-roles  CRUD role
- */
-
-/**
- * @route PUT /user-roles  CRUD role
  */
 
 module.exports = router;

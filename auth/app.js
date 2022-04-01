@@ -69,8 +69,9 @@ const router = AdminJSExpress.buildRouter(adminJs);
 app.use(adminJs.options.rootPath, router);
 
 app.use("/api/admin", require("./routes/admin"));
-app.use("/", (req, res) => res.redirect("/client"));
 app.use(errorHandler);
+
+app.use("/", (req, res) => res.redirect("/client"));
 
 app.listen(port);
 console.log("Oauth Server listening on port ", port);
