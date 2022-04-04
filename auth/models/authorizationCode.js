@@ -6,11 +6,12 @@ module.exports = (sequelize, DataTypes) => {
       authorization_code: {
         type: DataTypes.STRING,
         allowNull: false,
+        unique: true,
       },
       expires_at: { type: DataTypes.DATE, allowNull: false },
       redirect_uri: { type: DataTypes.STRING, allowNull: false },
-      client_id: { type: DataTypes.NUMBER, allowNull: false },
-      user_id: { type: DataTypes.NUMBER, allowNull: false },
+      client_id: { type: DataTypes.INTEGER, allowNull: false },
+      user_id: { type: DataTypes.INTEGER, allowNull: false },
     },
     {
       tableName: "authorization_codes",

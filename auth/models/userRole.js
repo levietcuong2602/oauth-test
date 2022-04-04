@@ -18,6 +18,15 @@ module.exports = (sequelize, DataTypes) => {
   );
   UserRole.associate = function (models) {
     // associations can be defined here
+    // UserRole.belongsTo(models.Client, {
+    //   foreignKey: "client_id",
+    // });
+    // UserRole.belongsTo(models.User, {
+    //   foreignKey: "user_id",
+    // });
+    // UserRole.belongsTo(models.Role, {
+    //   foreignKey: "role_id",
+    // });
   };
   return UserRole;
 };

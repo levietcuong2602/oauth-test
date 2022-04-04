@@ -5,7 +5,7 @@ const { GRANT_TYPE } = require("../constants");
 
 const createClient = {
   body: Joi.object({
-    client_id: Joi.string().trim().required(),
+    name: Joi.string().required(),
     grants: Joi.array()
       .items(
         Joi.string()
@@ -15,7 +15,8 @@ const createClient = {
       )
       .required(),
     redirect_uris: Joi.array().items(Joi.string().trim().required()).required(),
-    client_secret: Joi.string().trim().required(),
+    client_secret: Joi.string().trim(),
+    client_id: Joi.string().trim(),
   }),
 };
 
