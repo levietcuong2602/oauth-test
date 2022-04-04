@@ -20,4 +20,32 @@ const createClient = {
   }),
 };
 
-module.exports = { createClientValidate: customValidate(createClient) };
+const updateClient = {
+  params: Joi.object({
+    client_id: Joi.string().required(),
+  }),
+  body: Joi.object({
+    name: Joi.string().required(),
+    grants: Joi.array()
+      .items(
+        Joi.string()
+          .trim()
+          .valid(...Object.values(GRANT_TYPE))
+          .required()
+      )
+      .required(),
+    redirect_uris: Joi.array().items(Joi.string().trim().required()).required(),
+  }),
+};
+
+const deleteClient = {
+  params: Joi.object({
+    client_id: Joi.string().required(),
+  }),
+};
+
+module.exports = {
+  createClientValidate: customValidate(createClient),
+  updateClientValidate: customValidate(updateClient),
+  deleteClientValidate: customValidate(deleteClient),
+};

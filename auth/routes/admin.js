@@ -2,11 +2,14 @@ const path = require("path"); // has path and __dirname
 const express = require("express");
 
 const userDao = require("../daos/user");
-const clientDao = require("../daos/client");
 const { successResponse, errorResponse } = require("../utilities/response");
 const asyncMiddleware = require("../middlewares/async");
 
-const { createClientValidate } = require("../validations/admin");
+const {
+  createClientValidate,
+  updateClientValidate,
+  deleteClientValidate,
+} = require("../validations/admin");
 const adminController = require("../controllers/admin");
 
 const router = express.Router(); // Instantiate a new router
@@ -22,9 +25,6 @@ router.get("/users/:userId", async (req, res, next) => {
 /**
  * @route POST /clients  CRUD client
  */
-/**
- * @route PUT /clients  CRUD client
- */
 // authenticate user role admin sso adminAuthorize
 router.post(
   "/clients",
@@ -32,7 +32,23 @@ router.post(
   asyncMiddleware(adminController.createClient)
 );
 
-// entity user
+/**
+ * @route PUT /clients/:client_id  CRUD client
+ */
+router.put(
+  "/clients/:client_id",
+  updateClientValidate,
+  asyncMiddleware(adminController.updateClient)
+);
+
+/**
+ * @route DELETE /clients/:client_id  CRUD client
+ */
+router.delete(
+  "/clients/:client_id",
+  deleteClientValidate,
+  asyncMiddleware(adminController.deleteClient)
+);
 
 /**
  * @route GET /users  CRUD user
