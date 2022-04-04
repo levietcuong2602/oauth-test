@@ -25,8 +25,9 @@
   let token // TODO: DON'T STORE THE TOKEN ON THE CLIENT FRONT END!!! Put it in a session cookie or something to be more secure
   let tokenType
   let refreshToken
-  const secret = 'MYSECRET' // probs shouldn't be stored locally on the frontend
-  const id = 'myClientId'  // probs shouldn't be stored locally on the frontend
+  const secret = '71775764d7cbd01a2a9c22a987026bc4da9370b5' // probs shouldn't be stored locally on the frontend
+  const id = 'f3e0f812385b7a21a075d047670254e21eb05914'  // probs shouldn't be stored locally on the frontend
+  const redirect_uri = 'http://localhost:3030/client/app'
   ;(function(){ // We are immediately executing this anonymous function. The semi-colon is necessary
     const urlParams = new URLSearchParams(window.location.search) // retrieve the authorization code from the url
     code = urlParams.get('code')
@@ -36,7 +37,7 @@
 
     fetch('/oauth/token', {
       method: 'POST',
-      body: `code=${code}&client_secret=${secret}&client_id=${id}&grant_type=authorization_code`, // this is how we send that data up
+      body: `code=${code}&client_secret=${secret}&client_id=${id}&grant_type=authorization_code&redirect_uri=${redirect_uri}`, // this is how we send that data up
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',  // This is REALLY important
       },
@@ -62,7 +63,7 @@
     })
       .then(res => res.json())
       .then(res => {
-        document.getElementById('success').innerText = res.success ? 'Oh yeah, baby!' : 'Nope.'
+        document.getElementById('success').innerText = res.status === 1 ? 'Oh yeah, baby!' : 'Nope.'
       })
       .catch(e => {
         console.error('Fail:',e)

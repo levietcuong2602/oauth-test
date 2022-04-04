@@ -20,7 +20,7 @@ module.exports = {
           client_id: "f3e0f812385b7a21a075d047670254e21eb05914",
           client_secret: "71775764d7cbd01a2a9c22a987026bc4da9370b5",
           redirect_uris: '["http://localhost:3030/client/app"]',
-          grants: '["authorization_code"]',
+          grants: '["authorization_code","refresh_token"]',
         },
       ],
       {}

@@ -6,6 +6,8 @@ const clientDao = require("../daos/client");
 const authorizationCodeDao = require("../daos/authorizationCode");
 const tokenDao = require("../daos/token");
 
+const userRoleService = require("../services/userRole");
+
 const { generateToken } = require("../utilities/auth");
 const { TOKEN_TYPE } = require("../constants");
 
@@ -44,18 +46,18 @@ const DebugControl = require("../utilities/debug.js");
 const { Sequelize } = require("../models");
 
 module.exports = {
-  getClient: async function (clientId, clientSecret) {
-    // query db for details with client
-    let client = await clientDao.findClient({ clientId });
-    if (!client) throw new Error("client not found");
-
+  getClient: async function (clientId, client_secret) {
     log({
       title: "Get Client",
       parameters: [
         { name: "clientId", value: clientId },
-        { name: "clientSecret", value: client.client_secret },
+        { name: "clientSecret", value: client_secret },
       ],
     });
+    // query db for details with client
+    let client = await clientDao.findClient({ clientId });
+    if (!client) throw new Error("client not found");
+
     // db.client = {
     //   clientId: clientId,
     //   clientSecret: clientSecret,
@@ -87,7 +89,9 @@ module.exports = {
         { name: "user", value: user },
       ],
     });
-    const token = await generateToken({ client, user }, SECRET_TOKEN, {
+    const roles = await userRoleService.getRoleUserInClients(user.id);
+
+    const token = await generateToken({ client, user, roles }, SECRET_TOKEN, {
       expiresIn: TOKEN_LIFETIME,
       algorithm: "HS256",
     });
@@ -112,7 +116,7 @@ module.exports = {
     } = token;
     // save refresh token
     const refreshTokenRecord = await tokenDao.saveToken({
-      token: accessToken,
+      token: refreshToken,
       tokenExpiresAt: accessTokenExpiresAt,
       type: TOKEN_TYPE.REFRESH_TOKEN,
       clientId: client.id,
@@ -171,20 +175,26 @@ module.exports = {
         { name: "user", value: user },
       ],
     });
-    const token = await generateToken({ client, user }, SECRET_REFRESH, {
+    const roles = await userRoleService.getRoleUserInClients(user.id);
+    const token = await generateToken({ client, user, roles }, SECRET_REFRESH, {
       expiresIn: REFRESH_TOKEN_LIFETIME,
       algorithm: "HS256",
     });
     return token;
   },
-  getRefreshToken: (token) => {
+  getRefreshToken: async (token) => {
     /* Retrieves the token from the database */
     log({
       title: "Get Refresh Token",
       parameters: [{ name: "token", value: token }],
     });
     DebugControl.log.variable({ name: "db.token", value: db.token });
-    return new Promise((resolve) => resolve(db.token));
+
+    const refreshToken = await tokenDao.findToken({
+      token,
+      type: TOKEN_TYPE.REFRESH_TOKEN,
+    });
+    return camelcaseKeys(refreshToken, { deep: true });
   },
   revokeToken: (token) => {
     /* Delete the token from the database */
