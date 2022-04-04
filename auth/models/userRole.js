@@ -6,9 +6,14 @@ module.exports = (sequelize, DataTypes) => {
       user_id: {
         type: DataTypes.STRING,
         allowNull: false,
+        primaryKey: true,
       },
-      client_id: { type: DataTypes.STRING, allowNull: false },
-      role_id: { type: DataTypes.STRING, allowNull: false },
+      client_id: {
+        type: DataTypes.STRING,
+        allowNull: false.valueOf,
+        primaryKey: true,
+      },
+      role_id: { type: DataTypes.STRING, allowNull: false, primaryKey: true },
     },
     {
       tableName: "user_roles",

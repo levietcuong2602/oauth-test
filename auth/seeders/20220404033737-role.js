@@ -17,14 +17,17 @@ module.exports = {
         {
           id: 1,
           name: "admin",
+          is_default: false,
         },
         {
           id: 2,
           name: "modifier",
+          is_default: false,
         },
         {
           id: 3,
           name: "user",
+          is_default: true,
         },
       ],
       {}

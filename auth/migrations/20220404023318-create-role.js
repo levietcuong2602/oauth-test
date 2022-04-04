@@ -17,6 +17,7 @@ module.exports = {
         unique: true,
       },
       name: { type: Sequelize.STRING, allowNull: false },
+      is_default: { type: Sequelize.BOOLEAN, default: false },
     });
   },
 

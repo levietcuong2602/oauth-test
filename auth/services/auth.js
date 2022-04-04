@@ -1,6 +1,5 @@
 const moment = require("moment");
-
-const tokenDao = require("../daos/token");
+const camelcaseKeys = require("camelcase-keys");
 
 const { generateToken } = require("../utilities/auth");
 const { omitIsNil } = require("../utilities/omit");
@@ -16,6 +15,11 @@ const { TOKEN_TYPE } = require("../constants");
 
 const userDao = require("../daos/user");
 const clientDao = require("../daos/client");
+const userRoleDao = require("../daos/userRole");
+const roleDao = require("../daos/role");
+const tokenDao = require("../daos/token");
+
+const userRoleService = require("../services/userRole");
 
 const generateAndSaveToken = async ({
   tokenData,
@@ -66,9 +70,18 @@ const registerAccount = async ({ username, password, client_id }) => {
     salt,
   });
 
-  // register user with clientId
   // add role basic user in client: user, modifier, admin
-  const roleDefault = "";
+  const roleDefault = await roleDao.findRole({ isDefault: true });
+  if (roleDefault) {
+    await userRoleDao.createUserRole({
+      userId: newUser.id,
+      clientId: client.id,
+      roleId: roleDefault.id,
+    });
+  }
+  // return list role in all clients
+  let roles = await userRoleService.getRoleUserInClients(newUser.id);
+
   // generate refresh token and save token
   const tokenData = {
     user: {
@@ -82,6 +95,7 @@ const registerAccount = async ({ username, password, client_id }) => {
       clientRedirectUris: client.rediect_uris,
       grants: client.grants,
     },
+    roles,
   };
   const refresh = await generateAndSaveToken({
     tokenData,
@@ -107,13 +121,13 @@ const registerAccount = async ({ username, password, client_id }) => {
     type: TOKEN_TYPE.ACCESS_TOKEN,
   });
 
-  // return list role in all clients
   return {
     user: {
       id: newUser.id,
       username: newUser.username,
       walletAddress: newUser.wallet_address,
     },
+    roles,
     accessToken: token.token,
     tokenExpiresAt: token.token_expires_at,
     refreshToken: refresh.token,
