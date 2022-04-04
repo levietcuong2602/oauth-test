@@ -1,6 +1,7 @@
 const moment = require("moment");
 
 const tokenDao = require("../daos/token");
+
 const { generateToken } = require("../utilities/auth");
 const { omitIsNil } = require("../utilities/omit");
 const { encryptPassword, generateSalt } = require("../utilities/bcrypt");
@@ -67,6 +68,7 @@ const registerAccount = async ({ username, password, client_id }) => {
 
   // register user with clientId
   // add role basic user in client: user, modifier, admin
+  const roleDefault = "";
   // generate refresh token and save token
   const tokenData = {
     user: {
@@ -105,6 +107,7 @@ const registerAccount = async ({ username, password, client_id }) => {
     type: TOKEN_TYPE.ACCESS_TOKEN,
   });
 
+  // return list role in all clients
   return {
     user: {
       id: newUser.id,

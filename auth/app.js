@@ -12,7 +12,7 @@ dotenv.config();
 // require("./config/sequelize");
 
 const app = express();
-const port = 3030;
+const port = process.env.PORT || 3030;
 const bodyParser = require("body-parser");
 const expressSwagger = require("express-swagger-generator")(app);
 const oauthServer = require("./oauth/server.js");

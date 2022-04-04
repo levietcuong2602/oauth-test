@@ -1,0 +1,45 @@
+version: "3"
+
+services:
+  mariadb:
+    image: mariadb:10.2
+    environment:
+      MYSQL_ROOT_PASSWORD:
+      MYSQL_DATABASE: oauth-test
+      MYSQL_USER: root
+      MYSQL_PASSWORD:
+    logging:
+      driver: syslog
+      options:
+        tag: "{{.DaemonName}}(image={{.ImageName}};name={{.Name}};id={{.ID}})"
+    ports:
+      - 3307:3306
+    restart: on-failure
+    volumes:
+      - ./auth/sql:/var/lib/mysql
+
+  oauth-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - ${PORT}:${PORT}
+    environment:
+      - TZ=Asia/Ho_Chi_Minh
+      - PORT=${PORT}
+
+      - DB_HOST=mariadb
+      - MONGO_PORT=3307
+      - MONGO_USERNAME=root
+      - MONGO_PASSWORD=
+      - MONGO_DATABASE=oauth-test
+
+      - PEPPER=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+      - SECRET_TOKEN=myAccessToken
+      - TOKEN_LIFETIME=1800
+      - SECRET_REFRESH=myRefreshToken
+      - REFRESH_TOKEN_LIFETIME=604800
+
+    depends_on:
+      - mariadb

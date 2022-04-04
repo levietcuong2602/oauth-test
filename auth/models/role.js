@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
         unique: true,
       },
       name: { type: DataTypes.STRING, allowNull: false },
+      is_default: { type: DataTypes.BOOLEAN, default: false },
     },
     {
       tableName: "roles",
