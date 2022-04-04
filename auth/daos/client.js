@@ -18,4 +18,22 @@ const createClient = async (payload) => {
   });
 };
 
-module.exports = { findClient, createClient };
+const updateClient = async (clientId, payload) => {
+  await Client.update(snakecaseKeys(payload, { deep: true }), {
+    where: {
+      client_id: clientId,
+    },
+  });
+  const client = await findClient({ client_id: clientId });
+  return client;
+};
+
+const deleteClient = async (clientId) => {
+  await Client.destroy({
+    where: {
+      client_id: clientId,
+    },
+  });
+};
+
+module.exports = { findClient, createClient, updateClient, deleteClient };

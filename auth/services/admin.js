@@ -6,6 +6,7 @@ const createClient = async ({ name, grants = [], redirectUris = [] }) => {
   if (clientExists) throw new Error("Client already exists with same name");
 
   const data = {
+    name,
     grants: JSON.stringify(grants),
     redirectUris: JSON.stringify(redirectUris),
     clientId: generateSecurityKey(),
@@ -16,4 +17,39 @@ const createClient = async ({ name, grants = [], redirectUris = [] }) => {
   return newClient;
 };
 
-module.exports = { createClient };
+const updateClient = async (clientId, clientData) => {
+  const { name, grants = [], redirectUris = [] } = clientData;
+  const client = await clientDao.findClient({ clientId });
+
+  if (!client) {
+    throw new Error("Client does not exists");
+  }
+
+  if (client.name !== name) {
+    const isClientNameExisted = await clientDao.findClient({ name });
+    if (isClientNameExisted)
+      throw new Error("Client already exists with same name");
+  }
+
+  const data = {
+    name,
+    grants: JSON.stringify(grants),
+    redirectUris: JSON.stringify(redirectUris),
+  };
+
+  const newClient = await clientDao.updateClient(clientId, data);
+  return newClient;
+};
+
+const deleteClient = async (clientId) => {
+  console.log({ clientId });
+  const client = await clientDao.findClient({ clientId });
+
+  if (!client) {
+    throw new Error("Client does not exists");
+  }
+
+  await clientDao.deleteClient(clientId);
+};
+
+module.exports = { createClient, updateClient, deleteClient };

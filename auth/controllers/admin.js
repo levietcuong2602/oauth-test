@@ -23,4 +23,25 @@ const createClient = async (req, res) => {
   return successResponse(req, res, result);
 };
 
-module.exports = { createClient };
+const updateClient = async (req, res) => {
+  DebugControl.log.flow("Update client");
+  const { client_id: clientId } = req.params;
+  const { name, grants = [], redirect_uris: redirectUris = [] } = req.body;
+
+  const result = await adminService.updateClient(clientId, {
+    name,
+    grants,
+    redirectUris,
+  });
+  return successResponse(req, res, result);
+};
+
+const deleteClient = async (req, res) => {
+  DebugControl.log.flow("Delete client");
+  const { client_id: clientId } = req.params;
+
+  await adminService.deleteClient(clientId);
+  return successResponse(req, res);
+};
+
+module.exports = { createClient, updateClient, deleteClient };
