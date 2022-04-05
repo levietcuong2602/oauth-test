@@ -14,6 +14,31 @@ const createUserRole = async (payload) => {
     : null;
 };
 
+const updateUserRole = async ({ userId, clientId }, payload) => {
+  await UserRole.update(snakecaseKeys(payload, { deep: true }), {
+    where: {
+      user_id: userId,
+      client_id: clientId,
+    },
+  });
+  const userRole = await UserRole.findOne({
+    where: {
+      user_id: userId,
+      client_id: clientId,
+    },
+  });
+  return userRole;
+};
+
+const deleteUserRole = async ({ userId, clientId }) => {
+  await UserRole.destroy({
+    where: {
+      user_id: userId,
+      client_id: clientId,
+    },
+  });
+};
+
 const getUserRoles = async (condition) => {
   UserRole.belongsTo(Role);
   UserRole.belongsTo(Client);
@@ -36,4 +61,9 @@ const getUserRoles = async (condition) => {
   return userRoles;
 };
 
-module.exports = { createUserRole, getUserRoles };
+module.exports = {
+  createUserRole,
+  updateUserRole,
+  deleteUserRole,
+  getUserRoles,
+};
