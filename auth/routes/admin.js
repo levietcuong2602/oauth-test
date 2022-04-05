@@ -12,6 +12,9 @@ const {
   createRoleValidate,
   updateRoleValidate,
   deleteRoleValidate,
+  createUserRoleValidate,
+  updateUserRoleValidate,
+  deleteUserRoleValidate,
 } = require("../validations/admin");
 const adminController = require("../controllers/admin");
 
@@ -102,9 +105,28 @@ router.delete(
 /**
  * @route POST /user-roles  CRUD role
  */
+router.post(
+  "/user-roles",
+  createUserRoleValidate,
+  asyncMiddleware(adminController.createUserRole)
+);
 
 /**
  * @route PUT /user-roles  CRUD role
  */
+router.put(
+  "/user-roles",
+  updateUserRoleValidate,
+  asyncMiddleware(adminController.updateUserRole)
+);
+
+/**
+ * @route DELETE /user-roles  CRUD role
+ */
+router.delete(
+  "/user-roles",
+  deleteUserRoleValidate,
+  asyncMiddleware(adminController.deleteUserRole)
+);
 
 module.exports = router;
