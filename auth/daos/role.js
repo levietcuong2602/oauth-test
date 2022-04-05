@@ -14,4 +14,29 @@ const findRole = async (condition) => {
     : null;
 };
 
-module.exports = { findRole };
+const createRole = async (payload) => {
+  const client = await Role.create(snakecaseKeys(payload, { deep: true }));
+  return client.get({
+    plain: true,
+  });
+};
+
+const updateRole = async (roleId, payload) => {
+  await Role.update(snakecaseKeys(payload, { deep: true }), {
+    where: {
+      id: roleId,
+    },
+  });
+  const role = await findRole({ id: roleId });
+  return role;
+};
+
+const deleteRole = async (roleId) => {
+  await Role.destroy({
+    where: {
+      id: roleId,
+    },
+  });
+};
+
+module.exports = { findRole, createRole, updateRole, deleteRole };
