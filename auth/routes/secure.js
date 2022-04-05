@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router(); // Instantiate a new router
 const DebugControl = require("../utilities/debug.js");
+const { successResponse } = require("../utilities/response");
 
 /**
  * verify access token
@@ -16,7 +17,7 @@ router.get("/", (req, res) => {
     name: "res.locals.oauth.token",
     value: res.locals.oauth.token,
   });
-  res.json({ success: true });
+  return successResponse(req, res, "success");
 });
 
 module.exports = router;

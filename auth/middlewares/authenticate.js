@@ -72,6 +72,7 @@ const authenticationUser = async (req, res, next) => {
       res,
       message: err.message,
       statusCode: statusCodes.UNAUTHORIZED,
+      code: statusCodes.UNAUTHORIZED,
     });
   }
 };
