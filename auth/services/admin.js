@@ -52,4 +52,9 @@ const deleteClient = async (clientId) => {
   await clientDao.deleteClient(clientId);
 };
 
-module.exports = { createClient, updateClient, deleteClient };
+const findClientById = async (clientId) => {
+  const client = await clientDao.findClient({ id: clientId });
+  return client;
+};
+
+module.exports = { createClient, updateClient, deleteClient, findClientById };

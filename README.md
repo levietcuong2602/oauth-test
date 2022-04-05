@@ -45,12 +45,13 @@
      }
      return tokenUtil.generateRandomToken();
      };
-5. Run `yarn migrate` to migrate database
-6. Run `yarn seed` to insert data to database
-7. Run `yarn authServer` to boot up the oauth 2.0 server
-8. Run `yarn devAuth` to boot up the oauth 2.0 server in dev mode. This will enable hot reloading when your code changes.
-9. Run `yarn test` to run unit tests that cover all implemented grants
-   - For verbose output, modify `level` in `auth/tests/setup.js` to be `DebugControl.levels.ALL`
+5. Run `yarn postinstall` to fix lib express-oauth-server
+6. Run `yarn migrate` to migrate database
+7. Run `yarn seed` to insert data to database
+8. Run `yarn authServer` to boot up the oauth 2.0 server
+9. Run `yarn devAuth` to boot up the oauth 2.0 server in dev mode. This will enable hot reloading when your code changes.
+10. Run `yarn test` to run unit tests that cover all implemented grants
+    - For verbose output, modify `level` in `auth/tests/setup.js` to be `DebugControl.levels.ALL`
 
 [back](#top)
 

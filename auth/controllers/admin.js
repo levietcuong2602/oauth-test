@@ -44,4 +44,16 @@ const deleteClient = async (req, res) => {
   return successResponse(req, res);
 };
 
-module.exports = { createClient, updateClient, deleteClient };
+const findClientById = async (req, res) => {
+  DebugControl.log.flow("Find client");
+  const { clientId } = req.params;
+
+  const client = await adminService.findClientById(clientId);
+  if (client) {
+    client.grants = JSON.parse(client.grants);
+    client.redirect_uris = JSON.parse(client.redirect_uris);
+  }
+  return successResponse(req, res, client);
+};
+
+module.exports = { createClient, updateClient, deleteClient, findClientById };

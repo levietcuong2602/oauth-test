@@ -25,9 +25,20 @@
   let token // TODO: DON'T STORE THE TOKEN ON THE CLIENT FRONT END!!! Put it in a session cookie or something to be more secure
   let tokenType
   let refreshToken
-  const secret = '71775764d7cbd01a2a9c22a987026bc4da9370b5' // probs shouldn't be stored locally on the frontend
-  const id = 'f3e0f812385b7a21a075d047670254e21eb05914'  // probs shouldn't be stored locally on the frontend
-  const redirect_uri = 'http://localhost:3030/client/app'
+  let secret = '71775764d7cbd01a2a9c22a987026bc4da9370b5' // probs shouldn't be stored locally on the frontend
+  let id = 'f3e0f812385b7a21a075d047670254e21eb05914'  // probs shouldn't be stored locally on the frontend
+  let redirect_uri = 'http://34.142.166.4/client/app'
+  const base_url = window.location.origin;
+
+  // load data client
+  ;(() => {
+    fetch('/api/admin/clients/1').then(res => res.json()).then(res => {
+      secret = res.data.client_secret
+      id = res.data.client_id
+      redirect_uri = res.data.redirect_uris[0]
+    });
+  })()
+
   ;(function(){ // We are immediately executing this anonymous function. The semi-colon is necessary
     const urlParams = new URLSearchParams(window.location.search) // retrieve the authorization code from the url
     code = urlParams.get('code')
@@ -44,7 +55,6 @@
     })
       .then(res => res.json())
       .then(res => {
-        console.log('Credentials', res)
         token = res.access_token
         tokenType = res.token_type
         refreshToken = res.refresh_token

@@ -23,6 +23,14 @@ router.get("/users/:userId", async (req, res, next) => {
 });
 
 /**
+ * @route GET /clients/:clientId  get client
+ */
+router.get(
+  "/clients/:clientId",
+  asyncMiddleware(adminController.findClientById)
+);
+
+/**
  * @route POST /clients  CRUD client
  */
 // authenticate user role admin sso adminAuthorize
