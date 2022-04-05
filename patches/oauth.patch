@@ -1,0 +1,13 @@
+diff --git a/node_modules/express-oauth-server/node_modules/oauth2-server/lib/handlers/authorize-handler.js b/node_modules/express-oauth-server/node_modules/oauth2-server/lib/handlers/authorize-handler.js
+index 984136a..7a5d125 100644
+--- a/node_modules/express-oauth-server/node_modules/oauth2-server/lib/handlers/authorize-handler.js
++++ b/node_modules/express-oauth-server/node_modules/oauth2-server/lib/handlers/authorize-handler.js
+@@ -135,7 +135,7 @@ AuthorizeHandler.prototype.handle = function(request, response) {
+ 
+ AuthorizeHandler.prototype.generateAuthorizationCode = function(client, user, scope) {
+   if (this.model.generateAuthorizationCode) {
+-    return promisify(this.model.generateAuthorizationCode).call(this.model, client, user, scope);
++    return this.model.generateAuthorizationCode(client, user, scope);
+   }
+   return tokenUtil.generateRandomToken();
+ };
