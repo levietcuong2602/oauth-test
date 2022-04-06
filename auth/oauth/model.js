@@ -5,6 +5,7 @@ const camelcaseKeys = require("camelcase-keys");
 const clientDao = require("../daos/client");
 const authorizationCodeDao = require("../daos/authorizationCode");
 const tokenDao = require("../daos/token");
+const userDao = require("../daos/user");
 
 const userRoleService = require("../services/userRole");
 
@@ -43,7 +44,6 @@ const db = {
 };
 
 const DebugControl = require("../utilities/debug.js");
-const { Sequelize } = require("../models");
 
 module.exports = {
   getClient: async function (clientId, client_secret) {
@@ -56,29 +56,22 @@ module.exports = {
     });
     // query db for details with client
     let client = await clientDao.findClient({ clientId });
-    if (!client) throw new Error("client not found");
+    if (!client) return false;
 
-    // db.client = {
-    //   clientId: clientId,
-    //   clientSecret: clientSecret,
-    //   grants: ["authorization_code", "refresh_token"],
-    //   redirectUris: ["http://localhost:3030/client/app"],
-    // };
+    client = camelcaseKeys(
+      {
+        ...client,
+        grants: client.grants ? JSON.parse(client.grants) : [],
+        redirectUris: client.redirect_uris
+          ? JSON.parse(client.redirect_uris)
+          : [],
+      },
+      { deep: true }
+    );
+
+    console.log({ client });
     // Retrieved from the database
-    return new Promise(async (resolve) => {
-      client = camelcaseKeys(
-        {
-          ...client,
-          grants: client.grants ? JSON.parse(client.grants) : [],
-          redirectUris: client.redirect_uris
-            ? JSON.parse(client.redirect_uris)
-            : [],
-        },
-        { deep: true }
-      );
-
-      resolve(client);
-    });
+    return new Promise((resolve) => resolve(client));
   },
   generateAccessToken: async (client, user, scope) => {
     // generates access tokens
@@ -273,13 +266,14 @@ module.exports = {
     log({
       title: "Get Authorization code",
       parameters: [{ name: "authorizationCode", value: authorizationCode }],
-      attributes: [[Sequelize.col("User"), "user"]],
     });
 
     let code = await authorizationCodeDao.findAuthorizationCode({
       authorizationCode,
     });
-    if (!code) throw new Error("Authorization Code not found");
+
+    // TODO handle error
+    if (!code) return false;
 
     // format data
     code.expires_at = new Date(code.expires_at);
@@ -313,6 +307,19 @@ module.exports = {
     });
     const userHasAccess = true; // return true if this user / client combo has access to this resource
     return new Promise((resolve) => resolve(userHasAccess));
+  },
+  getUser: async (username, password) => {
+    log({
+      title: "Get User",
+      parameters: [
+        { name: "username", value: username },
+        { name: "password", value: password },
+      ],
+    });
+    const user = await userDao.findUser({ username });
+    if (!user) return false;
+    console.log({ user });
+    return user;
   },
 };
 

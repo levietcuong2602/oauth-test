@@ -21,7 +21,7 @@ module.exports = {
         allowNull: false,
       },
       expires_at: { type: Sequelize.DATE, allowNull: false },
-      redirect_uri: { type: Sequelize.STRING, allowNull: false },
+      redirect_uri: { type: Sequelize.STRING, allowNull: true },
       client_id: {
         type: Sequelize.INTEGER,
         allowNull: false,

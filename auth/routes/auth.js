@@ -26,7 +26,7 @@ router.get("/", (req, res) => {
 
 /**
  * register account
- * @route POST /oauth/register register account with username, password, client_id
+ * @route POST /oauth/signup - signup account with username, password, client_id
  * @param {string} username.required - username or email - eg: user@domain
  * @param {string} password.required - user's password.
  * @param {string} client_id.required - user's password.
@@ -34,7 +34,7 @@ router.get("/", (req, res) => {
  * @returns {Error}  default - Unexpected error
  */
 router.post(
-  "/register",
+  "/signup",
   registerAccountValidate,
   asyncMiddleware(authController.registerAccount)
 );

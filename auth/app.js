@@ -27,8 +27,6 @@ const DebugControl = require("./utilities/debug.js");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(DebugControl.log.request());
-app.use(snakecaseResponse());
-app.use(omitReq);
 
 let options = {
   swaggerDefinition: {
@@ -54,6 +52,9 @@ let options = {
   files: ["./routes/**/*.js"], //Path to the API handle folder
 };
 expressSwagger(options);
+
+app.use(snakecaseResponse());
+app.use(omitReq);
 
 app.use("/client", require("./routes/client.js")); // Client routes
 app.use("/oauth", require("./routes/auth.js")); // routes to access the auth stuff
