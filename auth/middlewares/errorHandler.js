@@ -37,7 +37,7 @@ const errorHandler = (err, req, res, next) => {
       break;
     default:
       message = message || getErrorMessage(code);
-      statusCode = 200;
+    // statusCode = 200;
   }
 
   return errorResponse({ req, res, statusCode, code, message, details });

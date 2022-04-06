@@ -6,7 +6,10 @@ const oauthServer = require("../oauth/server.js");
 const userDao = require("../daos/user");
 const clientDao = require("../daos/client");
 
-const { registerAccountValidate } = require("../validations/auth");
+const {
+  registerAccountValidate,
+  authorizeAccountValidate,
+} = require("../validations/auth");
 const authController = require("../controllers/auth");
 
 const { authenticationUser } = require("../middlewares/authenticate");
@@ -47,6 +50,7 @@ router.post(
  */
 router.post(
   "/authorize",
+  authorizeAccountValidate,
   authenticationUser,
   (req, res, next) => {
     // sends us to our redirect with an authorization code in our url
