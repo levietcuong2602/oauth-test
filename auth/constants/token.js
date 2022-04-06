@@ -3,6 +3,9 @@ const TOKEN_TYPE = {
   REFRESH_TOKEN: 1,
 };
 
+const AUTHORIZATION_CODE_LIFETIME = 5 * 60;
+
 module.exports = {
   TOKEN_TYPE,
+  AUTHORIZATION_CODE_LIFETIME,
 };

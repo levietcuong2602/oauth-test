@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
         unique: true,
       },
       expires_at: { type: DataTypes.DATE, allowNull: false },
-      redirect_uri: { type: DataTypes.STRING, allowNull: false },
+      redirect_uri: { type: DataTypes.STRING, allowNull: true },
       client_id: { type: DataTypes.INTEGER, allowNull: false },
       user_id: { type: DataTypes.INTEGER, allowNull: false },
     },
