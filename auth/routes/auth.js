@@ -9,6 +9,7 @@ const clientDao = require("../daos/client");
 const {
   registerAccountValidate,
   authorizeAccountValidate,
+  authorizeMobileAccountValidate,
 } = require("../validations/auth");
 const authController = require("../controllers/auth");
 
@@ -138,9 +139,25 @@ router.post(
   })
 );
 
+/**
+ * @swagger
+ * /oauth/authorize-mobiles:
+ *   post:
+ *     description: Get authorization code for mobile app
+ *     parameters:
+ *       - in: body
+ *         name: body
+ *         required: true
+ *         description: user infomation.
+ *         schema:
+ *           $ref: '#/components/schemas/NewUser'
+ *     responses:
+ *       200:
+ *         description: '{"code":200,"data":{"code":"2179d8a7059a9effc4217bbf2d70960efd678095","expires_at":"2022-04-07T09:49:56.531Z"},"status":1}'
+ */
 router.post(
   "/authorize-mobiles",
-  authorizeAccountValidate,
+  authorizeMobileAccountValidate,
   authenticationUser,
   (req, res, next) => {
     // sends us to our redirect with an authorization code in our url
