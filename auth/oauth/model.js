@@ -266,18 +266,14 @@ module.exports = {
       user: user,
     };
 
-    await authorizationCodeDao.createAuthorizationCode(authorizationCode);
+    const data = await authorizationCodeDao.createAuthorizationCode(
+      authorizationCode
+    );
     // Write data code
-    return new Promise(async (resolve) => {
-      return resolve(
-        Object.assign(
-          {
-            redirectUri: `${code.redirectUri}`,
-          },
-          authorizationCode
-        )
-      );
-    });
+    return camelcaseKeys(
+      { ...data, ...authorizationCode, redirectUri: `${code.redirectUri}` },
+      { deep: true }
+    );
   },
   getAuthorizationCode: async (authorizationCode) => {
     /* this is where we fetch the stored data from the code */
