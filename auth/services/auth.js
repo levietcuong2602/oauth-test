@@ -1,9 +1,9 @@
 const moment = require("moment");
-const camelcaseKeys = require("camelcase-keys");
 
 const { generateToken } = require("../utilities/auth");
 const { omitIsNil } = require("../utilities/omit");
 const { encryptPassword, generateSalt } = require("../utilities/bcrypt");
+const { generateSecurityKey } = require("../utilities/security");
 
 const {
   SECRET_REFRESH,
@@ -11,13 +11,14 @@ const {
   REFRESH_TOKEN_LIFETIME,
   TOKEN_LIFETIME,
 } = require("../config");
-const { TOKEN_TYPE } = require("../constants");
+const { TOKEN_TYPE, AUTHORIZATION_CODE_LIFETIME } = require("../constants");
 
 const userDao = require("../daos/user");
 const clientDao = require("../daos/client");
 const userRoleDao = require("../daos/userRole");
 const roleDao = require("../daos/role");
 const tokenDao = require("../daos/token");
+const authorizationCodeDao = require("../daos/authorizationCode");
 
 const userRoleService = require("../services/userRole");
 
@@ -82,7 +83,6 @@ const registerAccount = async ({ username, password, client_id }) => {
   // return list role in all clients
   let roles = await userRoleService.getRoleUserInClients(newUser.id);
 
-  // generate refresh token and save token
   const tokenData = {
     user: {
       id: newUser.id,
@@ -97,6 +97,7 @@ const registerAccount = async ({ username, password, client_id }) => {
     },
     roles,
   };
+  // generate refresh token and save token
   const refresh = await generateAndSaveToken({
     tokenData,
     options: {
@@ -136,4 +137,23 @@ const registerAccount = async ({ username, password, client_id }) => {
   };
 };
 
-module.exports = { generateAndSaveToken, registerAccount };
+const getAuthorizationTokenByMobile = async ({ userId, clientId }) => {
+  // generate authorization token
+  const authorizationCode = generateSecurityKey();
+  // save authorization token
+  const codeData = {
+    authorizationCode,
+    userId,
+    clientId,
+    expiresAt: moment().add(AUTHORIZATION_CODE_LIFETIME, "seconds").toDate(),
+  };
+  const code = await authorizationCodeDao.createAuthorizationCode(codeData);
+  // return code
+  return { code: authorizationCode, expiresAt: code.expires_at };
+};
+
+module.exports = {
+  generateAndSaveToken,
+  registerAccount,
+  getAuthorizationTokenByMobile,
+};

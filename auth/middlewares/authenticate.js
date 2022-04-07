@@ -54,6 +54,7 @@ const authenticationUser = async (req, res, next) => {
     if (!isCorrectPassword) throw new Error("Password incorrect");
 
     req.body.user = user;
+    req.body.client = client;
     return next();
   } catch (err) {
     // const params = [

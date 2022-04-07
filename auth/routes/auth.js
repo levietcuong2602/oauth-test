@@ -70,6 +70,18 @@ router.post(
   })
 );
 
+router.post(
+  "/authorize-mobiles",
+  authorizeAccountValidate,
+  authenticationUser,
+  (req, res, next) => {
+    // sends us to our redirect with an authorization code in our url
+    DebugControl.log.flow("Authorization Mobile");
+    return next();
+  },
+  authController.getAuthorizationTokenByMobile
+);
+
 /**
  * Authorize wallet
  * @route POST /oauth/authorize-wallet login
