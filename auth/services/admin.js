@@ -18,7 +18,11 @@ const createClient = async ({ name, grants = [], redirectUris = [] }) => {
   };
 
   const newClient = await clientDao.createClient(data);
-  return newClient;
+  return {
+    ...newClient,
+    grants: JSON.parse(newClient.grants),
+    redirect_uris: JSON.parse(newClient.redirect_uris),
+  };
 };
 
 const updateClient = async (clientId, clientData) => {
@@ -45,7 +49,11 @@ const updateClient = async (clientId, clientData) => {
   );
 
   const newClient = await clientDao.updateClient(clientId, data);
-  return newClient;
+  return {
+    ...newClient,
+    grants: JSON.parse(newClient.grants),
+    redirect_uris: JSON.parse(newClient.redirect_uris),
+  };
 };
 
 const deleteClient = async (clientId) => {

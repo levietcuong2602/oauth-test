@@ -2,6 +2,8 @@ const express = require("express");
 const AdminJS = require("adminjs");
 const dotenv = require("dotenv");
 const AdminJSExpress = require("@adminjs/express");
+const swaggerJsDoc = require("swagger-jsdoc");
+const swaggerUi = require("swagger-ui-express");
 
 const adminJs = new AdminJS({
   databases: [],
@@ -14,7 +16,6 @@ require("./config/sequelize");
 const app = express();
 const port = process.env.PORT || 3030;
 const bodyParser = require("body-parser");
-const expressSwagger = require("express-swagger-generator")(app);
 const oauthServer = require("./oauth/server.js");
 
 const errorHandler = require("./middlewares/errorHandler");
@@ -28,30 +29,25 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(DebugControl.log.request());
 
-let options = {
+const swaggerOptions = {
   swaggerDefinition: {
+    components: {}, // ADD THIS LINE!!!
     info: {
-      description: "This is a sample server",
-      title: "Swagger",
       version: "1.0.0",
-    },
-    host: "localhost:3000",
-    basePath: "/v1",
-    produces: ["application/json", "application/xml"],
-    schemes: ["http", "https"],
-    securityDefinitions: {
-      JWT: {
-        type: "apiKey",
-        in: "header",
-        name: "Authorization",
-        description: "",
+      title: "Customer API",
+      description: "Customer API Information",
+      contact: {
+        name: "Amazing Developer",
       },
+      servers: ["http://localhost:3030"],
     },
   },
-  basedir: __dirname, //app absolute path
-  files: ["./routes/**/*.js"], //Path to the API handle folder
+  // ['.routes/*.js']
+  apis: ["auth/routes/**/*.js"],
 };
-expressSwagger(options);
+
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 app.use(snakecaseResponse());
 app.use(omitReq);
