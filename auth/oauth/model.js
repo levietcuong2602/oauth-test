@@ -84,7 +84,16 @@ module.exports = {
     });
     const roles = await userRoleService.getRoleUserInClients(user.id);
 
-    const token = await generateToken({ client, user, roles }, SECRET_TOKEN, {
+    const tokenData = {
+      roles,
+      client,
+      user: {
+        id: user.id,
+        username: user.username,
+        wallet_address: user.wallet_address,
+      },
+    };
+    const token = await generateToken(tokenData, SECRET_TOKEN, {
       expiresIn: TOKEN_LIFETIME,
       algorithm: "HS256",
     });
@@ -169,7 +178,16 @@ module.exports = {
       ],
     });
     const roles = await userRoleService.getRoleUserInClients(user.id);
-    const token = await generateToken({ client, user, roles }, SECRET_REFRESH, {
+    const tokenData = {
+      roles,
+      client,
+      user: {
+        id: user.id,
+        username: user.username,
+        wallet_address: user.wallet_address,
+      },
+    };
+    const token = await generateToken(tokenData, SECRET_REFRESH, {
       expiresIn: REFRESH_TOKEN_LIFETIME,
       algorithm: "HS256",
     });
@@ -318,7 +336,6 @@ module.exports = {
     });
     const user = await userDao.findUser({ username });
     if (!user) return false;
-    console.log({ user });
     return user;
   },
 };

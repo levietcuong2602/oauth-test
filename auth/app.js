@@ -9,7 +9,7 @@ const adminJs = new AdminJS({
 });
 
 dotenv.config();
-// require("./config/sequelize");
+require("./config/sequelize");
 
 const app = express();
 const port = process.env.PORT || 3030;

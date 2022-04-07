@@ -14,4 +14,17 @@ const registerAccount = async (req, res) => {
   return successResponse(req, res, data);
 };
 
-module.exports = { registerAccount };
+const getAuthorizationTokenByMobile = async (req, res) => {
+  DebugControl.log.flow("Authenticate Handler Mobile");
+  const {
+    client: { id: clientId },
+    user: { id: userId },
+  } = req.body;
+  const data = await authService.getAuthorizationTokenByMobile({
+    userId,
+    clientId,
+  });
+  return successResponse(req, res, data);
+};
+
+module.exports = { registerAccount, getAuthorizationTokenByMobile };
