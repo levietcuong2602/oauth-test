@@ -14,6 +14,10 @@ const authorizeAccount = {
     username: Joi.string().trim().email().required(),
     password: Joi.string().trim().required(),
     client_id: Joi.string().trim().required(),
+    redirect_uri: Joi.string().trim().required(),
+    response_type: Joi.string().trim().required(),
+    grant_type: Joi.string().trim().required(),
+    state: Joi.string().trim().required(),
   }),
 };
 

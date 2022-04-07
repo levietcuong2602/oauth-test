@@ -10,7 +10,7 @@
     "devAuth": "npx nodemon auth/app.js",
     "migrate": "npx sequelize-cli db:migrate",
     "seed": "npx sequelize-cli db:seed:all",
-    "postinstall": "git apply patches/oauth.patch" 
+    "postinstall": "git apply patches/oauth.patch"
   },
   "author": "Asher",
   "license": "ISC",
@@ -37,13 +37,14 @@
     "sequelize-cli": "^6.4.1",
     "shortid": "^2.2.16",
     "snakecase-keys": "^5.1.2",
+    "swagger-jsdoc": "^6.2.0",
+    "swagger-ui-express": "^4.3.0",
     "tslib": "^2.3.1",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
-    "express-swagger-generator": "^1.1.17",
     "mocha": "^6.1.4",
     "nodemon": "^1.19.1"
   }
