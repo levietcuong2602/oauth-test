@@ -21,7 +21,16 @@ const authorizeAccount = {
   }),
 };
 
+const authorizeMobileAccount = {
+  body: Joi.object({
+    username: Joi.string().trim().email().required(),
+    password: Joi.string().trim().required(),
+    client_id: Joi.string().trim().required(),
+  }),
+};
+
 module.exports = {
   registerAccountValidate: customValidate(registerAccount),
   authorizeAccountValidate: customValidate(authorizeAccount),
+  authorizeMobileAccountValidate: customValidate(authorizeMobileAccount),
 };
