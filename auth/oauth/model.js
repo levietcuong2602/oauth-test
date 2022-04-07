@@ -208,7 +208,6 @@ module.exports = {
     return camelcaseKeys(refreshToken, { deep: true });
   },
   revokeToken: (token) => {
-    /* Delete the token from the database */
     log({
       title: "Revoke Token",
       parameters: [{ name: "token", value: token }],

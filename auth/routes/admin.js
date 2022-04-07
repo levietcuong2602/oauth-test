@@ -29,7 +29,17 @@ router.get("/users/:userId", async (req, res, next) => {
 });
 
 /**
- * @route GET /clients/:clientId  get client
+ * NewClient
+ * @typedef {object} NewClient
+ * @property {string} name.required - The client's name
+ * @property {array<string>} grants.required - Grant
+ * @property {array<string>} redirect_uris.required - Client ID
+ */
+
+/**
+ * GET /api/admin/clients/:clientId
+ * @summary get client
+ * @tags Admin
  */
 router.get(
   "/clients/:clientId",
@@ -37,70 +47,34 @@ router.get(
 );
 
 /**
- * @swagger
- * components:
- *   schemas:
- *     NewClient:
- *       type: object
- *       properties:
- *         name:
- *           type: string
- *           description: the client's name.
- *           example: client A
- *         grants:
- *           type: array
- *           description: enum [client_credentials, authorization_code, refresh_token]
- *           example: [client_credentials, authorization_code, refresh_token]
- *         redirect_uris:
- *           type: array
- *           description: enum [client_credentials, authorization_code, refresh_token]
- *           example: ["http://localhost:3030/client/app"]
- *     Client:
- *       type: object
- *       properties:
- *         id:
- *           type: string
- *           description: the number of client.
- *           example: 1
- *         client_id:
- *           type: string
- *           description: the client ID.
- *           example: 1362c15b16c62d63cae51b068dc7d0df83493749
- *         client_secret:
- *           type: string
- *           description: the client secret.
- *           example: a360274681c0ecc118ec7008973350ae419f27c9
- *         name:
- *           type: string
- *           description: the client's name.
- *           example: client A
- *         grants:
- *           type: array
- *           description: enum [client_credentials, authorization_code, refresh_token]
- *           example: [client_credentials, authorization_code, refresh_token]
- *         redirect_uris:
- *           type: array
- *           description: enum [client_credentials, authorization_code, refresh_token]
- *           example: ["http://localhost:3030/client/app"]
- */
-
-/**
- * @swagger
- * /api/admin/clients:
- *   post:
- *     description: Create a client.
- *     parameters:
- *       - in: body
- *         name: body
- *         required: true
- *         description: Client infomation.
- *         schema:
- *           $ref: '#/components/schemas/NewClient'
- *     responses:
- *       200:
- *         description: '{"code":200,"data":{"client_id":"1362c15b16c62d63cae51b068dc7d0df83493749","client_secret":"a360274681c0ecc118ec7008973350ae419f27c9","grants":"[\"authorization_code\"]","id":4,"name":"dd1","redirect_uris":"[\"http://localhost:3030/client/app\"]"},"status":1}'
- *       500:
- *         description: '{"code":500,"status":0,"message":"Client already exists with same name","data":null}'
+ * POST /api/admin/clients
+ * @summary Create a client
+ * @tags Admin
+ * @param {NewClient} request.body.required
+ * @return {object} 200 - success response
+ * @example request
+ * {
+ *     "name": "client A",
+ *     "grants": ["authorization_code"],
+ *     "redirect_uris": ["http://localhost:3030/client/app"]
+ * }
+ * @example response - 200 - success response
+ * {
+ *     "code": 200,
+ *     "data": {
+ *         "client_id": "cf84924c4c3bd2f213a0a5a73c39f7f2c3009a0c",
+ *         "client_secret": "7c81e58382b4c49b7975900b8ecc8e54760a2a83",
+ *         "grants": [
+ *             "authorization_code"
+ *         ],
+ *         "id": 10,
+ *         "name": "client A",
+ *         "redirect_uris": [
+ *             "http://localhost:3030/client/app"
+ *         ]
+ *     },
+ *     "status": 1
+ * }
  */
 router.post(
   "/clients",
@@ -109,40 +83,35 @@ router.post(
 );
 
 /**
- * @swagger
- * /api/admin/clients/{id}:
- *  put:
- *    description: Use to update client
- *    parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         description: numeric ID of the client to retrieve.
- *         schema:
- *           type: integer
- *       - in: formData
- *         name: name
- *         required: false
- *         description: Name of client.
- *         schema:
- *           type: string
- *       - in: formData
- *         name: grants
- *         required: false
- *         description: grants
- *         schema:
- *           type: array
- *       - in: formData
- *         name: redirect_uris
- *         required: false
- *         description: redirect_uris
- *         schema:
- *           type: array
- *    responses:
- *      '200':
- *        description: '{"code":200,"data":{"client_id":"d7882478db52150ff935fe711e95ce0492771d87","client_secret":"b597f6fe0305425bba6f7e2fab0e2762500e8982","grants":["authorization_code"],"id":9,"name":"manh","redirect_uris":["http://localhost:3030/client/app"]},"status":1}'
- *      '500':
- *        description: '{"code":500,"status":0,"message":"Client does not exists","data":null}'
+ * PUT /api/admin/clients/{id}
+ * @summary Update a client
+ * @tags Admin
+ * @param {string} id.path.required - The client ID
+ * @param {NewClient} request.body.required - Name of client
+ * @return {object} 200 - success response
+ * @example request
+ * {
+ *     "name": "client ABC",
+ *     "grants": ["authorization_code"],
+ *     "redirect_uris": ["http://localhost:3030/client/app"]
+ * }
+ * @example response - 200 - success response
+ * {
+ *   "code": 200,
+ *   "data": {
+ *     "client_id": "9111ae7b45f9d41ec4c324d0e6e275fdbf3def09",
+ *     "client_secret": "dbd57971d85ee2a8d5398b808e02fe7bb1108cea",
+ *     "grants": [
+ *       "authorization_code"
+ *     ],
+ *     "id": 11,
+ *     "name": "client ABC",
+ *     "redirect_uris": [
+ *       "http://localhost:3030/client/app"
+ *     ]
+ *   },
+ *   "status": 1
+ * }
  */
 router.put(
   "/clients/:client_id",
@@ -151,20 +120,16 @@ router.put(
 );
 
 /**
- * @swagger
- * /api/admin/clients/{id}:
- *  delete:
- *    description: Use to update client
- *    parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         description: Numeric ID of the client to retrieve.
- *         schema:
- *           type: integer
- *    responses:
- *      '200':
- *        description: '{"code":200,"status":1}'
+ * DELETE /api/admin/clients/{id}
+ * @summary Delete a client
+ * @tags Admin
+ * @param {string} id.path.required - The client ID
+ * @return {object} 200 - success response
+ * @example response - 200 - success response
+ * {
+ *   "code": 200,
+ *   "status": 1
+ * }
  */
 router.delete(
   "/clients/:client_id",
@@ -173,17 +138,21 @@ router.delete(
 );
 
 /**
- * @route GET /users  CRUD user
+ * GET /api/admin/users
+ * @summary Get list users
+ * @tags Admin
  */
 
 /**
- * @route PUT /users  CRUD user
+ * PUT /api/admin/users
+ * @summary Update user info
+ * @tags Admin
  */
 
-// api admin sso?
-// entity role
 /**
- * @route POST /roles  CRUD role
+ * POST /api/admin/roles
+ * @summary Create role
+ * @tags Admin
  */
 router.post(
   "/roles",
@@ -192,7 +161,9 @@ router.post(
 );
 
 /**
- * @route PUT /roles  CRUD role
+ * PUT /api/admin/roles
+ * @summary Update role
+ * @tags Admin
  */
 router.put(
   "/roles/:role_id",
@@ -201,7 +172,9 @@ router.put(
 );
 
 /**
- * @route DELETE /roles  CRUD role
+ * DELETE /api/admin/roles
+ * @summary Delete role
+ * @tags Admin
  */
 router.delete(
   "/roles/:role_id",
@@ -209,9 +182,10 @@ router.delete(
   asyncMiddleware(adminController.deleteRole)
 );
 
-// entity user role
 /**
- * @route POST /user-roles  CRUD role
+ * POST /api/admin/user-roles
+ * @summary Add user role
+ * @tags Admin
  */
 router.post(
   "/user-roles",
@@ -220,7 +194,9 @@ router.post(
 );
 
 /**
- * @route PUT /user-roles  CRUD role
+ * PUT /api/admin/user-roles
+ * @summary Update user role
+ * @tags Admin
  */
 router.put(
   "/user-roles",
@@ -229,7 +205,9 @@ router.put(
 );
 
 /**
- * @route DELETE /user-roles  CRUD role
+ * DELETE /api/admin/user-roles
+ * @summary Delete user role
+ * @tags Admin
  */
 router.delete(
   "/user-roles",

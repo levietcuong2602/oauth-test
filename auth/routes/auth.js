@@ -26,74 +26,60 @@ router.get("/", (req, res) => {
 });
 
 /**
- * @swagger
- * components:
- *   schemas:
- *     NewUser:
- *       type: object
- *       properties:
- *         username:
- *           type: string
- *           description: email of user.
- *           example: user@gmail.com
- *         password:
- *           type: string
- *           description: password of account
- *           example: password123
- *         client_id:
- *           type: string
- *           description: client id
- *           example: f3e0f812385b7a21a075d047670254e21eb05914
- *     Authorize:
- *       type: object
- *       properties:
- *         username:
- *           type: string
- *           description: email of user.
- *           example: user@gmail.com
- *         password:
- *           type: string
- *           description: password of account
- *           example: password123
- *         client_id:
- *           type: string
- *           description: client id
- *           example: f3e0f812385b7a21a075d047670254e21eb05914
- *         redirect_uri:
- *           type: string
- *           description: redirect uri.
- *           example: http://localhost:3030/client/app
- *         response_type:
- *           type: string
- *           description: response type
- *           example: code
- *         grant_type:
- *           type: string
- *           description: grant type
- *           example: authorization_code
- *         state:
- *           type: string
- *           description: state
- *           example: myState
+ * User
+ * @typedef {object} User
+ * @property {string} username.required - Email of user
+ * @property {string} password.required - Password
+ * @property {string} client_id.required - Client ID
  */
 
 /**
- * @swagger
- * /oauth/signup:
- *   post:
- *     description: Signup
- *     parameters:
- *       - in: body
- *         name: body
- *         required: true
- *         description: user infomation.
- *         schema:
- *           $ref: '#/components/schemas/NewUser'
- *     responses:
- *       200:
- *         description: '{"code":200,"data":{"access_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo0LCJ1c2VybmFtZSI6InVzZXJAZ21haWwuY29tIn0sImNsaWVudCI6eyJpZCI6MSwiY2xpZW50SWQiOiJmM2UwZjgxMjM4NWI3YTIxYTA3NWQwNDc2NzAyNTRlMjFlYjA1OTE0IiwiZ3JhbnRzIjoiW1wiYXV0aG9yaXphdGlvbl9jb2RlXCIsXCJyZWZyZXNoX3Rva2VuXCJdIn0sInJvbGVzIjpbeyJyb2xlSWQiOjMsImNsaWVudElkIjoiZjNlMGY4MTIzODViN2EyMWEwNzVkMDQ3NjcwMjU0ZTIxZWIwNTkxNCIsInJvbGVOYW1lIjoidXNlciJ9XSwiaWF0IjoxNjQ5MzA0MDE3LCJleHAiOjE2NDkzMDU4MTd9.bQXNMLs2cj0UZ7IMvjYYVJQf6mEgybL2uAZvw1sw8qI","refresh_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo0LCJ1c2VybmFtZSI6InVzZXJAZ21haWwuY29tIn0sImNsaWVudCI6eyJpZCI6MSwiY2xpZW50SWQiOiJmM2UwZjgxMjM4NWI3YTIxYTA3NWQwNDc2NzAyNTRlMjFlYjA1OTE0IiwiZ3JhbnRzIjoiW1wiYXV0aG9yaXphdGlvbl9jb2RlXCIsXCJyZWZyZXNoX3Rva2VuXCJdIn0sInJvbGVzIjpbeyJyb2xlSWQiOjMsImNsaWVudElkIjoiZjNlMGY4MTIzODViN2EyMWEwNzVkMDQ3NjcwMjU0ZTIxZWIwNTkxNCIsInJvbGVOYW1lIjoidXNlciJ9XSwiaWF0IjoxNjQ5MzA0MDE3LCJleHAiOjE2NDk5MDg4MTd9.ESpeHO8SwVxCnbpttP3CdScAcK4K0ZBBWJB8neFauLE","refresh_token_expires_at":"2022-04-07T04:00:17.679Z","roles":[{"client_id":"f3e0f812385b7a21a075d047670254e21eb05914","role_id":3,"role_name":"user"}],"token_expires_at":"2022-04-07T04:00:17.704Z","token_type":"Bearer","user":{"id":4,"username":"user@gmail.com"}},"status":1}'
- *       500:
- *         description: '{"code":500,"status":0,"message":"User already exists with same username","data":null}'
+ * Authorize Infomation
+ * @typedef {object} Authorize
+ * @property {string} client_id.required - Client ID
+ * @property {string} redirect_uri.required - Redirect URI
+ * @property {string} response_type.required - Response Type
+ * @property {string} grant_type.required - Grant Type
+ * @property {string} state.required - State
+ * @property {string} username.required - Email of user
+ * @property {string} password.required - Password
+ */
+
+/**
+ * POST /oauth/signup
+ * @summary Signup
+ * @tags User
+ * @param {User} request.body.required
+ * @return {object} 200 - success response
+ * @example request
+ * {
+ *   "username": "user@gmail.com",
+ *   "password": "password123",
+ *   "client_id": "f3e0f812385b7a21a075d047670254e21eb05914"
+ * }
+ * @example response - 200 - success response
+ * {
+ *    "code": 200,
+ *    "status": 1,
+ *    "data": {
+ *        "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo2LCJ1c2VybmFtZSI6InVzZXIyQGdtYWlsLmNvbSJ9LCJjbGllbnQiOnsiaWQiOjEsImNsaWVudElkIjoiZjNlMGY4MTIzODViN2EyMWEwNzVkMDQ3NjcwMjU0ZTIxZWIwNTkxNCIsImdyYW50cyI6IltcImF1dGhvcml6YXRpb25fY29kZVwiLFwicmVmcmVzaF90b2tlblwiXSJ9LCJyb2xlcyI6W3sicm9sZUlkIjozLCJjbGllbnRJZCI6ImYzZTBmODEyMzg1YjdhMjFhMDc1ZDA0NzY3MDI1NGUyMWViMDU5MTQiLCJyb2xlTmFtZSI6InVzZXIifV0sImlhdCI6MTY0OTMxNjIxNiwiZXhwIjoxNjQ5MzE4MDE2fQ.Jxp-wtlzNmxX9_1n0rxHo6JU4YljaGPUX-EvHssPzPc",
+ *        "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo2LCJ1c2VybmFtZSI6InVzZXIyQGdtYWlsLmNvbSJ9LCJjbGllbnQiOnsiaWQiOjEsImNsaWVudElkIjoiZjNlMGY4MTIzODViN2EyMWEwNzVkMDQ3NjcwMjU0ZTIxZWIwNTkxNCIsImdyYW50cyI6IltcImF1dGhvcml6YXRpb25fY29kZVwiLFwicmVmcmVzaF90b2tlblwiXSJ9LCJyb2xlcyI6W3sicm9sZUlkIjozLCJjbGllbnRJZCI6ImYzZTBmODEyMzg1YjdhMjFhMDc1ZDA0NzY3MDI1NGUyMWViMDU5MTQiLCJyb2xlTmFtZSI6InVzZXIifV0sImlhdCI6MTY0OTMxNjIxNiwiZXhwIjoxNjQ5OTIxMDE2fQ.Nu2IxYbM42ZSiHYbHIlUfLesd_vKDn-2ABIl4UjZ0hA",
+ *        "refresh_token_expires_at": "2022-04-07T07:23:36.614Z",
+ *        "roles": [
+ *            {
+ *               "client_id": "f3e0f812385b7a21a075d047670254e21eb05914",
+ *               "role_id": 3,
+ *               "role_name": "user"
+ *           }
+ *        ],
+ *        "token_expires_at": "2022-04-07T07:23:36.627Z",
+ *        "token_type": "Bearer",
+ *        "user": {
+ *           "id": 6,
+ *           "username": "user2@gmail.com"
+ *        }
+ *    }
+ * }
  */
 router.post(
   "/signup",
@@ -102,20 +88,21 @@ router.post(
 );
 
 /**
- * @swagger
- * /oauth/authorize:
- *   post:
- *     description: Get authorization code
- *     parameters:
- *       - in: body
- *         name: body
- *         required: true
- *         description: user infomation.
- *         schema:
- *           $ref: '#/components/schemas/Authorize'
- *     responses:
- *       200:
- *         description: redirect to redirect_uri
+ * POST /oauth/authorize
+ * @summary Get authorization code
+ * @tags User
+ * @param {Authorize} request.body.required
+ * @return 200 - redirect to redirect_uri
+ * @example request
+ * {
+ *     "client_id": "f3e0f812385b7a21a075d047670254e21eb05914",
+ *     "redirect_uri": "http://localhost:3030/client/app",
+ *     "response_type": "code",
+ *     "grant_type": "authorization_code",
+ *     "state": "myState",
+ *     "username": "user2@gmail.com",
+ *     "password": "123"
+ * }
  */
 router.post(
   "/authorize",
@@ -140,20 +127,17 @@ router.post(
 );
 
 /**
- * @swagger
- * /oauth/authorize-mobiles:
- *   post:
- *     description: Get authorization code for mobile app
- *     parameters:
- *       - in: body
- *         name: body
- *         required: true
- *         description: user infomation.
- *         schema:
- *           $ref: '#/components/schemas/NewUser'
- *     responses:
- *       200:
- *         description: '{"code":200,"data":{"code":"2179d8a7059a9effc4217bbf2d70960efd678095","expires_at":"2022-04-07T09:49:56.531Z"},"status":1}'
+ * POST /oauth/authorize-mobiles
+ * @summary Get authorization code for mobile app
+ * @tags User
+ * @param {User} request.body.required
+ * @return 200 - redirect to redirect_uri
+ * @example request
+ * {
+ *   "username": "user@gmail.com",
+ *   "password": "password123",
+ *   "client_id": "f3e0f812385b7a21a075d047670254e21eb05914"
+ * }
  */
 router.post(
   "/authorize-mobiles",
@@ -168,10 +152,9 @@ router.post(
 );
 
 /**
- * Authorize wallet
- * @route POST /oauth/authorize-wallet login
- * @returns {object} 200 - An array of user info
- * @returns {Error}  default - Unexpected error
+ * POST /oauth/authorize-wallet
+ * @summary Get authorization code for wallet
+ * @tags User
  */
 router.post(
   "/authorize-wallet",
@@ -197,63 +180,24 @@ router.post(
 );
 
 /**
- * @swagger
- * /oauth/token:
- *   post:
- *     description: Get access token and refresh token from authorization code, send request as <b>x-www-form-urlencoded</b> in <b>request body</b>
- *     parameters:
- *       - in: formData
- *         name: client_id
- *         required: true
- *         description: client ID
- *         schema:
- *           type: string
- *         example: f3e0f812385b7a21a075d047670254e21eb05914
- *       - in: formData
- *         name: client_secret
- *         required: true
- *         description: client secret
- *         schema:
- *           type: string
- *         example: 71775764d7cbd01a2a9c22a987026bc4da9370b5
- *       - in: formData
- *         name: code
- *         required: true
- *         description: authorization code
- *         schema:
- *           type: string
- *         example: 51c06ea13e75f6db6bca5a9c479cc5b168d2a094
- *       - in: formData
- *         name: grant_type
- *         required: true
- *         description: type of grant
- *         schema:
- *           type: string
- *         example: authorization_code
- *       - in: formData
- *         name: username
- *         required: true
- *         description: username
- *         schema:
- *           type: string
- *         example: manhvd@gmail.com
- *       - in: formData
- *         name: password
- *         required: true
- *         description: password
- *         schema:
- *           type: string
- *         example: password123
- *       - in: formData
- *         name: redirect_uri
- *         required: true
- *         description: redirect_uri
- *         schema:
- *           type: string
- *         example: http://localhost:3030/client/app
- *     responses:
- *       200:
- *         description: '{"access_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbGllbnQiOnsiaWQiOjEsIm5hbWUiOiJtYXJrZXRwbGFjZSIsImNsaWVudElkIjoiZjNlMGY4MTIzODViN2EyMWEwNzVkMDQ3NjcwMjU0ZTIxZWIwNTkxNCIsImNsaWVudFNlY3JldCI6IjcxNzc1NzY0ZDdjYmQwMWEyYTljMjJhOTg3MDI2YmM0ZGE5MzcwYjUiLCJyZWRpcmVjdFVyaXMiOlsiaHR0cDovL2xvY2FsaG9zdDozMDMwL2NsaWVudC9hcHAiXSwiZ3JhbnRzIjpbImF1dGhvcml6YXRpb25fY29kZSIsInJlZnJlc2hfdG9rZW4iXX0sInVzZXIiOnsiaWQiOjYsInVzZXJuYW1lIjoidXNlcjJAZ21haWwuY29tIiwicGFzc3dvcmQiOiIwZGMxYTYxMDVkYzFiMjc1NjllODI5M2M1NGNlYjFmYTpkMzM1NjAzMjQ5M2I1NTc2ODE3OTY3ODA4NTk1ODVhNjJlZTkwOWI1NDk2ZWU3ODRiYzFiNDI0ODI4MDkyZDk0ZWU2MTkxYmY1YWEwYTJmMDExYTA3ZTVjYTE0N2UxYWM0YTJiZTk0NGVlNTQyZmQ5Njk4NTRmMTciLCJ3YWxsZXRBZGRyZXNzIjpudWxsfSwicm9sZXMiOlt7InJvbGVJZCI6MywiY2xpZW50SWQiOiJmM2UwZjgxMjM4NWI3YTIxYTA3NWQwNDc2NzAyNTRlMjFlYjA1OTE0Iiwicm9sZU5hbWUiOiJ1c2VyIn1dLCJpYXQiOjE2NDkzMTY3NjMsImV4cCI6MTY0OTMxODU2M30.gNDHu7Wgl8wfWcbXm4r4CgkgbTd_E0f51fjNYsvjEQQ","expires_in":1209599,"refresh_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbGllbnQiOnsiaWQiOjEsIm5hbWUiOiJtYXJrZXRwbGFjZSIsImNsaWVudElkIjoiZjNlMGY4MTIzODViN2EyMWEwNzVkMDQ3NjcwMjU0ZTIxZWIwNTkxNCIsImNsaWVudFNlY3JldCI6IjcxNzc1NzY0ZDdjYmQwMWEyYTljMjJhOTg3MDI2YmM0ZGE5MzcwYjUiLCJyZWRpcmVjdFVyaXMiOlsiaHR0cDovL2xvY2FsaG9zdDozMDMwL2NsaWVudC9hcHAiXSwiZ3JhbnRzIjpbImF1dGhvcml6YXRpb25fY29kZSIsInJlZnJlc2hfdG9rZW4iXX0sInVzZXIiOnsiaWQiOjYsInVzZXJuYW1lIjoidXNlcjJAZ21haWwuY29tIiwicGFzc3dvcmQiOiIwZGMxYTYxMDVkYzFiMjc1NjllODI5M2M1NGNlYjFmYTpkMzM1NjAzMjQ5M2I1NTc2ODE3OTY3ODA4NTk1ODVhNjJlZTkwOWI1NDk2ZWU3ODRiYzFiNDI0ODI4MDkyZDk0ZWU2MTkxYmY1YWEwYTJmMDExYTA3ZTVjYTE0N2UxYWM0YTJiZTk0NGVlNTQyZmQ5Njk4NTRmMTciLCJ3YWxsZXRBZGRyZXNzIjpudWxsfSwicm9sZXMiOlt7InJvbGVJZCI6MywiY2xpZW50SWQiOiJmM2UwZjgxMjM4NWI3YTIxYTA3NWQwNDc2NzAyNTRlMjFlYjA1OTE0Iiwicm9sZU5hbWUiOiJ1c2VyIn1dLCJpYXQiOjE2NDkzMTY3NjMsImV4cCI6MTY0OTkyMTU2M30.TJRbKZBq7qxPGUzqsixYDC5jQVDt6SuF5T8JZGuqmWg","token_type":"Bearer"}'
+ * POST /oauth/token
+ * @summary Get access token and refresh token from authorization code
+ * @tags User
+ * @param {string} client_id.form.required - Client ID. <br>Ex: f3e0f812385b7a21a075d047670254e21eb05914 - application/x-www-form-urlencoded
+ * @param {string} client_secret.form.required - Client Secret. <br>Ex: 71775764d7cbd01a2a9c22a987026bc4da9370b5 - application/x-www-form-urlencoded
+ * @param {string} code.form.required - Authorization Code. <br>Ex: ffe6b1e060cd62103bc88355fcc28be2ad1c9b50 - application/x-www-form-urlencoded
+ * @param {string} grant_type.form.required - Grant Type. <br>Ex: authorization_code - application/x-www-form-urlencoded
+ * @param {string} username.form.required - Email of user. <br>Ex: user2@gmail.com - application/x-www-form-urlencoded
+ * @param {string} password.form.required - Password of user. <br>Ex: password123 - application/x-www-form-urlencoded
+ * @param {string} redirect_uri.form.required - Redirect URI. <br>Ex: http://localhost:3030/client/app - application/x-www-form-urlencoded
+ * @return {object} 200 - success response
+ * @example response - 200 - success response
+ * {
+ *   "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbGllbnQiOnsiaWQiOjEsIm5hbWUiOiJtYXJrZXRwbGFjZSIsImNsaWVudElkIjoiZjNlMGY4MTIzODViN2EyMWEwNzVkMDQ3NjcwMjU0ZTIxZWIwNTkxNCIsImNsaWVudFNlY3JldCI6IjcxNzc1NzY0ZDdjYmQwMWEyYTljMjJhOTg3MDI2YmM0ZGE5MzcwYjUiLCJyZWRpcmVjdFVyaXMiOlsiaHR0cDovL2xvY2FsaG9zdDozMDMwL2NsaWVudC9hcHAiXSwiZ3JhbnRzIjpbImF1dGhvcml6YXRpb25fY29kZSIsInJlZnJlc2hfdG9rZW4iXX0sInVzZXIiOnsiaWQiOjYsInVzZXJuYW1lIjoidXNlcjJAZ21haWwuY29tIiwicGFzc3dvcmQiOiIwZGMxYTYxMDVkYzFiMjc1NjllODI5M2M1NGNlYjFmYTpkMzM1NjAzMjQ5M2I1NTc2ODE3OTY3ODA4NTk1ODVhNjJlZTkwOWI1NDk2ZWU3ODRiYzFiNDI0ODI4MDkyZDk0ZWU2MTkxYmY1YWEwYTJmMDExYTA3ZTVjYTE0N2UxYWM0YTJiZTk0NGVlNTQyZmQ5Njk4NTRmMTciLCJ3YWxsZXRBZGRyZXNzIjpudWxsfSwicm9sZXMiOlt7InJvbGVJZCI6MywiY2xpZW50SWQiOiJmM2UwZjgxMjM4NWI3YTIxYTA3NWQwNDc2NzAyNTRlMjFlYjA1OTE0Iiwicm9sZU5hbWUiOiJ1c2VyIn1dLCJpYXQiOjE2NDkzMTY3NjMsImV4cCI6MTY0OTMxODU2M30.gNDHu7Wgl8wfWcbXm4r4CgkgbTd_E0f51fjNYsvjEQQ",
+ *   "expires_in": 1209599,
+ *   "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbGllbnQiOnsiaWQiOjEsIm5hbWUiOiJtYXJrZXRwbGFjZSIsImNsaWVudElkIjoiZjNlMGY4MTIzODViN2EyMWEwNzVkMDQ3NjcwMjU0ZTIxZWIwNTkxNCIsImNsaWVudFNlY3JldCI6IjcxNzc1NzY0ZDdjYmQwMWEyYTljMjJhOTg3MDI2YmM0ZGE5MzcwYjUiLCJyZWRpcmVjdFVyaXMiOlsiaHR0cDovL2xvY2FsaG9zdDozMDMwL2NsaWVudC9hcHAiXSwiZ3JhbnRzIjpbImF1dGhvcml6YXRpb25fY29kZSIsInJlZnJlc2hfdG9rZW4iXX0sInVzZXIiOnsiaWQiOjYsInVzZXJuYW1lIjoidXNlcjJAZ21haWwuY29tIiwicGFzc3dvcmQiOiIwZGMxYTYxMDVkYzFiMjc1NjllODI5M2M1NGNlYjFmYTpkMzM1NjAzMjQ5M2I1NTc2ODE3OTY3ODA4NTk1ODVhNjJlZTkwOWI1NDk2ZWU3ODRiYzFiNDI0ODI4MDkyZDk0ZWU2MTkxYmY1YWEwYTJmMDExYTA3ZTVjYTE0N2UxYWM0YTJiZTk0NGVlNTQyZmQ5Njk4NTRmMTciLCJ3YWxsZXRBZGRyZXNzIjpudWxsfSwicm9sZXMiOlt7InJvbGVJZCI6MywiY2xpZW50SWQiOiJmM2UwZjgxMjM4NWI3YTIxYTA3NWQwNDc2NzAyNTRlMjFlYjA1OTE0Iiwicm9sZU5hbWUiOiJ1c2VyIn1dLCJpYXQiOjE2NDkzMTY3NjMsImV4cCI6MTY0OTkyMTU2M30.TJRbKZBq7qxPGUzqsixYDC5jQVDt6SuF5T8JZGuqmWg",
+ *   "token_type": "Bearer"
+ * }
  */
 router.post(
   "/token",
@@ -267,21 +211,29 @@ router.post(
 ); // Sends back token
 
 /**
- * @swagger
- * /oauth/me:
- *   post:
- *     description: Get user info from access token
- *     parameters:
- *       - in: header
- *         name: Authorization
- *         required: true
- *         description: this is access token
- *         schema:
- *           type: string
- *         example: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbGllbnQiOnsiaWQiOjEsIm5hbWUiOiJtYXJrZXRwbGFjZSIsImNsaWVudElkIjoiZjNlMGY4MTIzODViN2EyMWEwNzVkMDQ3NjcwMjU0ZTIxZWIwNTkxNCIsImNsaWVudFNlY3JldCI6IjcxNzc1NzY0ZDdjYmQwMWEyYTljMjJhOTg3MDI2YmM0ZGE5MzcwYjUiLCJyZWRpcmVjdFVyaXMiOlsiaHR0cDovL2xvY2FsaG9zdDozMDMwL2NsaWVudC9hcHAiXSwiZ3JhbnRzIjpbImF1dGhvcml6YXRpb25fY29kZSIsInJlZnJlc2hfdG9rZW4iXX0sInVzZXIiOnsiaWQiOjYsInVzZXJuYW1lIjoidXNlcjJAZ21haWwuY29tIiwicGFzc3dvcmQiOiIwZGMxYTYxMDVkYzFiMjc1NjllODI5M2M1NGNlYjFmYTpkMzM1NjAzMjQ5M2I1NTc2ODE3OTY3ODA4NTk1ODVhNjJlZTkwOWI1NDk2ZWU3ODRiYzFiNDI0ODI4MDkyZDk0ZWU2MTkxYmY1YWEwYTJmMDExYTA3ZTVjYTE0N2UxYWM0YTJiZTk0NGVlNTQyZmQ5Njk4NTRmMTciLCJ3YWxsZXRBZGRyZXNzIjpudWxsfSwicm9sZXMiOlt7InJvbGVJZCI6MywiY2xpZW50SWQiOiJmM2UwZjgxMjM4NWI3YTIxYTA3NWQwNDc2NzAyNTRlMjFlYjA1OTE0Iiwicm9sZU5hbWUiOiJ1c2VyIn1dLCJpYXQiOjE2NDkzMTYzNzksImV4cCI6MTY0OTMxODE3OX0.ut-1oeABKu0Bp9tIjIYl9fUE5Jn2SjEVLgG4WtKrdR0
- *     responses:
- *       200:
- *         description: '{"data":{"access_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbGllbnQiOnsiaWQiOjEsIm5hbWUiOiJtYXJrZXRwbGFjZSIsImNsaWVudElkIjoiZjNlMGY4MTIzODViN2EyMWEwNzVkMDQ3NjcwMjU0ZTIxZWIwNTkxNCIsImNsaWVudFNlY3JldCI6IjcxNzc1NzY0ZDdjYmQwMWEyYTljMjJhOTg3MDI2YmM0ZGE5MzcwYjUiLCJyZWRpcmVjdFVyaXMiOlsiaHR0cDovL2xvY2FsaG9zdDozMDMwL2NsaWVudC9hcHAiXSwiZ3JhbnRzIjpbImF1dGhvcml6YXRpb25fY29kZSIsInJlZnJlc2hfdG9rZW4iXX0sInVzZXIiOnsiaWQiOjYsInVzZXJuYW1lIjoidXNlcjJAZ21haWwuY29tIiwicGFzc3dvcmQiOiIwZGMxYTYxMDVkYzFiMjc1NjllODI5M2M1NGNlYjFmYTpkMzM1NjAzMjQ5M2I1NTc2ODE3OTY3ODA4NTk1ODVhNjJlZTkwOWI1NDk2ZWU3ODRiYzFiNDI0ODI4MDkyZDk0ZWU2MTkxYmY1YWEwYTJmMDExYTA3ZTVjYTE0N2UxYWM0YTJiZTk0NGVlNTQyZmQ5Njk4NTRmMTciLCJ3YWxsZXRBZGRyZXNzIjpudWxsfSwicm9sZXMiOlt7InJvbGVJZCI6MywiY2xpZW50SWQiOiJmM2UwZjgxMjM4NWI3YTIxYTA3NWQwNDc2NzAyNTRlMjFlYjA1OTE0Iiwicm9sZU5hbWUiOiJ1c2VyIn1dLCJpYXQiOjE2NDkzMTYzNzksImV4cCI6MTY0OTMxODE3OX0.ut-1oeABKu0Bp9tIjIYl9fUE5Jn2SjEVLgG4WtKrdR0","access_token_expires_at":"2022-04-21T07:26:19.000Z","client":{"client_id":"f3e0f812385b7a21a075d047670254e21eb05914","client_secret":"71775764d7cbd01a2a9c22a987026bc4da9370b5","id":1},"user":{"id":6,"username":"user2@gmail.com","wallet_address":null}},"status":1}'
+ * POST /oauth/me
+ * @summary Get user info from access token
+ * @tags User
+ * @param {string} Authorization.header.required - Bearer token.
+ * @return {object} 200 - success response
+ * @example response - 200 - success response
+ * {
+ *    "data": {
+ *       "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbGllbnQiOnsiaWQiOjEsIm5hbWUiOiJtYXJrZXRwbGFjZSIsImNsaWVudElkIjoiZjNlMGY4MTIzODViN2EyMWEwNzVkMDQ3NjcwMjU0ZTIxZWIwNTkxNCIsImNsaWVudFNlY3JldCI6IjcxNzc1NzY0ZDdjYmQwMWEyYTljMjJhOTg3MDI2YmM0ZGE5MzcwYjUiLCJyZWRpcmVjdFVyaXMiOlsiaHR0cDovL2xvY2FsaG9zdDozMDMwL2NsaWVudC9hcHAiXSwiZ3JhbnRzIjpbImF1dGhvcml6YXRpb25fY29kZSIsInJlZnJlc2hfdG9rZW4iXX0sInVzZXIiOnsiaWQiOjYsInVzZXJuYW1lIjoidXNlcjJAZ21haWwuY29tIiwicGFzc3dvcmQiOiIwZGMxYTYxMDVkYzFiMjc1NjllODI5M2M1NGNlYjFmYTpkMzM1NjAzMjQ5M2I1NTc2ODE3OTY3ODA4NTk1ODVhNjJlZTkwOWI1NDk2ZWU3ODRiYzFiNDI0ODI4MDkyZDk0ZWU2MTkxYmY1YWEwYTJmMDExYTA3ZTVjYTE0N2UxYWM0YTJiZTk0NGVlNTQyZmQ5Njk4NTRmMTciLCJ3YWxsZXRBZGRyZXNzIjpudWxsfSwicm9sZXMiOlt7InJvbGVJZCI6MywiY2xpZW50SWQiOiJmM2UwZjgxMjM4NWI3YTIxYTA3NWQwNDc2NzAyNTRlMjFlYjA1OTE0Iiwicm9sZU5hbWUiOiJ1c2VyIn1dLCJpYXQiOjE2NDkzMTYzNzksImV4cCI6MTY0OTMxODE3OX0.ut-1oeABKu0Bp9tIjIYl9fUE5Jn2SjEVLgG4WtKrdR0",
+ *       "access_token_expires_at": "2022-04-21T07:26:19.000Z",
+ *       "client": {
+ *          "client_id": "f3e0f812385b7a21a075d047670254e21eb05914",
+ *          "client_secret": "71775764d7cbd01a2a9c22a987026bc4da9370b5",
+ *          "id": 1
+ *       },
+ *       "user": {
+ *          "id": 6,
+ *          "username": "user2@gmail.com",
+ *          "wallet_address": null
+ *       }
+ *    },
+ *    "status": 1
+ * }
  */
 router.post(
   "/me",
@@ -296,23 +248,27 @@ router.post(
 );
 
 /**
- * @route POST /oauth/revoke-refresh   revoke refresh_token
+ * POST /oauth/revoke-refresh
+ * @summary revoke refresh_token
+ * @tags User
  */
 
 /**
- * @route POST /oauth/revoke-token   revoke access_token
+ * POST /oauth/revoke-token
+ * @summary revoke access_token
+ * @tags User
  */
 
 /**
- * @route GET /oauth/me   get user info ???
+ * POST /oauth/verify-user
+ * @summary verify user info
+ * @tags User
  */
 
 /**
- * @route POST /oauth/verify-user   verify user info
- */
-
-/**
- * @route POST /oauth/association-link   link user with wallet
+ * POST /oauth/association-link
+ * @summary link user with wallet
+ * @tags User
  */
 
 module.exports = router;

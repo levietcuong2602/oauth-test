@@ -24,6 +24,7 @@
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
     "express-formidable": "^1.2.0",
+    "express-jsdoc-swagger": "^1.6.7",
     "express-mung": "^0.5.1",
     "express-oauth-server": "^2.0.0",
     "express-session": "^1.17.2",
@@ -37,8 +38,6 @@
     "sequelize-cli": "^6.4.1",
     "shortid": "^2.2.16",
     "snakecase-keys": "^5.1.2",
-    "swagger-jsdoc": "^6.2.0",
-    "swagger-ui-express": "^4.3.0",
     "tslib": "^2.3.1",
     "uuid": "^8.3.2"
   },

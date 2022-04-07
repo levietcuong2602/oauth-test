@@ -2,8 +2,7 @@ const express = require("express");
 const AdminJS = require("adminjs");
 const dotenv = require("dotenv");
 const AdminJSExpress = require("@adminjs/express");
-const swaggerJsDoc = require("swagger-jsdoc");
-const swaggerUi = require("swagger-ui-express");
+const expressJSDocSwagger = require("express-jsdoc-swagger");
 
 const adminJs = new AdminJS({
   databases: [],
@@ -30,23 +29,32 @@ app.use(bodyParser.json());
 app.use(DebugControl.log.request());
 
 const swaggerOptions = {
-  swaggerDefinition: {
-    components: {}, // ADD THIS LINE!!!
-    info: {
-      version: "1.0.0",
-      title: "Customer API",
-      description: "Customer API Information",
-      contact: {
-        name: "Amazing Developer",
-      },
+  info: {
+    version: "1.0.0",
+    title: "SSO API Documentation",
+    description: "Documentation for single sign on system",
+  },
+  security: {
+    BasicAuth: {
+      type: "http",
+      scheme: "basic",
     },
   },
-  // ['.routes/*.js']
-  apis: ["auth/routes/**/*.js"],
+  filesPattern: "./**/*.js",
+  baseDir: __dirname,
+  // URL where SwaggerUI will be rendered
+  swaggerUIPath: "/api-docs",
+  // Expose OpenAPI UI
+  exposeSwaggerUI: true,
+  // Expose Open API JSON Docs documentation in `apiDocsPath` path.
+  exposeApiDocs: false,
+  // Open API JSON Docs endpoint.
+  apiDocsPath: "/v3/api-docs",
+  // Set non-required fields as nullable by default
+  notRequiredAsNullable: false,
 };
 
-const swaggerDocs = swaggerJsDoc(swaggerOptions);
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+expressJSDocSwagger(app)(swaggerOptions);
 
 app.use(snakecaseResponse());
 app.use(omitReq);
