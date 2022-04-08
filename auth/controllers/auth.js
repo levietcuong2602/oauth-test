@@ -27,4 +27,37 @@ const getAuthorizationTokenByMobile = async (req, res) => {
   return successResponse(req, res, data);
 };
 
-module.exports = { registerAccount, getAuthorizationTokenByMobile };
+const generateNonceSession = async (req, res) => {
+  DebugControl.log.flow("Generate Nonce Session");
+  const { client_id: clientId, wallet_address: walletAddress } = req.body;
+  const data = await authService.generateNonceSession({
+    walletAddress,
+    clientId,
+  });
+  return successResponse(req, res, data);
+};
+
+const verifySignature = async (req, res) => {
+  DebugControl.log.flow("Verify Signature");
+  const {
+    session_id: sessionId,
+    client_id: clientId,
+    wallet_address: walletAddress,
+    signature,
+  } = req.body;
+
+  const data = await authService.verifySignature({
+    walletAddress,
+    clientId,
+    sessionId,
+    signature,
+  });
+  return successResponse(req, res, data);
+};
+
+module.exports = {
+  registerAccount,
+  getAuthorizationTokenByMobile,
+  generateNonceSession,
+  verifySignature,
+};

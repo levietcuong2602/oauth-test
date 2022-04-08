@@ -15,8 +15,8 @@ const findRole = async (condition) => {
 };
 
 const createRole = async (payload) => {
-  const client = await Role.create(snakecaseKeys(payload, { deep: true }));
-  return client.get({
+  const role = await Role.create(snakecaseKeys(payload, { deep: true }));
+  return role.get({
     plain: true,
   });
 };

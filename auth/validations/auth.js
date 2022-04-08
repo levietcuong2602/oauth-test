@@ -29,8 +29,26 @@ const authorizeMobileAccount = {
   }),
 };
 
+const verifySignature = {
+  body: Joi.object({
+    wallet_address: Joi.string().trim().required(),
+    client_id: Joi.string().trim().required(),
+    signature: Joi.string().trim().required(),
+    session_id: Joi.number().required(),
+  }),
+};
+
+const generateNonceSession = {
+  body: Joi.object({
+    wallet_address: Joi.string().trim().required(),
+    client_id: Joi.string().trim().required(),
+  }),
+};
+
 module.exports = {
   registerAccountValidate: customValidate(registerAccount),
   authorizeAccountValidate: customValidate(authorizeAccount),
   authorizeMobileAccountValidate: customValidate(authorizeMobileAccount),
+  verifySignatureValidate: customValidate(verifySignature),
+  generateNonceSessionValidate: customValidate(generateNonceSession),
 };

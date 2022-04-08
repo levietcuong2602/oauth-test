@@ -29,7 +29,7 @@ const errorHandler = (err, req, res, next) => {
       message = "Forbidden";
       break;
     case statusCodes.NOT_FOUND:
-      message = "Not Found";
+      message = message || "Not Found";
       break;
     case statusCodes.INTERNAL_SERVER_ERROR:
       statusCode = statusCodes.INTERNAL_SERVER_ERROR;

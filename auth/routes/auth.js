@@ -3,13 +3,13 @@ const express = require("express");
 const router = express.Router(); // Instantiate a new router
 
 const oauthServer = require("../oauth/server.js");
-const userDao = require("../daos/user");
-const clientDao = require("../daos/client");
 
 const {
   registerAccountValidate,
   authorizeAccountValidate,
   authorizeMobileAccountValidate,
+  generateNonceSessionValidate,
+  verifySignatureValidate,
 } = require("../validations/auth");
 const authController = require("../controllers/auth");
 
@@ -46,6 +46,34 @@ router.get("/", (req, res) => {
  */
 
 /**
+ * Authorize Infomation
+ * @typedef {object} Authorize
+ * @property {string} client_id.required - Client ID
+ * @property {string} redirect_uri.required - Redirect URI
+ * @property {string} response_type.required - Response Type
+ * @property {string} grant_type.required - Grant Type
+ * @property {string} state.required - State
+ * @property {string} username.required - Email of user
+ * @property {string} password.required - Password
+ */
+
+/**
+ * Session Infomation
+ * @typedef {object} Session
+ * @property {string} client_id.required - Client ID
+ * @property {string} wallet_address.required - Wallet Address
+ */
+
+/**
+ * Signature Infomation
+ * @typedef {object} Signature
+ * @property {string} client_id.required - Client ID
+ * @property {string} wallet_address.required - Wallet Address
+ * @property {string} signature.required - Signature
+ * @property {string} session_id.required - Session ID
+ */
+
+/**
  * POST /oauth/signup
  * @summary Signup
  * @tags User
@@ -65,19 +93,8 @@ router.get("/", (req, res) => {
  *        "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo2LCJ1c2VybmFtZSI6InVzZXIyQGdtYWlsLmNvbSJ9LCJjbGllbnQiOnsiaWQiOjEsImNsaWVudElkIjoiZjNlMGY4MTIzODViN2EyMWEwNzVkMDQ3NjcwMjU0ZTIxZWIwNTkxNCIsImdyYW50cyI6IltcImF1dGhvcml6YXRpb25fY29kZVwiLFwicmVmcmVzaF90b2tlblwiXSJ9LCJyb2xlcyI6W3sicm9sZUlkIjozLCJjbGllbnRJZCI6ImYzZTBmODEyMzg1YjdhMjFhMDc1ZDA0NzY3MDI1NGUyMWViMDU5MTQiLCJyb2xlTmFtZSI6InVzZXIifV0sImlhdCI6MTY0OTMxNjIxNiwiZXhwIjoxNjQ5MzE4MDE2fQ.Jxp-wtlzNmxX9_1n0rxHo6JU4YljaGPUX-EvHssPzPc",
  *        "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo2LCJ1c2VybmFtZSI6InVzZXIyQGdtYWlsLmNvbSJ9LCJjbGllbnQiOnsiaWQiOjEsImNsaWVudElkIjoiZjNlMGY4MTIzODViN2EyMWEwNzVkMDQ3NjcwMjU0ZTIxZWIwNTkxNCIsImdyYW50cyI6IltcImF1dGhvcml6YXRpb25fY29kZVwiLFwicmVmcmVzaF90b2tlblwiXSJ9LCJyb2xlcyI6W3sicm9sZUlkIjozLCJjbGllbnRJZCI6ImYzZTBmODEyMzg1YjdhMjFhMDc1ZDA0NzY3MDI1NGUyMWViMDU5MTQiLCJyb2xlTmFtZSI6InVzZXIifV0sImlhdCI6MTY0OTMxNjIxNiwiZXhwIjoxNjQ5OTIxMDE2fQ.Nu2IxYbM42ZSiHYbHIlUfLesd_vKDn-2ABIl4UjZ0hA",
  *        "refresh_token_expires_at": "2022-04-07T07:23:36.614Z",
- *        "roles": [
- *            {
- *               "client_id": "f3e0f812385b7a21a075d047670254e21eb05914",
- *               "role_id": 3,
- *               "role_name": "user"
- *           }
- *        ],
  *        "token_expires_at": "2022-04-07T07:23:36.627Z",
  *        "token_type": "Bearer",
- *        "user": {
- *           "id": 6,
- *           "username": "user2@gmail.com"
- *        }
  *    }
  * }
  */
@@ -161,34 +178,6 @@ router.post(
 );
 
 /**
- * POST /oauth/authorize-wallet
- * @summary Get authorization code for wallet
- * @tags User
- */
-router.post(
-  "/authorize-wallet",
-  (req, res, next) => {
-    DebugControl.log.flow("Authorize Wallet");
-  },
-  (req, res, next) => {
-    // sends us to our redirect with an Authorize Wallet code in our url
-    DebugControl.log.flow("Authorize Wallet");
-    return next();
-  },
-  oauthServer.authorize({
-    authenticateHandler: {
-      handle: (req) => {
-        DebugControl.log.functionName("Authenticate Handler");
-        DebugControl.log.parameters(
-          Object.keys(req.body).map((k) => ({ name: k, value: req.body[k] }))
-        );
-        return req.body.user;
-      },
-    },
-  })
-);
-
-/**
  * POST /oauth/token
  * @summary Get access token and refresh token from authorization code
  * @tags User
@@ -265,27 +254,78 @@ router.post(
 );
 
 /**
+ * POST /oauth/nonces
+ * @summary Get Nonces To Sign Message
+ * @tags User
+ * @param {Session} request.body.required
+ * @return {object} 200 - success response
+ * @example request
+ * {
+ *        "wallet_address": "0xE5Df21aE71628A4c0C4655a5f3c90A56bA5393FF",
+ *        "client_id": "f3e0f812385b7a21a075d047670254e21eb05914"
+ * }
+ * @example response - 200 - success response
+ * {
+ *       "client_id": 1,
+ *       "expires_at": "2022-04-08T07:55:58.344Z",
+ *       "id": 1,
+ *       "nonce": "43f94ac9019b5bdae5014bf0151abcc2a5a27657"
+ * }
+ */
+router.post(
+  "/nonces",
+  generateNonceSessionValidate,
+  asyncMiddleware(authController.generateNonceSession)
+);
+
+/**
+ * POST /oauth/verify-signature
+ * @summary Verify Signature
+ * @tags User
+ * @param {Signature} request.body.required
+ * @return {object} 200 - success response
+ * @example request
+ * {
+ *      "wallet_address": "0xE5Df21aE71628A4c0C4655a5f3c90A56bA5393FF",
+ *      "client_id": "f3e0f812385b7a21a075d047670254e21eb05914",
+ *      "signature": "0x9a96671ce4f075283a1aa733f557a2de14d8b364c6715369524258f8740fa840177d41ff3e0c95755fad49e5a4a04419f32258c34a918490c82d6a8f6718fe371b",
+ *      "session_id": 10
+ * }
+ * @example response - 200 - success response
+ * {
+ *      "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoyNywidXNlcm5hbWUiOm51bGwsIndhbGxldEFkZHJlc3MiOiIweEU1RGYyMWFFNzE2MjhBNGMwQzQ2NTVhNWYzYzkwQTU2YkE1MzkzRkYifSwiY2xpZW50Ijp7ImlkIjoxLCJjbGllbnRJZCI6ImYzZTBmODEyMzg1YjdhMjFhMDc1ZDA0NzY3MDI1NGUyMWViMDU5MTQiLCJncmFudHMiOiJbXCJhdXRob3JpemF0aW9uX2NvZGVcIixcInJlZnJlc2hfdG9rZW5cIixcInBhc3N3b3JkXCJdIn0sInJvbGVzIjpbXSwiaWF0IjoxNjQ5NDA5NjgxLCJleHAiOjE2NDk0MDk2ODJ9.5o6HyTr7UErtL2MUKM48M3vJ2_zoFOsMyV_BC4m36uY",
+ *      "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoyNywidXNlcm5hbWUiOm51bGwsIndhbGxldEFkZHJlc3MiOiIweEU1RGYyMWFFNzE2MjhBNGMwQzQ2NTVhNWYzYzkwQTU2YkE1MzkzRkYifSwiY2xpZW50Ijp7ImlkIjoxLCJjbGllbnRJZCI6ImYzZTBmODEyMzg1YjdhMjFhMDc1ZDA0NzY3MDI1NGUyMWViMDU5MTQiLCJncmFudHMiOiJbXCJhdXRob3JpemF0aW9uX2NvZGVcIixcInJlZnJlc2hfdG9rZW5cIixcInBhc3N3b3JkXCJdIn0sInJvbGVzIjpbXSwiaWF0IjoxNjQ5NDA5NjgxLCJleHAiOjE2NTAwMTQ0ODF9.G35kfEkorRNT_iXZOXIsE8gtz9J8RBolhS0-3_tNXaw",
+ *      "refresh_token_expires_at": "2022-04-15T09:21:21.490Z",
+ *      "token_expires_at": "2022-04-08T09:51:21.496Z",
+ *      "token_type": "Bearer",
+ * }
+ */
+router.post(
+  "/verify-signature",
+  verifySignatureValidate,
+  asyncMiddleware(authController.verifySignature)
+);
+
+/**
  * POST /oauth/revoke-refresh
- * @summary Revoke refresh_token
+ * @summary revoke refresh_token
  * @tags User
  */
 
 /**
  * POST /oauth/revoke-token
- * @summary Revoke access_token
+ * @summary revoke access_token
  * @tags User
  */
 
 /**
- * POST /oauth/verify-user
- * @summary Verify user info
+ * POST /oauth/combines
+ * @summary Combine account with wallet
  * @tags User
  */
-
-/**
- * POST /oauth/association-link
- * @summary Link user with wallet
- * @tags User
- */
+router.post("/combines", (req, res, next) => {
+  DebugControl.log.flow("Combine Account With Wallet");
+  next();
+});
 
 module.exports = router;
