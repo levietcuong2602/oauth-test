@@ -37,9 +37,28 @@ router.get("/users/:userId", async (req, res, next) => {
  */
 
 /**
- * GET /api/admin/clients/:clientId
- * @summary get client
+ * GET /api/admin/clients/{id}
+ * @summary Get client by ID
  * @tags Admin
+ * @param {string} id.path.required - The client ID
+ * @return {object} 200 - success response
+ * @example response - 200 - success response
+ * {
+ *   "code": 200,
+ *   "data": {
+ *     "client_id": "9111ae7b45f9d41ec4c324d0e6e275fdbf3def09",
+ *     "client_secret": "dbd57971d85ee2a8d5398b808e02fe7bb1108cea",
+ *     "grants": [
+ *       "authorization_code"
+ *     ],
+ *     "id": 11,
+ *     "name": "client ABC",
+ *     "redirect_uris": [
+ *       "http://localhost:3030/client/app"
+ *     ]
+ *   },
+ *   "status": 1
+ * }
  */
 router.get(
   "/clients/:clientId",
