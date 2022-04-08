@@ -16,8 +16,8 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
       token_expires_at: { type: DataTypes.DATE, allowNull: false },
-      client_id: { type: DataTypes.STRING, allowNull: false },
-      user_id: { type: DataTypes.STRING, allowNull: false },
+      client_id: { type: DataTypes.INTEGER, allowNull: false },
+      user_id: { type: DataTypes.INTEGER, allowNull: false },
       type: {
         type: DataTypes.ENUM(Object.values(TOKEN_TYPE)),
         allowNull: false,

@@ -17,7 +17,6 @@ const errorResponse = ({
     code,
     status: 0,
     message,
-    data: null,
     details,
   });
 
