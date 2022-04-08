@@ -42,6 +42,7 @@ router.get("/users/:userId", async (req, res, next) => {
  * @tags Admin
  * @param {string} id.path.required - Identify ID of client
  * @return {object} 200 - success response
+ * @return {object} 404 - not found client
  * @example response - 200 - success response
  * {
  *   "code": 200,
@@ -59,6 +60,13 @@ router.get("/users/:userId", async (req, res, next) => {
  *   },
  *   "status": 1
  * }
+ * @example response - 404 - not found client
+ * {
+ *   "code": 404,
+ *   "status": 0,
+ *   "message": "Not Found",
+ *   "data": null
+ * }
  */
 router.get("/clients/:id", asyncMiddleware(adminController.findClientById));
 
@@ -68,6 +76,7 @@ router.get("/clients/:id", asyncMiddleware(adminController.findClientById));
  * @tags Admin
  * @param {NewClient} request.body.required
  * @return {object} 200 - success response
+ * @return {object} 400 - bad request
  * @example request
  * {
  *     "name": "client A",
@@ -91,6 +100,18 @@ router.get("/clients/:id", asyncMiddleware(adminController.findClientById));
  *     },
  *     "status": 1
  * }
+ * @example response - 400 - validation failed
+ * {
+ *     "code": 400,
+ *     "status": 0,
+ *     "message": "Validation Failed",
+ *     "data": null,
+ *     "details": [
+ *         {
+ *             "name": "\"name\" is required"
+ *         }
+ *     ]
+ * }
  */
 router.post(
   "/clients",
@@ -105,6 +126,7 @@ router.post(
  * @param {string} id.path.required - Identify ID of client
  * @param {NewClient} request.body.required - Name of client
  * @return {object} 200 - success response
+ * @return {object} 400 - bad request
  * @example request
  * {
  *     "name": "client ABC",
@@ -128,6 +150,13 @@ router.post(
  *   },
  *   "status": 1
  * }
+ * @example response - 400 - client does not exist
+ * {
+ *   "code": 400,
+ *   "status": 0,
+ *   "message": "Client does not exists",
+ *   "data": null
+ * }
  */
 router.put(
   "/clients/:id",
@@ -141,10 +170,18 @@ router.put(
  * @tags Admin
  * @param {string} id.path.required - Identify ID of client
  * @return {object} 200 - success response
+ * @return {object} 400 - client does not exist
  * @example response - 200 - success response
  * {
  *   "code": 200,
  *   "status": 1
+ * }
+ * @example response - 400 - client does not exist
+ * {
+ *   "code": 400,
+ *   "status": 0,
+ *   "message": "Client does not exists",
+ *   "data": null
  * }
  */
 router.delete(

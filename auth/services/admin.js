@@ -2,6 +2,8 @@ const clientDao = require("../daos/client");
 const roleDao = require("../daos/role");
 const userDao = require("../daos/user");
 const userRoleDao = require("../daos/userRole");
+const errorCode = require("../errors/code");
+const CustomError = require("../errors/CustomError");
 const { omitIsNil } = require("../utilities/omit");
 const { generateSecurityKey } = require("../utilities/security");
 
@@ -30,7 +32,7 @@ const updateClient = async (id, clientData) => {
   const client = await clientDao.findClient({ id });
 
   if (!client) {
-    throw new Error("Client does not exists");
+    throw new CustomError(errorCode.BAD_REQUEST, "Client does not exists");
   }
 
   if (name && client.name !== name) {
@@ -60,7 +62,7 @@ const deleteClient = async (id) => {
   const client = await clientDao.findClient({ id });
 
   if (!client) {
-    throw new Error("Client does not exists");
+    throw new CustomError(errorCode.BAD_REQUEST, "Client does not exists");
   }
 
   await clientDao.deleteClient(id);
@@ -68,6 +70,11 @@ const deleteClient = async (id) => {
 
 const findClientById = async (id) => {
   const client = await clientDao.findClient({ id });
+
+  if (!client) {
+    throw new CustomError(errorCode.NOT_FOUND, "Client does not exists");
+  }
+
   return client;
 };
 
