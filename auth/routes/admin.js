@@ -33,7 +33,7 @@ router.get("/users/:userId", async (req, res, next) => {
  * @typedef {object} NewClient
  * @property {string} name.required - The client's name
  * @property {array<string>} grants.required - Grant
- * @property {array<string>} redirect_uris.required - Client ID
+ * @property {array<string>} redirect_uris.required - Redirect_uris
  */
 
 /**

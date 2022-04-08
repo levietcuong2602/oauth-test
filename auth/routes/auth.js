@@ -266,25 +266,25 @@ router.post(
 
 /**
  * POST /oauth/revoke-refresh
- * @summary revoke refresh_token
+ * @summary Revoke refresh_token
  * @tags User
  */
 
 /**
  * POST /oauth/revoke-token
- * @summary revoke access_token
+ * @summary Revoke access_token
  * @tags User
  */
 
 /**
  * POST /oauth/verify-user
- * @summary verify user info
+ * @summary Verify user info
  * @tags User
  */
 
 /**
  * POST /oauth/association-link
- * @summary link user with wallet
+ * @summary Link user with wallet
  * @tags User
  */
 
