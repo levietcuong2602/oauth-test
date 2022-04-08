@@ -25,9 +25,9 @@ const createClient = async ({ name, grants = [], redirectUris = [] }) => {
   };
 };
 
-const updateClient = async (clientId, clientData) => {
+const updateClient = async (id, clientData) => {
   const { name, grants, redirectUris } = clientData;
-  const client = await clientDao.findClient({ clientId });
+  const client = await clientDao.findClient({ id });
 
   if (!client) {
     throw new Error("Client does not exists");
@@ -48,7 +48,7 @@ const updateClient = async (clientId, clientData) => {
     { deep: false }
   );
 
-  const newClient = await clientDao.updateClient(clientId, data);
+  const newClient = await clientDao.updateClient(id, data);
   return {
     ...newClient,
     grants: JSON.parse(newClient.grants),
@@ -56,18 +56,18 @@ const updateClient = async (clientId, clientData) => {
   };
 };
 
-const deleteClient = async (clientId) => {
-  const client = await clientDao.findClient({ clientId });
+const deleteClient = async (id) => {
+  const client = await clientDao.findClient({ id });
 
   if (!client) {
     throw new Error("Client does not exists");
   }
 
-  await clientDao.deleteClient(clientId);
+  await clientDao.deleteClient(id);
 };
 
-const findClientById = async (clientId) => {
-  const client = await clientDao.findClient({ id: clientId });
+const findClientById = async (id) => {
+  const client = await clientDao.findClient({ id });
   return client;
 };
 

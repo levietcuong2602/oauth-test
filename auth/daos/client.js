@@ -18,21 +18,17 @@ const createClient = async (payload) => {
   });
 };
 
-const updateClient = async (clientId, payload) => {
+const updateClient = async (id, payload) => {
   await Client.update(snakecaseKeys(payload, { deep: true }), {
-    where: {
-      client_id: clientId,
-    },
+    where: { id },
   });
-  const client = await findClient({ client_id: clientId });
+  const client = await findClient({ id });
   return client;
 };
 
-const deleteClient = async (clientId) => {
+const deleteClient = async (id) => {
   await Client.destroy({
-    where: {
-      client_id: clientId,
-    },
+    where: { id },
   });
 };
 

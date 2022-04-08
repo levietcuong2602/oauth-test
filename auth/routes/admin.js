@@ -40,7 +40,7 @@ router.get("/users/:userId", async (req, res, next) => {
  * GET /api/admin/clients/{id}
  * @summary Get client by ID
  * @tags Admin
- * @param {string} id.path.required - The client ID
+ * @param {string} id.path.required - Identify ID of client
  * @return {object} 200 - success response
  * @example response - 200 - success response
  * {
@@ -60,10 +60,7 @@ router.get("/users/:userId", async (req, res, next) => {
  *   "status": 1
  * }
  */
-router.get(
-  "/clients/:clientId",
-  asyncMiddleware(adminController.findClientById)
-);
+router.get("/clients/:id", asyncMiddleware(adminController.findClientById));
 
 /**
  * POST /api/admin/clients
@@ -105,7 +102,7 @@ router.post(
  * PUT /api/admin/clients/{id}
  * @summary Update a client
  * @tags Admin
- * @param {string} id.path.required - The client ID
+ * @param {string} id.path.required - Identify ID of client
  * @param {NewClient} request.body.required - Name of client
  * @return {object} 200 - success response
  * @example request
@@ -133,7 +130,7 @@ router.post(
  * }
  */
 router.put(
-  "/clients/:client_id",
+  "/clients/:id",
   updateClientValidate,
   asyncMiddleware(adminController.updateClient)
 );
@@ -142,7 +139,7 @@ router.put(
  * DELETE /api/admin/clients/{id}
  * @summary Delete a client
  * @tags Admin
- * @param {string} id.path.required - The client ID
+ * @param {string} id.path.required - Identify ID of client
  * @return {object} 200 - success response
  * @example response - 200 - success response
  * {
@@ -151,7 +148,7 @@ router.put(
  * }
  */
 router.delete(
-  "/clients/:client_id",
+  "/clients/:id",
   deleteClientValidate,
   asyncMiddleware(adminController.deleteClient)
 );

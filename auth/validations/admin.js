@@ -22,7 +22,7 @@ const createClient = {
 
 const updateClient = {
   params: Joi.object({
-    client_id: Joi.string().required(),
+    id: Joi.string().required(),
   }),
   body: Joi.object({
     name: Joi.string(),
@@ -37,7 +37,7 @@ const updateClient = {
 
 const deleteClient = {
   params: Joi.object({
-    client_id: Joi.string().required(),
+    id: Joi.string().required(),
   }),
 };
 

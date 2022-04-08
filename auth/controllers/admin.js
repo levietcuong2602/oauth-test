@@ -25,10 +25,10 @@ const createClient = async (req, res) => {
 
 const updateClient = async (req, res) => {
   DebugControl.log.flow("Update client");
-  const { client_id: clientId } = req.params;
+  const { id } = req.params;
   const { name, grants, redirect_uris: redirectUris } = req.body;
 
-  const result = await adminService.updateClient(clientId, {
+  const result = await adminService.updateClient(id, {
     name,
     grants,
     redirectUris,
@@ -38,17 +38,17 @@ const updateClient = async (req, res) => {
 
 const deleteClient = async (req, res) => {
   DebugControl.log.flow("Delete client");
-  const { client_id: clientId } = req.params;
+  const { id } = req.params;
 
-  await adminService.deleteClient(clientId);
+  await adminService.deleteClient(id);
   return successResponse(req, res);
 };
 
 const findClientById = async (req, res) => {
   DebugControl.log.flow("Find client");
-  const { clientId } = req.params;
+  const { id } = req.params;
 
-  const client = await adminService.findClientById(clientId);
+  const client = await adminService.findClientById(id);
   if (client) {
     client.grants = JSON.parse(client.grants);
     client.redirect_uris = JSON.parse(client.redirect_uris);
