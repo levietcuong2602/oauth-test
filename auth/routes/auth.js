@@ -102,7 +102,7 @@ router.get("/", (req, res) => {
  *        "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo2LCJ1c2VybmFtZSI6InVzZXIyQGdtYWlsLmNvbSJ9LCJjbGllbnQiOnsiaWQiOjEsImNsaWVudElkIjoiZjNlMGY4MTIzODViN2EyMWEwNzVkMDQ3NjcwMjU0ZTIxZWIwNTkxNCIsImdyYW50cyI6IltcImF1dGhvcml6YXRpb25fY29kZVwiLFwicmVmcmVzaF90b2tlblwiXSJ9LCJyb2xlcyI6W3sicm9sZUlkIjozLCJjbGllbnRJZCI6ImYzZTBmODEyMzg1YjdhMjFhMDc1ZDA0NzY3MDI1NGUyMWViMDU5MTQiLCJyb2xlTmFtZSI6InVzZXIifV0sImlhdCI6MTY0OTMxNjIxNiwiZXhwIjoxNjQ5OTIxMDE2fQ.Nu2IxYbM42ZSiHYbHIlUfLesd_vKDn-2ABIl4UjZ0hA",
  *        "refresh_token_expires_at": "2022-04-07T07:23:36.614Z",
  *        "token_expires_at": "2022-04-07T07:23:36.627Z",
- *        "token_type": "Bearer",
+ *        "token_type": "Bearer"
  *    }
  * }
  */
