@@ -85,7 +85,11 @@ module.exports = {
     const roles = await userRoleService.getRoleUserInClients(user.id);
 
     const tokenData = {
-      roles,
+      roles: roles.map((item) => ({
+        roleId: item.roleId,
+        clientId: item.client.clientId,
+        roleName: item.role.name,
+      })),
       client,
       user: {
         id: user.id,
@@ -179,7 +183,11 @@ module.exports = {
     });
     const roles = await userRoleService.getRoleUserInClients(user.id);
     const tokenData = {
-      roles,
+      roles: roles.map((item) => ({
+        roleId: item.roleId,
+        clientId: item.client.clientId,
+        roleName: item.role.name,
+      })),
       client,
       user: {
         id: user.id,

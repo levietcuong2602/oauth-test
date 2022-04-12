@@ -1,6 +1,6 @@
 const snakecaseKeys = require("snakecase-keys");
 
-const { UserRole, User, Client, Role } = require("../models");
+const { UserRole, Client, Role } = require("../models");
 
 const createUserRole = async (payload) => {
   const userRole = await UserRole.create(
@@ -56,9 +56,23 @@ const getUserRoles = async (condition) => {
       },
     ],
     attributes: ["user_id", "client_id", "role_id"],
+    raw: true,
+    nest: true,
   });
 
   return userRoles;
+};
+
+const findUserRole = async (condition) => {
+  const userRole = await UserRole.findOne({
+    where: snakecaseKeys(condition, { deep: true }),
+  });
+
+  return userRole
+    ? userRole.get({
+        plain: true,
+      })
+    : null;
 };
 
 module.exports = {
@@ -66,4 +80,5 @@ module.exports = {
   updateUserRole,
   deleteUserRole,
   getUserRoles,
+  findUserRole,
 };

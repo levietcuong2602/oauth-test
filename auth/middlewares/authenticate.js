@@ -34,7 +34,7 @@ async function authenticate(req, res, next) {
   }
 }
 
-const authenticationUser = async (req, res, next) => {
+const authenticationLogin = async (req, res, next) => {
   try {
     DebugControl.log.flow("Initial User Authentication");
     const { username, password, client_id } = req.body;
@@ -107,7 +107,7 @@ async function authorize(req, res, next) {
 
 module.exports = {
   authenticate,
-  authenticationUser,
+  authenticationLogin,
   authenticateRefresh,
   authorize,
 };
