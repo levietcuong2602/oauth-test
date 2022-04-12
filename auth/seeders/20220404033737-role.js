@@ -1,5 +1,3 @@
-"use strict";
-
 module.exports = {
   async up(queryInterface, Sequelize) {
     /**
@@ -30,7 +28,7 @@ module.exports = {
           is_default: true,
         },
       ],
-      {}
+      {},
     );
   },
 

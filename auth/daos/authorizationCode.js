@@ -25,7 +25,7 @@ const findAuthorizationCode = async (condition) => {
 
 const createAuthorizationCode = async (payload) => {
   const newCode = await AuthorizationCode.create(
-    snakecaseKeys(payload, { deep: true })
+    snakecaseKeys(payload, { deep: true }),
   );
   return newCode.get({
     plain: true,

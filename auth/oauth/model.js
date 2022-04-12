@@ -1,3 +1,6 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-use-before-define */
+/* eslint-disable camelcase */
 // See https://oauth2-server.readthedocs.io/en/latest/model/spec.html for what you can do with this
 const crypto = require("crypto");
 const camelcaseKeys = require("camelcase-keys");
@@ -43,10 +46,10 @@ const db = {
   },
 };
 
-const DebugControl = require("../utilities/debug.js");
+const DebugControl = require("../utilities/debug");
 
 module.exports = {
-  getClient: async function (clientId, client_secret) {
+  async getClient(clientId, client_secret) {
     log({
       title: "Get Client",
       parameters: [
@@ -66,7 +69,7 @@ module.exports = {
           ? JSON.parse(client.redirect_uris)
           : [],
       },
-      { deep: true }
+      { deep: true },
     );
 
     console.log({ client });
@@ -142,8 +145,8 @@ module.exports = {
       accessTokenExpiresAt: accessTokenRecord.token_expires_at,
       refreshToken, // NOTE this is only needed if you need refresh tokens down the line
       refreshTokenExpiresAt: refreshTokenRecord.token_expires_at,
-      client: client,
-      user: user,
+      client,
+      user,
     };
 
     return tokenData;
@@ -269,17 +272,17 @@ module.exports = {
       ...code,
       userId: user.id,
       clientId: client.id,
-      client: client,
-      user: user,
+      client,
+      user,
     };
 
     const data = await authorizationCodeDao.createAuthorizationCode(
-      authorizationCode
+      authorizationCode,
     );
     // Write data code
     return camelcaseKeys(
       { ...data, ...authorizationCode, redirectUri: `${code.redirectUri}` },
-      { deep: true }
+      { deep: true },
     );
   },
   getAuthorizationCode: async (authorizationCode) => {

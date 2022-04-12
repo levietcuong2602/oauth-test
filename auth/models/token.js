@@ -38,7 +38,7 @@ module.exports = (sequelize, DataTypes) => {
       tableName: "tokens",
       underscored: true,
       timestamps: false,
-    }
+    },
   );
   Token.associate = function (models) {
     // associations can be defined here

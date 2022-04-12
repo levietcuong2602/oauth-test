@@ -2,7 +2,7 @@ const statusCodes = require("../errors/code");
 const getErrorMessage = require("../errors/message");
 
 const { errorResponse } = require("../utilities/response");
-const DebugControl = require("../utilities/debug.js");
+const DebugControl = require("../utilities/debug");
 
 // eslint-disable-next-line no-unused-vars
 const errorHandler = (err, req, res, next) => {

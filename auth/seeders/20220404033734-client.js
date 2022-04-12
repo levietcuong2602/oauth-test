@@ -1,5 +1,3 @@
-"use strict";
-
 module.exports = {
   async up(queryInterface, Sequelize) {
     /**
@@ -23,7 +21,7 @@ module.exports = {
           grants: '["authorization_code","refresh_token"]',
         },
       ],
-      {}
+      {},
     );
   },
 

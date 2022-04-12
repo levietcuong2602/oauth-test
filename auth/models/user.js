@@ -23,8 +23,9 @@ module.exports = (sequelize, DataTypes) => {
       tableName: "users",
       underscored: true,
       timestamps: false,
-    }
+    },
   );
+  // eslint-disable-next-line no-unused-vars
   User.associate = function (models) {
     // associations can be defined here
   };

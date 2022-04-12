@@ -1,4 +1,3 @@
-"use strict";
 module.exports = (sequelize, DataTypes) => {
   const Client = sequelize.define(
     "Client",
@@ -23,8 +22,9 @@ module.exports = (sequelize, DataTypes) => {
       tableName: "clients",
       underscored: true,
       timestamps: false,
-    }
+    },
   );
+  // eslint-disable-next-line no-unused-vars
   Client.associate = function (models) {
     // associations can be defined here
   };

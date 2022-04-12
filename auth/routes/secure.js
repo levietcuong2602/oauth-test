@@ -1,6 +1,7 @@
 const express = require("express");
+
 const router = express.Router(); // Instantiate a new router
-const DebugControl = require("../utilities/debug.js");
+const DebugControl = require("../utilities/debug");
 const { successResponse } = require("../utilities/response");
 
 /**

@@ -21,9 +21,7 @@ const hashBcrypt = async (text, salt) => {
   return hashedBcrypt;
 };
 
-const generateSalt = (rounds) => {
-  return bcrypt.genSaltSync(rounds);
-};
+const generateSalt = (rounds) => bcrypt.genSaltSync(rounds);
 
 const encryptPassword = async (password, salt) => {
   // Transform the plaintext password to hash value using SHA512

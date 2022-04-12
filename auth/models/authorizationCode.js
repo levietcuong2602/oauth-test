@@ -1,4 +1,3 @@
-"use strict";
 module.exports = (sequelize, DataTypes) => {
   const AuthorizationCode = sequelize.define(
     "AuthorizationCode",
@@ -17,8 +16,9 @@ module.exports = (sequelize, DataTypes) => {
       tableName: "authorization_codes",
       underscored: true,
       timestamps: false,
-    }
+    },
   );
+  // eslint-disable-next-line no-unused-vars
   AuthorizationCode.associate = function (models) {
     // associations can be defined here
     // AuthorizationCode.belongsTo(models.User);

@@ -4,8 +4,10 @@ const userRoleDao = require("../daos/userRole");
 
 const getRoleUserInClients = async (userId) => {
   // return list role in all clients
-  let listRoleUsers = await userRoleDao.getUserRoles({ userId });
-  let roles = listRoleUsers ? camelcaseKeys(listRoleUsers, { deep: true }) : [];
+  const listRoleUsers = await userRoleDao.getUserRoles({ userId });
+  const roles = listRoleUsers
+    ? camelcaseKeys(listRoleUsers, { deep: true })
+    : [];
   return roles;
 };
 

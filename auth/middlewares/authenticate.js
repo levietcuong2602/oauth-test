@@ -5,34 +5,12 @@ const { SECRET_REFRESH } = require("../config");
 const statusCodes = require("../errors/code");
 const { verifyToken } = require("../utilities/auth");
 const { errorResponse } = require("../utilities/response");
-const DebugControl = require("../utilities/debug.js");
+const DebugControl = require("../utilities/debug");
 const { compareBcrypt } = require("../utilities/bcrypt");
 const { decrypt, hashSHA512 } = require("../utilities/security");
 
 const userDao = require("../daos/user");
 const clientDao = require("../daos/client");
-
-// Trước khi đi vào controllers request sẽ đi qua một trong các hàm dưới đây
-// tùy vào việc được khai báo ở route
-async function authenticate(req, res, next) {
-  try {
-    const { authorization } = req.headers;
-    if (!authorization) throw new Error();
-    const [tokenType, accessToken] = authorization.split(" ");
-    if (tokenType !== "Bearer") throw new Error();
-    const data = await verifyAccessToken(accessToken);
-    const { userId, iat, exp } = camelCase(data, { deep: true });
-    if (!userId || iat > exp) {
-      throw new Error();
-    }
-    req.userId = userId;
-    return next();
-  } catch (error) {
-    return res
-      .status(statusCodes.UNAUTHORIZED)
-      .send({ status: 0, message: "Unauthorized" });
-  }
-}
 
 const authenticationLogin = async (req, res, next) => {
   try {
@@ -49,7 +27,7 @@ const authenticationLogin = async (req, res, next) => {
     // check password
     const isCorrectPassword = await compareBcrypt(
       hashSHA512(password),
-      decrypt(user.password)
+      decrypt(user.password),
     );
     if (!isCorrectPassword) throw new Error("Password incorrect");
 
@@ -106,7 +84,6 @@ async function authorize(req, res, next) {
 }
 
 module.exports = {
-  authenticate,
   authenticationLogin,
   authenticateRefresh,
   authorize,

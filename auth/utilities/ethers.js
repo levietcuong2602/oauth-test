@@ -9,7 +9,6 @@ const verifyMessage = async ({ message, address, signature }) => {
 
     return true;
   } catch (err) {
-    console.error(err);
     return false;
   }
 };
