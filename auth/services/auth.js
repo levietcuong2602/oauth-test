@@ -1,6 +1,6 @@
 const moment = require("moment");
 
-const { generateToken } = require("../utilities/auth");
+const { generateToken, verifyToken } = require("../utilities/auth");
 const { omitIsNil } = require("../utilities/omit");
 const { encryptPassword, generateSalt } = require("../utilities/bcrypt");
 const { generateSecurityKey } = require("../utilities/security");
@@ -14,6 +14,7 @@ const {
   SESSION_LIFETIME,
 } = require("../config");
 const { TOKEN_TYPE, AUTHORIZATION_CODE_LIFETIME } = require("../constants");
+const { sequelize } = require("../models");
 
 const userDao = require("../daos/user");
 const clientDao = require("../daos/client");
@@ -80,7 +81,7 @@ const registerAccount = async ({ username, password, client_id }) => {
     salt,
   });
 
-  // add role basic user in client: user, modifier, admin
+  // add role default user in client: user, modifier, admin
   const roleDefault = await roleDao.findRole({ isDefault: true });
   if (roleDefault) {
     await userRoleDao.createUserRole({
@@ -104,7 +105,11 @@ const registerAccount = async ({ username, password, client_id }) => {
       clientRedirectUris: client.rediect_uris,
       grants: client.grants,
     },
-    roles,
+    roles: roles.map((item) => ({
+      roleId: item.roleId,
+      clientId: item.client.clientId,
+      roleName: item.role.name,
+    })),
   };
   // generate refresh token and save token
   const refresh = await generateAndSaveToken({
@@ -236,7 +241,11 @@ const verifySignature = async ({
       clientRedirectUris: client.rediect_uris,
       grants: client.grants,
     },
-    roles,
+    roles: roles.map((item) => ({
+      roleId: item.roleId,
+      clientId: item.client.clientId,
+      roleName: item.role.name,
+    })),
   };
   // generate refresh token and save token
   const refresh = await generateAndSaveToken({
@@ -272,10 +281,81 @@ const verifySignature = async ({
   };
 };
 
+const combineAccountAndWallet = async ({ accountId, walletId }) => {
+  let transaction;
+
+  let account = await userDao.findUser({ id: accountId });
+  if (!account)
+    throw new CustomError(statusCode.NOT_FOUND, "the account not found");
+  console.log({ address: account.wallet_address });
+  if (account.wallet_address)
+    throw new CustomError(
+      statusCode.BAD_REQUEST,
+      "The account has been linked to the wallet"
+    );
+
+  const wallet = await userDao.findUser({ id: walletId });
+  if (!wallet)
+    throw new CustomError(statusCode.NOT_FOUND, "the wallet not found");
+  if (!wallet.wallet_address)
+    throw new CustomError(
+      statusCode.BAD_REQUEST,
+      "the wallet address is invalid"
+    );
+
+  try {
+    transaction = await sequelize.transaction();
+
+    // combine role
+    const rolesOfWallet = await userRoleService.getRoleUserInClients(wallet.id);
+    await Promise.all(
+      rolesOfWallet.map(async (item) => {
+        const accountHasRoleInClient = await userRoleDao.findUserRole({
+          userId: account.id,
+          clientId: item.clientId,
+        });
+        if (!accountHasRoleInClient)
+          await userRoleDao.createUserRole({
+            userId: account.id,
+            roleId: item.roleId,
+            clientId: item.clientId,
+          });
+
+        await userRoleDao.deleteUserRole({
+          userId: item.userId,
+          clientId: item.clientId,
+        });
+      })
+    );
+    // delete account
+    await userDao.deleteUser({
+      id: wallet.id,
+    });
+
+    // combine info
+    account = await userDao.updateUser(account.id, {
+      walletAddress: wallet.wallet_address,
+    });
+    await transaction.commit();
+    // return info account combine
+
+    return {
+      id: account.id,
+      username: account.username,
+      walletAddress: account.wallet_address,
+    };
+  } catch (err) {
+    if (transaction) await transaction.rollback();
+
+    throw new CustomError(statusCode.INTERNAL_SERVER_ERROR, err.message);
+  }
+};
+
 module.exports = {
   generateAndSaveToken,
   registerAccount,
   getAuthorizationTokenByMobile,
   generateNonceSession,
   verifySignature,
+  combineAccountAndWallet,
 };

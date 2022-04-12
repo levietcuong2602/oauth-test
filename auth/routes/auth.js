@@ -10,10 +10,11 @@ const {
   authorizeMobileAccountValidate,
   generateNonceSessionValidate,
   verifySignatureValidate,
+  combineAccountAndWalletValidate,
 } = require("../validations/auth");
 const authController = require("../controllers/auth");
 
-const { authenticationUser } = require("../middlewares/authenticate");
+const { authenticationLogin } = require("../middlewares/authenticate");
 const asyncMiddleware = require("../middlewares/async");
 
 const DebugControl = require("../utilities/debug.js");
@@ -65,12 +66,19 @@ router.get("/", (req, res) => {
  */
 
 /**
- * Signature Infomation
- * @typedef {object} Signature
+ * VerifySignatureBody Infomation
+ * @typedef {object} VerifySignatureBody
  * @property {string} client_id.required - Client ID
  * @property {string} wallet_address.required - Wallet Address
  * @property {string} signature.required - Signature
  * @property {string} session_id.required - Session ID
+ */
+
+/**
+ * CombineAccountsBody Infomation
+ * @typedef {object} CombineAccountsBody
+ * @property {string} account_token.required - Account Token
+ * @property {string} wallet_token.required - Wallet Token
  */
 
 /**
@@ -124,7 +132,7 @@ router.post(
 router.post(
   "/authorize",
   authorizeAccountValidate,
-  authenticationUser,
+  authenticationLogin,
   (req, res, next) => {
     // sends us to our redirect with an authorization code in our url
     DebugControl.log.flow("Authorization");
@@ -168,13 +176,13 @@ router.post(
 router.post(
   "/authorize-mobiles",
   authorizeMobileAccountValidate,
-  authenticationUser,
+  authenticationLogin,
   (req, res, next) => {
     // sends us to our redirect with an authorization code in our url
     DebugControl.log.flow("Authorization Mobile");
     return next();
   },
-  authController.getAuthorizationTokenByMobile
+  asyncMiddleware(authController.getAuthorizationTokenByMobile)
 );
 
 /**
@@ -282,22 +290,22 @@ router.post(
  * POST /oauth/verify-signature
  * @summary Verify Signature
  * @tags User
- * @param {Signature} request.body.required
+ * @param {VerifySignatureBody} request.body.required
  * @return {object} 200 - success response
  * @example request
  * {
- *      "wallet_address": "0xE5Df21aE71628A4c0C4655a5f3c90A56bA5393FF",
- *      "client_id": "f3e0f812385b7a21a075d047670254e21eb05914",
- *      "signature": "0x9a96671ce4f075283a1aa733f557a2de14d8b364c6715369524258f8740fa840177d41ff3e0c95755fad49e5a4a04419f32258c34a918490c82d6a8f6718fe371b",
- *      "session_id": 10
+ *       "wallet_address": "0xE5Df21aE71628A4c0C4655a5f3c90A56bA5393FF",
+ *       "client_id": "f3e0f812385b7a21a075d047670254e21eb05914",
+ *       "signature": "0x9a96671ce4f075283a1aa733f557a2de14d8b364c6715369524258f8740fa840177d41ff3e0c95755fad49e5a4a04419f32258c34a918490c82d6a8f6718fe371b",
+ *       "session_id": 10
  * }
  * @example response - 200 - success response
  * {
- *      "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoyNywidXNlcm5hbWUiOm51bGwsIndhbGxldEFkZHJlc3MiOiIweEU1RGYyMWFFNzE2MjhBNGMwQzQ2NTVhNWYzYzkwQTU2YkE1MzkzRkYifSwiY2xpZW50Ijp7ImlkIjoxLCJjbGllbnRJZCI6ImYzZTBmODEyMzg1YjdhMjFhMDc1ZDA0NzY3MDI1NGUyMWViMDU5MTQiLCJncmFudHMiOiJbXCJhdXRob3JpemF0aW9uX2NvZGVcIixcInJlZnJlc2hfdG9rZW5cIixcInBhc3N3b3JkXCJdIn0sInJvbGVzIjpbXSwiaWF0IjoxNjQ5NDA5NjgxLCJleHAiOjE2NDk0MDk2ODJ9.5o6HyTr7UErtL2MUKM48M3vJ2_zoFOsMyV_BC4m36uY",
- *      "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoyNywidXNlcm5hbWUiOm51bGwsIndhbGxldEFkZHJlc3MiOiIweEU1RGYyMWFFNzE2MjhBNGMwQzQ2NTVhNWYzYzkwQTU2YkE1MzkzRkYifSwiY2xpZW50Ijp7ImlkIjoxLCJjbGllbnRJZCI6ImYzZTBmODEyMzg1YjdhMjFhMDc1ZDA0NzY3MDI1NGUyMWViMDU5MTQiLCJncmFudHMiOiJbXCJhdXRob3JpemF0aW9uX2NvZGVcIixcInJlZnJlc2hfdG9rZW5cIixcInBhc3N3b3JkXCJdIn0sInJvbGVzIjpbXSwiaWF0IjoxNjQ5NDA5NjgxLCJleHAiOjE2NTAwMTQ0ODF9.G35kfEkorRNT_iXZOXIsE8gtz9J8RBolhS0-3_tNXaw",
- *      "refresh_token_expires_at": "2022-04-15T09:21:21.490Z",
- *      "token_expires_at": "2022-04-08T09:51:21.496Z",
- *      "token_type": "Bearer",
+ *       "access_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoyNywidXNlcm5hbWUiOm51bGwsIndhbGxldEFkZHJlc3MiOiIweEU1RGYyMWFFNzE2MjhBNGMwQzQ2NTVhNWYzYzkwQTU2YkE1MzkzRkYifSwiY2xpZW50Ijp7ImlkIjoxLCJjbGllbnRJZCI6ImYzZTBmODEyMzg1YjdhMjFhMDc1ZDA0NzY3MDI1NGUyMWViMDU5MTQiLCJncmFudHMiOiJbXCJhdXRob3JpemF0aW9uX2NvZGVcIixcInJlZnJlc2hfdG9rZW5cIixcInBhc3N3b3JkXCJdIn0sInJvbGVzIjpbXSwiaWF0IjoxNjQ5NDA5NjgxLCJleHAiOjE2NDk0MDk2ODJ9.5o6HyTr7UErtL2MUKM48M3vJ2_zoFOsMyV_BC4m36uY",
+ *       "refresh_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoyNywidXNlcm5hbWUiOm51bGwsIndhbGxldEFkZHJlc3MiOiIweEU1RGYyMWFFNzE2MjhBNGMwQzQ2NTVhNWYzYzkwQTU2YkE1MzkzRkYifSwiY2xpZW50Ijp7ImlkIjoxLCJjbGllbnRJZCI6ImYzZTBmODEyMzg1YjdhMjFhMDc1ZDA0NzY3MDI1NGUyMWViMDU5MTQiLCJncmFudHMiOiJbXCJhdXRob3JpemF0aW9uX2NvZGVcIixcInJlZnJlc2hfdG9rZW5cIixcInBhc3N3b3JkXCJdIn0sInJvbGVzIjpbXSwiaWF0IjoxNjQ5NDA5NjgxLCJleHAiOjE2NTAwMTQ0ODF9.G35kfEkorRNT_iXZOXIsE8gtz9J8RBolhS0-3_tNXaw",
+ *       "refresh_token_expires_at":"2022-04-15T09:21:21.490Z",
+ *       "token_expires_at":"2022-04-08T09:51:21.496Z",
+ *       "token_type":"Bearer"
  * }
  */
 router.post(
@@ -307,25 +315,36 @@ router.post(
 );
 
 /**
- * POST /oauth/revoke-refresh
- * @summary revoke refresh_token
+ * POST /oauth/combine-accounts
+ * @summary Combine account and wallet
  * @tags User
+ * @param {CombineAccountsBody} request.body.required
+ * @return {object} 200 - success response
+ * @example request
+ * {
+ *        "account_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlcyI6W3sicm9sZUlkIjozLCJjbGllbnRJZCI6ImYzZTBmODEyMzg1YjdhMjFhMDc1ZDA0NzY3MDI1NGUyMWViMDU5MTQiLCJyb2xlTmFtZSI6InVzZXIifV0sImNsaWVudCI6eyJpZCI6MSwibmFtZSI6Im1hcmtldHBsYWNlIiwiY2xpZW50SWQiOiJmM2UwZjgxMjM4NWI3YTIxYTA3NWQwNDc2NzAyNTRlMjFlYjA1OTE0IiwiY2xpZW50U2VjcmV0IjoiNzE3NzU3NjRkN2NiZDAxYTJhOWMyMmE5ODcwMjZiYzRkYTkzNzBiNSIsInJlZGlyZWN0VXJpcyI6WyJodHRwOi8vbG9jYWxob3N0OjMwMzAvY2xpZW50L2FwcCJdLCJncmFudHMiOlsiYXV0aG9yaXphdGlvbl9jb2RlIiwicmVmcmVzaF90b2tlbiIsInBhc3N3b3JkIl19LCJ1c2VyIjp7ImlkIjoyMywidXNlcm5hbWUiOiJjdW9uZ2x2MUBnbWFpbC5jb20ifSwiaWF0IjoxNjQ5NzQ5NzU5LCJleHAiOjE2NDk3Njc3NTl9.ifAfT0K2bD-DUmwzOblAGyzJ8VZkxhKY_dh6g_b-nTc",
+ *        "wallet_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjozMiwid2FsbGV0QWRkcmVzcyI6IjB4RTVEZjIxYUU3MTYyOEE0YzBDNDY1NWE1ZjNjOTBBNTZiQTUzOTNGRiJ9LCJjbGllbnQiOnsiaWQiOjIsImNsaWVudElkIjoiMzA1ZjgzZjViNzdkZTY0MzE2OThiYThlMzhiOTIxNjQzY2ExZDU1ZCIsImdyYW50cyI6IltcImF1dGhvcml6YXRpb25fY29kZVwiXSJ9LCJyb2xlcyI6W3sicm9sZUlkIjozLCJjbGllbnRJZCI6IjMwNWY4M2Y1Yjc3ZGU2NDMxNjk4YmE4ZTM4YjkyMTY0M2NhMWQ1NWQiLCJyb2xlTmFtZSI6InVzZXIifV0sImlhdCI6MTY0OTc1MDIzOCwiZXhwIjoxNjQ5NzY4MjM4fQ.kLLKGUPS2I6CMpTDoCab_CNzsjGEdrdXPNsP0ms54bE"
+ * }
+ * @example response - 200 - success response
+ * {
+ *        "code":200,
+ *        "data":{
+ *          "id":23,
+ *          "username":"cuonglv1@gmail.com",
+ *          "wallet_address":"0xE5Df21aE71628A4c0C4655a5f3c90A56bA5393FF"
+ *        },
+ *        "status":1
+ * }
  */
-
-/**
- * POST /oauth/revoke-token
- * @summary revoke access_token
- * @tags User
- */
-
-/**
- * POST /oauth/combines
- * @summary Combine account with wallet
- * @tags User
- */
-router.post("/combines", (req, res, next) => {
-  DebugControl.log.flow("Combine Account With Wallet");
-  next();
-});
+// check middleware login account and verify sign message
+router.post(
+  "/combine-accounts",
+  (req, res, next) => {
+    DebugControl.log.flow("Combine Account And Wallet");
+    next();
+  },
+  combineAccountAndWalletValidate,
+  asyncMiddleware(authController.combineAccountAndWallet)
+);
 
 module.exports = router;

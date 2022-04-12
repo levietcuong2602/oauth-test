@@ -1,6 +1,13 @@
 const authService = require("../services/auth");
+
 const { successResponse } = require("../utilities/response");
 const DebugControl = require("../utilities/debug.js");
+const { verifyToken } = require("../utilities/auth");
+
+const { SECRET_TOKEN } = require("../config");
+
+const CustomError = require("../errors/CustomError");
+const statusCode = require("../errors/code");
 
 const registerAccount = async (req, res) => {
   DebugControl.log.flow("Register User");
@@ -55,9 +62,25 @@ const verifySignature = async (req, res) => {
   return successResponse(req, res, data);
 };
 
+const combineAccountAndWallet = async (req, res) => {
+  let { account_token: accountToken, wallet_token: walletToken } = req.body;
+  try {
+    const accountData = await verifyToken(accountToken, SECRET_TOKEN);
+    const walletData = await verifyToken(walletToken, SECRET_TOKEN);
+    const data = await authService.combineAccountAndWallet({
+      accountId: accountData.user.id,
+      walletId: walletData.user.id,
+    });
+    return successResponse(req, res, data);
+  } catch (error) {
+    throw new CustomError(statusCode.BAD_REQUEST, error.message);
+  }
+};
+
 module.exports = {
   registerAccount,
   getAuthorizationTokenByMobile,
   generateNonceSession,
   verifySignature,
+  combineAccountAndWallet,
 };

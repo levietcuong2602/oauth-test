@@ -7,11 +7,21 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
         primaryKey: true,
+        onDelete: "CASCADE",
+        references: {
+          model: "User",
+          key: "id",
+        },
       },
       client_id: {
         type: DataTypes.STRING,
         allowNull: false.valueOf,
         primaryKey: true,
+        onDelete: "CASCADE",
+        references: {
+          model: "Client",
+          key: "id",
+        },
       },
       role_id: { type: DataTypes.STRING, allowNull: false, primaryKey: true },
     },

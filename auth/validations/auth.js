@@ -45,10 +45,18 @@ const generateNonceSession = {
   }),
 };
 
+const combineAccountAndWallet = {
+  body: Joi.object({
+    account_token: Joi.string().trim().required(),
+    wallet_token: Joi.string().trim().required(),
+  }),
+};
+
 module.exports = {
   registerAccountValidate: customValidate(registerAccount),
   authorizeAccountValidate: customValidate(authorizeAccount),
   authorizeMobileAccountValidate: customValidate(authorizeMobileAccount),
   verifySignatureValidate: customValidate(verifySignature),
   generateNonceSessionValidate: customValidate(generateNonceSession),
+  combineAccountAndWalletValidate: customValidate(combineAccountAndWallet),
 };
