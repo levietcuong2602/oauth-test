@@ -1,3 +1,5 @@
+const { STATUS_USER } = require('../constants');
+
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define(
     'User',
@@ -18,11 +20,16 @@ module.exports = (sequelize, DataTypes) => {
       wallet_address: {
         type: DataTypes.STRING,
       },
+      status: {
+        type: DataTypes.ENUM(Object.values(STATUS_USER)),
+        allowNull: false,
+        default: STATUS_USER.ACTIVE,
+      },
     },
     {
       tableName: 'users',
       underscored: true,
-      timestamps: false,
+      timestamps: true,
     },
   );
   // eslint-disable-next-line no-unused-vars

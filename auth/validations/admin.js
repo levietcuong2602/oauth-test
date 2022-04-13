@@ -1,7 +1,7 @@
 const { Joi } = require('express-validation');
 const { customValidate } = require('./validationUtil');
 
-const { GRANT_TYPE } = require('../constants');
+const { GRANT_TYPE, STATUS_USER } = require('../constants');
 
 const createClient = {
   body: Joi.object({
@@ -89,6 +89,23 @@ const deleteUserRole = {
   }),
 };
 
+const getRoles = {
+  query: Joi.object({
+    search: Joi.string().trim(),
+  }),
+};
+
+const getUsers = {
+  query: Joi.object({
+    search: Joi.string().trim(),
+    status: Joi.number().valid(...Object.values(STATUS_USER)),
+    start_time: Joi.date(),
+    end_time: Joi.date(),
+    limit: Joi.number().default(10),
+    page_num: Joi.number().default(1),
+  }),
+};
+
 module.exports = {
   createClientValidate: customValidate(createClient),
   updateClientValidate: customValidate(updateClient),
@@ -96,7 +113,9 @@ module.exports = {
   createRoleValidate: customValidate(createRole),
   updateRoleValidate: customValidate(updateRole),
   deleteRoleValidate: customValidate(deleteRole),
+  getRolesValidate: customValidate(getRoles),
   createUserRoleValidate: customValidate(createUserRole),
   updateUserRoleValidate: customValidate(updateUserRole),
   deleteUserRoleValidate: customValidate(deleteUserRole),
+  getUsersValidate: customValidate(getUsers),
 };

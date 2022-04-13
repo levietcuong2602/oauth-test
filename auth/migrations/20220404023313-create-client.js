@@ -22,6 +22,16 @@ module.exports = {
       client_secret: { type: Sequelize.STRING, allowNull: false },
       redirect_uris: { type: Sequelize.STRING },
       grants: { type: Sequelize.STRING, allowNull: false },
+      created_at: {
+        allowNull: false,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.fn('NOW'),
+      },
+      updated_at: {
+        allowNull: false,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.fn('NOW'),
+      },
     });
   },
 

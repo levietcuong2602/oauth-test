@@ -5,31 +5,18 @@ import { Icon } from '@mui/material';
 
 export const sidebarMenu = [
   {
+    key: 'UsersManagement',
+    heading: 'Users Management',
+    icon: <Icon>analytics</Icon>,
+    route: ROUTES.USERS,
+    role: ['user'],
+  },
+  {
     key: 'RoleManagement',
     heading: 'Role Management',
     icon: <Icon>analytics</Icon>,
     route: ROUTES.ROLES,
     role: ['user'],
-    //   subMenu: [
-    //     {
-    //       key: "Dashboard",
-    //       heading: "Dashboard",
-    //       route: ROUTES.BUSINESS_ANALYTIC_DASHBOARD,
-    //       role: ["user"],
-    //     },
-    //     {
-    //       key: "SaleAnalytics",
-    //       heading: "Sale Analytics",
-    //       route: ROUTES.SALE_ANALYTICS,
-    //       role: ["user"],
-    //     },
-    //     {
-    //       key: "SaleForecast",
-    //       heading: "Sale Forecast",
-    //       route: ROUTES.SALE_FORECAST,
-    //       role: ["user"],
-    //     },
-    //   ],
   },
   {
     key: 'PermisstionManagement',

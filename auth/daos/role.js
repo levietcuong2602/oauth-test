@@ -39,4 +39,12 @@ const deleteRole = async (roleId) => {
   });
 };
 
-module.exports = { findRole, createRole, updateRole, deleteRole };
+const getRoles = async () => {
+  const roles = await Role.findAll({
+    raw: true,
+  });
+
+  return roles;
+};
+
+module.exports = { findRole, createRole, updateRole, deleteRole, getRoles };

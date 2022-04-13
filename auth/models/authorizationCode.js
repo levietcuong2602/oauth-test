@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       tableName: 'authorization_codes',
       underscored: true,
-      timestamps: false,
+      timestamps: true,
     },
   );
   // eslint-disable-next-line func-names

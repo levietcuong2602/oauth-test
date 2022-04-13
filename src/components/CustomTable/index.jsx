@@ -113,7 +113,7 @@ const CustomTable = ({
               {data.length > 0 && reorderable && <StyledTableCell />}
               {heads.map((head, columnNo) => (
                 <StyledTableCell
-                  key={columnNo}
+                  key={`${head.valueName}_${columnNo}`}
                   border={border}
                   align={head.align}
                 >
@@ -175,7 +175,7 @@ const CustomTable = ({
                               className="icon-button"
                               onClick={() => action.onClick(item)}
                               disabled={action.disable}
-                              key={action.icon}
+                              key={action.key}
                             >
                               {typeof action.icon === 'function'
                                 ? action.icon(item)

@@ -35,8 +35,11 @@ const CustomSelect = ({
         value={value || NONE_VALUE}
         onChange={handleChange}
       >
-        {options.map((option, index) => (
-          <StyledMenuItem key={index.toString()} value={option.value}>
+        {options.map((option) => (
+          <StyledMenuItem
+            key={`${JSON.stringify(option)}`}
+            value={option.value}
+          >
             {option.label}
           </StyledMenuItem>
         ))}

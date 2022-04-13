@@ -1,3 +1,5 @@
+const { STATUS_USER } = require('../constants');
+
 module.exports = {
   async up(queryInterface, Sequelize) {
     /**
@@ -21,6 +23,21 @@ module.exports = {
       },
       wallet_address: {
         type: Sequelize.STRING,
+      },
+      status: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        default: STATUS_USER.ACTIVE,
+      },
+      created_at: {
+        allowNull: false,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.fn('NOW'),
+      },
+      updated_at: {
+        allowNull: false,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.fn('NOW'),
       },
     });
   },

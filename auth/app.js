@@ -9,6 +9,10 @@ require('./config/sequelize');
 const app = express();
 const port = process.env.PORT || 3030;
 const bodyParser = require('body-parser');
+const cors = require('cors');
+const helmet = require('helmet');
+const compression = require('compression');
+
 const oauthServer = require('./oauth/server');
 
 const errorHandler = require('./middlewares/errorHandler');
@@ -18,6 +22,9 @@ const omitReq = require('./middlewares/omitReq');
 const DebugControl = require('./utilities/debug');
 
 // Here we are configuring express to use body-parser as middle-ware.
+app.use(cors());
+app.use(helmet());
+app.use(compression());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(DebugControl.log.request());
@@ -72,7 +79,7 @@ app.use(errorHandler);
 
 app.use('/', (req, res) => res.redirect('/client'));
 
-app.listen(port);
+app.listen(3030);
 console.log('Oauth Server listening on port ', port);
 
 module.exports = app; // For testing

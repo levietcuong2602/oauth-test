@@ -18,6 +18,16 @@ export const A_WEEK = 7 * 24 * 60 * 60 * 1000;
 export const PAGINATION_LIMIT = 10;
 export const ALL = 'ALL';
 
+export const FILTER_TYPE = {
+  SELECT: 'SELECT',
+  DATE_RANGE: 'DATERANGE',
+};
+
+export const STATUS_USER = {
+  DEACTIVE: 0,
+  ACTIVE: 1,
+};
+
 export {
   ROUTES,
   DATE_TIME_PICKER_TYPES,

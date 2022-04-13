@@ -17,11 +17,23 @@ module.exports = (sequelize, DataTypes) => {
       client_secret: { type: DataTypes.STRING, allowNull: false },
       redirect_uris: { type: DataTypes.STRING },
       grants: { type: DataTypes.STRING, allowNull: false },
+      created_at: {
+        type: 'TIMESTAMP',
+        defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
+        allowNull: false,
+      },
+      updated_at: {
+        type: 'TIMESTAMP',
+        defaultValue: sequelize.literal(
+          'CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP',
+        ),
+        allowNull: false,
+      },
     },
     {
       tableName: 'clients',
       underscored: true,
-      timestamps: false,
+      timestamps: true,
     },
   );
   // eslint-disable-next-line no-unused-vars

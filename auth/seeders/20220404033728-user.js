@@ -16,10 +16,11 @@ module.exports = {
       [
         {
           id: 1,
-          username: 'customer',
+          username: 'customer@gmail.com',
           password:
             '08e23ab26bfe42830b267c16a742392c:2a0f42e488a7d2113f7215c555fed03dd0616a1584813324cff4508bf618e63e2b3d02c3b80e786bf7cf909269e7bc9f1908bbfaed9cfecc4aa0e913',
-          wallet_address: '',
+          wallet_address: '0xE5Df21aE71628A4c0C4655a5f3c90A56bA5393FF',
+          status: 1,
         },
       ],
       {},
