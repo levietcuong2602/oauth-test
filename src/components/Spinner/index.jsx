@@ -1,5 +1,5 @@
-import React from "react";
-import { StyledSpinner } from "./index.style";
+import React from 'react';
+import { StyledSpinner } from './index.style';
 
 const Spinner = (props) => (
   <StyledSpinner {...props}>

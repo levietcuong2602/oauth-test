@@ -1,7 +1,7 @@
 export const actionTypes = {
-  LOGIN: "LOGIN",
-  LOGIN_SUCCESS: "LOGIN_SUCCESS",
-  LOGIN_FAILURE: "LOGIN_FAILURE",
+  LOGIN: 'LOGIN',
+  LOGIN_SUCCESS: 'LOGIN_SUCCESS',
+  LOGIN_FAILURE: 'LOGIN_FAILURE',
 };
 
 const login = (email, password) => ({

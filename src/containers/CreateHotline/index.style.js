@@ -1,7 +1,7 @@
-import { styled } from "@mui/material/styles";
-import { COLOR, TRANSPARENT_COLOR } from "@src/styles/color";
+import { styled } from '@mui/material/styles';
+import { COLOR, TRANSPARENT_COLOR } from '@src/styles/color';
 
-export const StyledCreateHotline = styled("div")`
+export const StyledCreateHotline = styled('div')`
   width: 500px;
 
   .header {

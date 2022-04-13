@@ -1,9 +1,9 @@
-const errorCodes = require("./code");
+const errorCodes = require('./code');
 
 function getErrorMessage(errorCode) {
   switch (errorCode) {
     case errorCodes.NOT_FOUND_MODEL:
-      return "No data found";
+      return 'No data found';
     default:
       return null;
   }

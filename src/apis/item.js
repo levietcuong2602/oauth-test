@@ -1,9 +1,9 @@
-import api from "./api";
+import api from './api';
 
 export const getStatisticsRevenue = async (params) => {
   const res = await api({
-    method: "GET",
-    url: "/items/statistics-revenues",
+    method: 'GET',
+    url: '/items/statistics-revenues',
     params,
   });
   return res;
@@ -11,8 +11,8 @@ export const getStatisticsRevenue = async (params) => {
 
 export const getTopSellingProducts = async (params) => {
   const res = await api({
-    method: "GET",
-    url: "/items/top-selling-products",
+    method: 'GET',
+    url: '/items/top-selling-products',
     params,
   });
   return res;
@@ -20,8 +20,8 @@ export const getTopSellingProducts = async (params) => {
 
 export const getOverviewItems = async (params) => {
   const res = await api({
-    method: "GET",
-    url: "/items/overviews",
+    method: 'GET',
+    url: '/items/overviews',
     params,
   });
   return res;

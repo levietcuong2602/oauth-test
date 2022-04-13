@@ -1,5 +1,5 @@
-const { Joi } = require("express-validation");
-const { customValidate } = require("./validationUtil");
+const { Joi } = require('express-validation');
+const { customValidate } = require('./validationUtil');
 
 const registerAccount = {
   body: Joi.object({

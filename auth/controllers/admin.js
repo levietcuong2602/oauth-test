@@ -1,10 +1,10 @@
-const adminService = require("../services/admin");
+const adminService = require('../services/admin');
 
-const DebugControl = require("../utilities/debug");
-const { successResponse } = require("../utilities/response");
+const DebugControl = require('../utilities/debug');
+const { successResponse } = require('../utilities/response');
 
 const createClient = async (req, res) => {
-  DebugControl.log.flow("Create client");
+  DebugControl.log.flow('Create client');
   const {
     name,
     grants = [],
@@ -24,7 +24,7 @@ const createClient = async (req, res) => {
 };
 
 const updateClient = async (req, res) => {
-  DebugControl.log.flow("Update client");
+  DebugControl.log.flow('Update client');
   const { id } = req.params;
   const { name, grants, redirect_uris: redirectUris } = req.body;
 
@@ -37,7 +37,7 @@ const updateClient = async (req, res) => {
 };
 
 const deleteClient = async (req, res) => {
-  DebugControl.log.flow("Delete client");
+  DebugControl.log.flow('Delete client');
   const { id } = req.params;
 
   await adminService.deleteClient(id);
@@ -45,7 +45,7 @@ const deleteClient = async (req, res) => {
 };
 
 const findClientById = async (req, res) => {
-  DebugControl.log.flow("Find client");
+  DebugControl.log.flow('Find client');
   const { id } = req.params;
 
   const client = await adminService.findClientById(id);
@@ -57,7 +57,7 @@ const findClientById = async (req, res) => {
 };
 
 const createRole = async (req, res) => {
-  DebugControl.log.flow("Create role");
+  DebugControl.log.flow('Create role');
   const { name, is_default: isDefault = false } = req.body;
 
   const result = await adminService.createRole({ name, isDefault });
@@ -66,7 +66,7 @@ const createRole = async (req, res) => {
 };
 
 const updateRole = async (req, res) => {
-  DebugControl.log.flow("Update role");
+  DebugControl.log.flow('Update role');
   const { role_id: roleId } = req.params;
   const { name, is_default: isDefault } = req.body;
 
@@ -78,7 +78,7 @@ const updateRole = async (req, res) => {
 };
 
 const deleteRole = async (req, res) => {
-  DebugControl.log.flow("Delete role");
+  DebugControl.log.flow('Delete role');
   const { role_id: roleId } = req.params;
 
   await adminService.deleteRole(roleId);
@@ -86,7 +86,7 @@ const deleteRole = async (req, res) => {
 };
 
 const createUserRole = async (req, res) => {
-  DebugControl.log.flow("Create user role");
+  DebugControl.log.flow('Create user role');
   const { user_id: userId, client_id: clientId, role_id: roleId } = req.body;
 
   const result = await adminService.createUserRole({
@@ -99,7 +99,7 @@ const createUserRole = async (req, res) => {
 };
 
 const updateUserRole = async (req, res) => {
-  DebugControl.log.flow("Update user role");
+  DebugControl.log.flow('Update user role');
 
   const { user_id: userId, client_id: clientId } = req.query;
   const { role_id: roleId } = req.body;
@@ -115,7 +115,7 @@ const updateUserRole = async (req, res) => {
 };
 
 const deleteUserRole = async (req, res) => {
-  DebugControl.log.flow("Delete user role");
+  DebugControl.log.flow('Delete user role');
   const { user_id: userId, client_id: clientId } = req.query;
 
   await adminService.deleteUserRole({ userId, clientId });

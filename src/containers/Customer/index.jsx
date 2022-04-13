@@ -1,17 +1,17 @@
 /* eslint-disable no-unused-vars */
-import React from "react";
+import React from 'react';
 import {
   Box,
   IconButton,
   InputAdornment,
   MenuItem,
   TextField,
-} from "@mui/material";
-import Autocomplete from "@mui/material/Autocomplete";
-import SearchIcon from "@mui/icons-material/Search";
-import Navbar from "../Layout/Navbar";
-import { StyledCustomer } from "./index.style";
-import { customers } from "./data";
+} from '@mui/material';
+import Autocomplete from '@mui/material/Autocomplete';
+import SearchIcon from '@mui/icons-material/Search';
+import Navbar from '../Layout/Navbar';
+import { StyledCustomer } from './index.style';
+import { customers } from './data';
 
 const Customer = () => (
   <StyledCustomer>

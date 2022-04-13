@@ -1,5 +1,8 @@
-const mung = require("express-mung");
-const snakecaseKeys = require("snakecase-keys");
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-param-reassign */
+const mung = require('express-mung');
+const snakecaseKeys = require('snakecase-keys');
 
 function sortObject(obj) {
   return Object.keys(obj)
@@ -11,7 +14,7 @@ function sortObject(obj) {
 }
 
 function transformObjectId(obj) {
-  if (typeof obj !== "object") {
+  if (typeof obj !== 'object') {
     return obj;
   }
 
@@ -26,7 +29,7 @@ function transformObjectId(obj) {
   }
 
   // Check if obj is ObjectId
-  if (obj._bsontype === "ObjectID") {
+  if (obj._bsontype === 'ObjectID') {
     return obj.toString();
   }
 
@@ -36,7 +39,7 @@ function transformObjectId(obj) {
   });
 
   if (Array.isArray(obj)) return obj;
-  if (Object.prototype.toString.call(obj) === "[object Date]") return obj;
+  if (Object.prototype.toString.call(obj) === '[object Date]') return obj;
 
   return sortObject(obj);
 }

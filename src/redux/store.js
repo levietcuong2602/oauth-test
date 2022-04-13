@@ -1,14 +1,14 @@
-import { createStore, applyMiddleware } from "redux";
-import createSagaMiddleware from "redux-saga";
+import { createStore, applyMiddleware } from 'redux';
+import createSagaMiddleware from 'redux-saga';
 
-import rootReducer, { initialState } from "./reducer";
-import rootSaga from "./saga";
+import rootReducer, { initialState } from './reducer';
+import rootSaga from './saga';
 
 const sagaMiddleware = createSagaMiddleware();
 
 const bindMiddleware = (middleware) => {
-  if (process.env.NODE_ENV !== "production") {
-    const { composeWithDevTools } = require("redux-devtools-extension"); // eslint-disable-line import/no-extraneous-dependencies, global-require
+  if (process.env.NODE_ENV !== 'production') {
+    const { composeWithDevTools } = require('redux-devtools-extension'); // eslint-disable-line import/no-extraneous-dependencies, global-require
     return composeWithDevTools(applyMiddleware(...middleware));
   }
   return applyMiddleware(...middleware);

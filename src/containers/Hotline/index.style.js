@@ -1,9 +1,9 @@
-import { MenuItem } from "@mui/material";
-import { styled } from "@mui/material/styles";
-import { COLOR, TRANSPARENT_COLOR } from "@src/styles/color";
-import { BORDER_RADIUS } from "@src/styles/config";
+import { MenuItem } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { COLOR, TRANSPARENT_COLOR } from '@src/styles/color';
+import { BORDER_RADIUS } from '@src/styles/config';
 
-export const StyledHotline = styled("div")`
+export const StyledHotline = styled('div')`
   .heading-text {
     font-size: 24px;
     font-weight: 500;

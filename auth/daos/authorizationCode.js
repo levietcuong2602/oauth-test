@@ -1,6 +1,6 @@
-const snakecaseKeys = require("snakecase-keys");
+const snakecaseKeys = require('snakecase-keys');
 
-const { AuthorizationCode, User, Client } = require("../models");
+const { AuthorizationCode, User, Client } = require('../models');
 
 const findAuthorizationCode = async (condition) => {
   AuthorizationCode.belongsTo(User);
@@ -10,7 +10,7 @@ const findAuthorizationCode = async (condition) => {
   const code = await AuthorizationCode.findOne({
     where: snakecaseKeys(condition, { deep: true }),
     include: [
-      { model: User, attribute: ["id", "username", "wallet_address"] },
+      { model: User, attribute: ['id', 'username', 'wallet_address'] },
       { model: Client },
     ],
     limit: 1,

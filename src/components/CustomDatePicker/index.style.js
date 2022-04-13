@@ -1,6 +1,6 @@
-import { styled } from "@mui/material/styles";
+import { styled } from '@mui/material/styles';
 
-export const StyledCustomDatePicker = styled("div")`
+export const StyledCustomDatePicker = styled('div')`
   .MuiTextField-root {
     width: 100%;
   }

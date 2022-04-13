@@ -1,15 +1,15 @@
 /* eslint-disable react/jsx-filename-extension */
-import React from "react";
-import ROUTES from "@src/constants/route";
-import { Icon } from "@mui/material";
+import React from 'react';
+import ROUTES from '@src/constants/route';
+import { Icon } from '@mui/material';
 
 export const sidebarMenu = [
   {
-    key: "RoleManagement",
-    heading: "Role Management",
+    key: 'RoleManagement',
+    heading: 'Role Management',
     icon: <Icon>analytics</Icon>,
     route: ROUTES.ROLES,
-    role: ["user"],
+    role: ['user'],
     //   subMenu: [
     //     {
     //       key: "Dashboard",
@@ -32,11 +32,11 @@ export const sidebarMenu = [
     //   ],
   },
   {
-    key: "PermisstionManagement",
-    heading: "Permisstion Management",
+    key: 'PermisstionManagement',
+    heading: 'Permisstion Management',
     icon: <Icon>assessment</Icon>,
     route: ROUTES.PERMISSIONS,
-    role: ["user"],
+    role: ['user'],
   },
   // {
   //   key: "CustomerInsight",

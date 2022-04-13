@@ -1,7 +1,7 @@
-import React from "react";
-import { Route, Redirect } from "react-router-dom";
+import React from 'react';
+import { Route, Redirect } from 'react-router-dom';
 
-import ROUTE from "@src/constants/route";
+import ROUTE from '@src/constants/route';
 
 const PublicRoute = ({ component: Component, restricted, ...rest }) => (
   <Route

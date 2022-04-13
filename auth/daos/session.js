@@ -1,6 +1,6 @@
-const snakecaseKeys = require("snakecase-keys");
+const snakecaseKeys = require('snakecase-keys');
 
-const { Session } = require("../models");
+const { Session } = require('../models');
 
 const findSession = async (condition) => {
   const session = await Session.findOne({

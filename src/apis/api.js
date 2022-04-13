@@ -1,11 +1,11 @@
-import axios from "axios";
-import camelCase from "camelcase-keys";
-import { API_URL } from "@src/configs";
-import getErrorMessage from "@src/errors/getErrorMessage";
+import axios from 'axios';
+import camelCase from 'camelcase-keys';
+import { API_URL } from '@src/configs';
+import getErrorMessage from '@src/errors/getErrorMessage';
 
 const axiosClient = axios.create({
   baseURL: `${API_URL}/api/v1`,
-  responseType: "json",
+  responseType: 'json',
   timeout: 30 * 1000,
 });
 

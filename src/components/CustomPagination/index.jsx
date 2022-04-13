@@ -1,7 +1,7 @@
-import React from "react";
-import { useTranslation } from "react-i18next";
-import { Pagination, Box, Typography } from "@mui/material";
-import { StyledCustomPagination } from "./index.style";
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { Pagination, Box, Typography } from '@mui/material';
+import { StyledCustomPagination } from './index.style';
 
 const CustomPagination = ({
   currentPage,
@@ -9,7 +9,7 @@ const CustomPagination = ({
   total,
   onChangePagination,
 }) => {
-  const { t } = useTranslation(["common"]);
+  const { t } = useTranslation(['common']);
   const totalPages = Math.ceil(total / limit);
 
   if (total <= limit) return <div />;
@@ -23,7 +23,7 @@ const CustomPagination = ({
         mt={2}
       >
         <Typography className="pagination-text">
-          {t("paginationText", {
+          {t('paginationText', {
             total,
           })}
         </Typography>

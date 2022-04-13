@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
   const Role = sequelize.define(
-    "Role",
+    'Role',
     {
       id: {
         type: DataTypes.INTEGER,
@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       is_default: { type: DataTypes.BOOLEAN, default: false },
     },
     {
-      tableName: "roles",
+      tableName: 'roles',
       underscored: true,
       timestamps: false,
     },

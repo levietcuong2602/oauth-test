@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 const omitBy = (obj = {}, listKeys = [], { deep = false }) => {
-  if (typeof obj !== "object" || !obj) return {};
+  if (typeof obj !== 'object' || !obj) return {};
   if (!Array.isArray(listKeys)) return {};
 
   listKeys.forEach((key) => {
@@ -9,7 +9,7 @@ const omitBy = (obj = {}, listKeys = [], { deep = false }) => {
 
   if (deep) {
     Object.keys(obj).forEach((key) => {
-      if (typeof obj[key] === "object") {
+      if (typeof obj[key] === 'object') {
         omitBy(obj[key], listKeys);
       }
     });
@@ -19,7 +19,7 @@ const omitBy = (obj = {}, listKeys = [], { deep = false }) => {
 };
 
 const omitIsNil = (obj, { deep = false }) => {
-  if (typeof obj !== "object" || !obj) return {};
+  if (typeof obj !== 'object' || !obj) return {};
 
   Object.keys(obj).forEach((key) => {
     if (obj[key] === undefined || obj[key] === null) {
@@ -29,7 +29,7 @@ const omitIsNil = (obj, { deep = false }) => {
 
   if (deep) {
     Object.keys(obj).forEach((key) => {
-      if (typeof obj[key] === "object") {
+      if (typeof obj[key] === 'object') {
         omitIsNil(obj[key], true);
       }
     });

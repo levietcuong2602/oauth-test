@@ -1,16 +1,16 @@
-import React, { useMemo, useRef, useState } from "react";
-import { Button, Skeleton, Typography } from "@mui/material";
-import Highcharts from "highcharts";
+import React, { useMemo, useRef, useState } from 'react';
+import { Button, Skeleton, Typography } from '@mui/material';
+import Highcharts from 'highcharts';
 
-import { formatNumber } from "@src/utils/formatNumber";
-import HightChartReact from "../../HighChart";
-import { StyledLegendLine, StyledLineChart } from "./index.style";
+import { formatNumber } from '@src/utils/formatNumber';
+import HightChartReact from '../../HighChart';
+import { StyledLegendLine, StyledLineChart } from './index.style';
 
 const LineChart = ({
   title,
   data: dataLineChart,
   colors = Highcharts.defaultOptions.colors,
-  unit = "",
+  unit = '',
 }) => {
   if (!dataLineChart) {
     return (
@@ -30,7 +30,7 @@ const LineChart = ({
   const optionsMemo = useMemo(
     () => ({
       title: {
-        text: "",
+        text: '',
       },
       legend: {
         enabled: false,
@@ -40,7 +40,7 @@ const LineChart = ({
       },
       yAxis: {
         title: {
-          text: "",
+          text: '',
         },
         min: 0,
       },
@@ -115,7 +115,7 @@ const LineChart = ({
             <Button
               key={index.toString()}
               className={`legend-item ${
-                !listVisible[index] && "legend-item-hidden"
+                !listVisible[index] && 'legend-item-hidden'
               }`}
               onClick={() => legendItemClick(index)}
             >

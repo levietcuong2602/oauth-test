@@ -6,14 +6,14 @@ module.exports = {
      * Example:
      * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
      */
-    await queryInterface.createTable("user_roles", {
+    await queryInterface.createTable('user_roles', {
       user_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         primaryKey: true,
         references: {
-          model: "users",
-          key: "id",
+          model: 'users',
+          key: 'id',
         },
       },
       client_id: {
@@ -21,8 +21,8 @@ module.exports = {
         allowNull: false,
         primaryKey: true,
         references: {
-          model: "clients",
-          key: "id",
+          model: 'clients',
+          key: 'id',
         },
       },
       role_id: {
@@ -30,8 +30,8 @@ module.exports = {
         allowNull: false,
         primaryKey: true,
         references: {
-          model: "roles",
-          key: "id",
+          model: 'roles',
+          key: 'id',
         },
       },
     });
@@ -45,6 +45,6 @@ module.exports = {
      * Example:
      * await queryInterface.dropTable('users');
      */
-    await queryInterface.dropTable("user_roles");
+    await queryInterface.dropTable('user_roles');
   },
 };

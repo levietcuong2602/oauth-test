@@ -1,12 +1,12 @@
-import React from "react";
-import { Box, IconButton, Icon, TextField } from "@mui/material";
-import { DatePicker, DateTimePicker, TimePicker } from "@mui/lab";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import { DATE_TIME_PICKER_TYPES } from "@src/constants";
+import React from 'react';
+import { Box, IconButton, Icon, TextField } from '@mui/material';
+import { DatePicker, DateTimePicker, TimePicker } from '@mui/lab';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import { DATE_TIME_PICKER_TYPES } from '@src/constants';
 import {
   StyledCustomDatePickerRange,
   StyledCustomDatePicker,
-} from "./index.style";
+} from './index.style';
 
 const CustomDatePicker = ({
   type,
@@ -22,7 +22,7 @@ const CustomDatePicker = ({
         onChange={handleChangeDate}
         inputFormat="dd/MM/yyyy"
         renderInput={(params) => <TextField {...params} size="small" />}
-        InputAdornmentProps={{ position: "start" }}
+        InputAdornmentProps={{ position: 'start' }}
         minDate={minDate}
         maxDate={maxDate}
       />
@@ -33,7 +33,7 @@ const CustomDatePicker = ({
         onChange={handleChangeDate}
         inputFormat="HH:mm"
         renderInput={(params) => <TextField {...params} size="small" />}
-        InputAdornmentProps={{ position: "start" }}
+        InputAdornmentProps={{ position: 'start' }}
         minTime={minDate}
         maxTime={maxDate}
         ampm={false}
@@ -45,7 +45,7 @@ const CustomDatePicker = ({
         onChange={handleChangeDate}
         inputFormat="HH:mm - dd/MM/yyyy"
         renderInput={(props) => <TextField {...props} />}
-        InputAdornmentProps={{ position: "start" }}
+        InputAdornmentProps={{ position: 'start' }}
         minDateTime={minDate}
         maxDateTime={maxDate}
         ampm={false}

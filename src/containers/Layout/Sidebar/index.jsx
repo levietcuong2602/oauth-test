@@ -1,8 +1,8 @@
 /* eslint-disable import/no-unresolved */
 /* eslint-disable react/no-array-index-key */
-import React, { useState, useEffect, useMemo } from "react";
-import { useLocation, useHistory, matchPath } from "react-router-dom";
-import { useTranslation } from "react-i18next";
+import React, { useState, useEffect, useMemo } from 'react';
+import { useLocation, useHistory, matchPath } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import {
   Toolbar,
   Drawer,
@@ -13,11 +13,11 @@ import {
   Collapse,
   Hidden,
   Button,
-} from "@mui/material";
-import { ChevronRight, ExpandMore, ExpandLess } from "@mui/icons-material";
-import { AICC_URL } from "@src/configs";
-import { sidebarMenu } from "./config";
-import { StyledSidebar } from "./index.style";
+} from '@mui/material';
+import { ChevronRight, ExpandMore, ExpandLess } from '@mui/icons-material';
+import { AICC_URL } from '@src/configs';
+import { sidebarMenu } from './config';
+import { StyledSidebar } from './index.style';
 
 const hasChildren = (item) => {
   const { subMenu } = item;
@@ -28,7 +28,7 @@ const hasChildren = (item) => {
 };
 
 const PlaceRightBottom = ({ isSubGroup, item, onItemClick, selectedKeys }) => {
-  const { t } = useTranslation(["layout"]);
+  const { t } = useTranslation(['layout']);
 
   const handleClick = (route, isGroupMenu) => {
     if (isGroupMenu) return;
@@ -38,7 +38,7 @@ const PlaceRightBottom = ({ isSubGroup, item, onItemClick, selectedKeys }) => {
   return (
     <div
       className={`placement-right-top ${
-        isSubGroup && "placement-right-top-sub"
+        isSubGroup && 'placement-right-top-sub'
       }`}
     >
       <List component="div" disablePadding className="sub-menu">
@@ -53,17 +53,17 @@ const PlaceRightBottom = ({ isSubGroup, item, onItemClick, selectedKeys }) => {
               className={`nested menu-item ${
                 ((isGroupMenu && selectedKeys.includes(menuItem.key)) ||
                   isSubmenuActive) &&
-                "background-primary"
-              } ${isGroupMenu && "menu-submenu"}`}
+                'background-primary'
+              } ${isGroupMenu && 'menu-submenu'}`}
               onClick={() => handleClick(menuItem.route, isGroupMenu)}
             >
               <ListItemIcon
-                className={`menu-icon ${isSubmenuActive && "primary"}`}
+                className={`menu-icon ${isSubmenuActive && 'primary'}`}
               >
                 {menuItem.icon}
               </ListItemIcon>
               <ListItemText
-                className={`menu-title ${isSubmenuActive && "primary"}`}
+                className={`menu-title ${isSubmenuActive && 'primary'}`}
                 primary={t(menuItem.heading)}
               />
               {isGroupMenu && <ChevronRight className="menu-icon" />}
@@ -91,7 +91,7 @@ const SingleLevel = ({
   selectedKeys,
   level,
 }) => {
-  const { t } = useTranslation(["layout"]);
+  const { t } = useTranslation(['layout']);
 
   const isMenuActive = useMemo(
     () => selectedKeys.at(-1) === item.key,
@@ -104,16 +104,16 @@ const SingleLevel = ({
       disabled={item.disabled}
       onClick={() => onItemClick(item.route)}
       className={`menu-item ${
-        isMenuActive && "background-primary"
+        isMenuActive && 'background-primary'
       } menu-item-level-${level}`}
     >
-      <ListItemIcon className={`menu-icon ${isMenuActive && "primary"}`}>
+      <ListItemIcon className={`menu-icon ${isMenuActive && 'primary'}`}>
         {item.icon}
       </ListItemIcon>
       <ListItemText
         primary={t(item.heading)}
-        className={`menu-title ${!mobile && collapsed && "hide"}  ${
-          isMenuActive && "primary"
+        className={`menu-title ${!mobile && collapsed && 'hide'}  ${
+          isMenuActive && 'primary'
         }`}
       />
     </ListItem>
@@ -130,7 +130,7 @@ const MultiLevel = ({
 }) => {
   const { subMenu: children } = item;
 
-  const { t } = useTranslation(["layout"]);
+  const { t } = useTranslation(['layout']);
 
   const [open, setOpen] = useState(false);
 
@@ -158,27 +158,27 @@ const MultiLevel = ({
         button
         onClick={handleClick}
         className={`menu-item ${
-          open && "background-primary"
+          open && 'background-primary'
         } menu-item-level-${level}`}
       >
         <ListItemIcon
           className={`menu-icon ${
-            selectedKeys.includes(item.key) && "primary"
+            selectedKeys.includes(item.key) && 'primary'
           }`}
         >
           {item.icon}
         </ListItemIcon>
         <ListItemText
           primary={t(item.heading)}
-          className={`menu-title ${!mobile && collapsed && "hide"}`}
+          className={`menu-title ${!mobile && collapsed && 'hide'}`}
         />
         {open ? (
           <ExpandLess
-            className={`menu-icon ${!mobile && collapsed && "hide"}`}
+            className={`menu-icon ${!mobile && collapsed && 'hide'}`}
           />
         ) : (
           <ExpandMore
-            className={`menu-icon ${!mobile && collapsed && "hide"}`}
+            className={`menu-icon ${!mobile && collapsed && 'hide'}`}
           />
         )}
       </ListItem>
@@ -271,19 +271,19 @@ const Sidebar = (props) => {
     <Hidden mdDown implementation="css">
       <Drawer
         open={!collapsed}
-        className={`drawer ${!collapsed && "drawer-open"} ${
-          collapsed && "drawer-close"
+        className={`drawer ${!collapsed && 'drawer-open'} ${
+          collapsed && 'drawer-close'
         }`}
         variant="permanent"
         classes={{
-          paper: `drawer ${!collapsed && "drawer-open"} ${
-            collapsed && "drawer-close"
+          paper: `drawer ${!collapsed && 'drawer-open'} ${
+            collapsed && 'drawer-close'
           }`,
         }}
       >
-        <Toolbar className={`toolbar ${collapsed && "toolbar-collapsed"} }`}>
+        <Toolbar className={`toolbar ${collapsed && 'toolbar-collapsed'} }`}>
           <img
-            className={`logo ${collapsed && "hide"} }`}
+            className={`logo ${collapsed && 'hide'} }`}
             src="/img/logo-3.svg"
             alt="logo"
             onClick={() => {
@@ -294,8 +294,8 @@ const Sidebar = (props) => {
             <img
               src={
                 collapsed
-                  ? "/img/collapsed-menu-icon.svg"
-                  : "/img/menu-icon.svg"
+                  ? '/img/collapsed-menu-icon.svg'
+                  : '/img/menu-icon.svg'
               }
               alt="menu-icon"
             />

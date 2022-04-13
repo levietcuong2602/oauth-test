@@ -1,10 +1,10 @@
-import React, { useMemo } from "react";
-import NumberFormat from "react-number-format";
-import { Box, InputAdornment } from "@mui/material";
-import RemoveIcon from "@mui/icons-material/Remove";
-import AddIcon from "@mui/icons-material/Add";
+import React, { useMemo } from 'react';
+import NumberFormat from 'react-number-format';
+import { Box, InputAdornment } from '@mui/material';
+import RemoveIcon from '@mui/icons-material/Remove';
+import AddIcon from '@mui/icons-material/Add';
 
-import { StyledTextField } from "./index.style";
+import { StyledTextField } from './index.style';
 
 const NumberFormatCustom = React.forwardRef((props, ref) => {
   const { onChange, ...other } = props;
@@ -28,7 +28,7 @@ const NumberFormatCustom = React.forwardRef((props, ref) => {
 });
 
 const CustomNumberInput = ({
-  className = "",
+  className = '',
   value,
   onChange,
   min,
@@ -61,7 +61,7 @@ const CustomNumberInput = ({
   };
 
   const displayValue = useMemo(() => {
-    if (value === null || value === undefined) return "";
+    if (value === null || value === undefined) return '';
     return value;
   }, [value]);
 

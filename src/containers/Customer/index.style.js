@@ -1,7 +1,7 @@
-import { styled } from "@mui/material/styles";
-import { COLOR } from "@src/styles/color";
+import { styled } from '@mui/material/styles';
+import { COLOR } from '@src/styles/color';
 
-export const StyledCustomer = styled("div")`
+export const StyledCustomer = styled('div')`
   .text-field {
     background-color: white;
     height: fit-content;

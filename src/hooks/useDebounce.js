@@ -1,4 +1,4 @@
-const { useRef, useState, useEffect } = require("react");
+const { useRef, useState, useEffect } = require('react');
 
 const useDebounce = (value, delay = 500) => {
   const [debouncedValue, setDebouncedValue] = useState(value);

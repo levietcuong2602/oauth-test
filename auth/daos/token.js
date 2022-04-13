@@ -1,6 +1,6 @@
-const snakecaseKeys = require("snakecase-keys");
+const snakecaseKeys = require('snakecase-keys');
 
-const { Token, User, Client } = require("../models");
+const { Token, User, Client } = require('../models');
 
 const findToken = async (condition) => {
   Token.belongsTo(User);
@@ -11,11 +11,11 @@ const findToken = async (condition) => {
     include: [
       {
         model: User,
-        attributes: ["id", "username", "wallet_address"],
+        attributes: ['id', 'username', 'wallet_address'],
       },
       {
         model: Client,
-        attributes: ["id", "client_id", "client_secret"],
+        attributes: ['id', 'client_id', 'client_secret'],
       },
     ],
   });

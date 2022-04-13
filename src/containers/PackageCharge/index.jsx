@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
-import queryString from "query-string";
-import { useLocation } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import queryString from 'query-string';
+import { useLocation } from 'react-router-dom';
 import {
   Box,
   Button,
@@ -10,34 +10,34 @@ import {
   InputAdornment,
   TextField,
   Typography,
-} from "@mui/material";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
-import SearchIcon from "@mui/icons-material/Search";
+} from '@mui/material';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import SearchIcon from '@mui/icons-material/Search';
 
-import CustomBreadcrumb from "@src/components/CustomBreadcrumb";
-import CustomTable from "@src/components/CustomTable";
-import { formatNumber } from "@src/utils/formatNumber";
+import CustomBreadcrumb from '@src/components/CustomBreadcrumb';
+import CustomTable from '@src/components/CustomTable';
+import { formatNumber } from '@src/utils/formatNumber';
 
-import Navbar from "../Layout/Navbar";
-import { StyledPackageCharge } from "./index.style";
-import { packages } from "./data";
-import CreatePackageCharge from "../CreatePackageCharge";
+import Navbar from '../Layout/Navbar';
+import { StyledPackageCharge } from './index.style';
+import { packages } from './data';
+import CreatePackageCharge from '../CreatePackageCharge';
 
 const PackageCharge = () => {
-  const { t } = useTranslation(["packageCharge"]);
+  const { t } = useTranslation(['packageCharge']);
 
   const location = useLocation();
 
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
   const [showCreatePackage, setShowCreatePackage] = useState(false);
   const [packageId, setPackageId] = useState();
   useState(false);
 
   useEffect(() => {
     const searchParams = queryString.parse(location.search);
-    const { search: searchValue = "" } = searchParams;
+    const { search: searchValue = '' } = searchParams;
     setSearch(searchValue);
   }, [location.search]);
 
@@ -63,34 +63,34 @@ const PackageCharge = () => {
 
   const heads = [
     {
-      label: t("no"),
-      valueName: "no",
-      align: "left",
+      label: t('no'),
+      valueName: 'no',
+      align: 'left',
     },
     {
-      label: "key",
-      valueName: "code",
-      align: "left",
+      label: 'key',
+      valueName: 'code',
+      align: 'left',
     },
     {
-      label: t("price"),
-      valueName: "priceDisplay",
-      align: "left",
+      label: t('price'),
+      valueName: 'priceDisplay',
+      align: 'left',
     },
     {
-      label: t("preferential"),
-      valueName: "preferentialDisplay",
-      align: "left",
+      label: t('preferential'),
+      valueName: 'preferentialDisplay',
+      align: 'left',
     },
     {
-      label: t("status"),
-      valueName: "statusDisplay",
-      align: "left",
+      label: t('status'),
+      valueName: 'statusDisplay',
+      align: 'left',
     },
     {
-      label: t("actions"),
-      valueName: "actions",
-      align: "center",
+      label: t('actions'),
+      valueName: 'actions',
+      align: 'center',
     },
   ];
 
@@ -106,8 +106,8 @@ const PackageCharge = () => {
   ];
 
   const renderStatusDisplay = (active) => (
-    <Typography className={`status ${active && "status-active"}`}>
-      {active ? t("activated") : t("notActivated")}
+    <Typography className={`status ${active && 'status-active'}`}>
+      {active ? t('activated') : t('notActivated')}
     </Typography>
   );
 
@@ -118,7 +118,7 @@ const PackageCharge = () => {
           <TextField
             className="search-text-field"
             size="small"
-            placeholder={t("placeholder")}
+            placeholder={t('placeholder')}
             value={search}
             onChange={handleSearchChange}
             InputProps={{
@@ -136,13 +136,13 @@ const PackageCharge = () => {
 
       <Box className="heading-container" display="flex" alignItems="center">
         <Typography className="heading-text">
-          {t("packageAdministrator")}
+          {t('packageAdministrator')}
         </Typography>
         <Divider className="divider" orientation="vertical" flexItem />
         <CustomBreadcrumb
           crumbs={[
-            { path: "", name: t("order") },
-            { path: "", name: t("denominationAdministrator") },
+            { path: '', name: t('order') },
+            { path: '', name: t('denominationAdministrator') },
           ]}
         />
       </Box>
@@ -159,7 +159,7 @@ const PackageCharge = () => {
           startIcon={<AddCircleIcon />}
           onClick={() => handleOpenCreatePackage()}
         >
-          {t("addNewPackage")}
+          {t('addNewPackage')}
         </Button>
       </Box>
 
@@ -167,7 +167,7 @@ const PackageCharge = () => {
         items={packages.map((item) => ({
           ...item,
           priceDisplay: `${formatNumber(item.price)} VND`,
-          preferentialDisplay: t("percentPlus", { percent: item.percentPlus }),
+          preferentialDisplay: t('percentPlus', { percent: item.percentPlus }),
           statusDisplay: renderStatusDisplay(item.active),
         }))}
         heads={heads}

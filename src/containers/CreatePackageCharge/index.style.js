@@ -1,7 +1,7 @@
-import { styled } from "@mui/material/styles";
-import { COLOR, TRANSPARENT_COLOR } from "@src/styles/color";
+import { styled } from '@mui/material/styles';
+import { COLOR, TRANSPARENT_COLOR } from '@src/styles/color';
 
-export const StyledCreatePackageCharge = styled("div")`
+export const StyledCreatePackageCharge = styled('div')`
   width: 500px;
 
   .header {

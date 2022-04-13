@@ -1,7 +1,7 @@
 export default {
-  HOME: "/",
-  LOGIN: "/login",
-  ROLES: "/roles",
-  PERMISSIONS: "/permissions",
-  USERS: "/users",
+  HOME: '/',
+  LOGIN: '/login',
+  ROLES: '/roles',
+  PERMISSIONS: '/permissions',
+  USERS: '/users',
 };

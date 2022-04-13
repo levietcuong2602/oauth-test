@@ -1,7 +1,7 @@
-import { MenuItem } from "@mui/material";
-import { styled } from "@mui/material/styles";
+import { MenuItem } from '@mui/material';
+import { styled } from '@mui/material/styles';
 
-export const StyledNavbar = styled("div")`
+export const StyledNavbar = styled('div')`
   padding: 12px;
   display: flex;
   flex-direction: row;

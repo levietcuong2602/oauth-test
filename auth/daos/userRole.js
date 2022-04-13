@@ -1,6 +1,6 @@
-const snakecaseKeys = require("snakecase-keys");
+const snakecaseKeys = require('snakecase-keys');
 
-const { UserRole, Client, Role } = require("../models");
+const { UserRole, Client, Role } = require('../models');
 
 const createUserRole = async (payload) => {
   const userRole = await UserRole.create(
@@ -48,14 +48,14 @@ const getUserRoles = async (condition) => {
     include: [
       {
         model: Role,
-        attributes: ["id", "name", "is_default"],
+        attributes: ['id', 'name', 'is_default'],
       },
       {
         model: Client,
-        attributes: ["id", "client_id"],
+        attributes: ['id', 'client_id'],
       },
     ],
-    attributes: ["user_id", "client_id", "role_id"],
+    attributes: ['user_id', 'client_id', 'role_id'],
     raw: true,
     nest: true,
   });

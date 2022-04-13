@@ -1,12 +1,12 @@
-import { SvgIcon } from "@mui/material";
-import { styled } from "@mui/material/styles";
-import { COLOR } from "@src/styles/color";
+import { SvgIcon } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { COLOR } from '@src/styles/color';
 
 export const StyledLegendIcon = styled(SvgIcon)`
   color: ${(props) => props.color || COLOR.primary};
 `;
 
-export const StyledDonutChart = styled("div")`
+export const StyledDonutChart = styled('div')`
   position: relative;
   max-width: 300px;
   margin: auto;

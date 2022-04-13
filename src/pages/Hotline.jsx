@@ -1,5 +1,5 @@
-import React from "react";
-import HotlineContainer from "@src/containers/Hotline";
+import React from 'react';
+import HotlineContainer from '@src/containers/Hotline';
 
 const Hotline = () => <HotlineContainer />;
 

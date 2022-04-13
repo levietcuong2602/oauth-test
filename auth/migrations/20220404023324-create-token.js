@@ -6,7 +6,7 @@ module.exports = {
      * Example:
      * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
      */
-    await queryInterface.createTable("tokens", {
+    await queryInterface.createTable('tokens', {
       id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
@@ -24,23 +24,23 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: "clients",
-          key: "id",
+          model: 'clients',
+          key: 'id',
         },
       },
       user_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: "users",
-          key: "id",
+          model: 'users',
+          key: 'id',
         },
       },
       reference_id: {
         type: Sequelize.INTEGER,
         references: {
-          model: "tokens",
-          key: "id",
+          model: 'tokens',
+          key: 'id',
         },
       },
       scope: Sequelize.STRING,
@@ -55,6 +55,6 @@ module.exports = {
      * Example:
      * await queryInterface.dropTable('users');
      */
-    await queryInterface.dropTable("tokens");
+    await queryInterface.dropTable('tokens');
   },
 };

@@ -1,10 +1,10 @@
-import { MenuItem } from "@mui/material";
-import { styled } from "@mui/material/styles";
-import { COLOR, TRANSPARENT_COLOR } from "@src/styles/color";
+import { MenuItem } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { COLOR, TRANSPARENT_COLOR } from '@src/styles/color';
 
-export const StyledPlaceholder = styled("div")`
+export const StyledPlaceholder = styled('div')`
   font-size: 16px;
-  font-family: "SF Pro Display";
+  font-family: 'SF Pro Display';
   color: rgba(0, 0, 0, 0.38);
 `;
 

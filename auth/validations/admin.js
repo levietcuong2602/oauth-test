@@ -1,7 +1,7 @@
-const { Joi } = require("express-validation");
-const { customValidate } = require("./validationUtil");
+const { Joi } = require('express-validation');
+const { customValidate } = require('./validationUtil');
 
-const { GRANT_TYPE } = require("../constants");
+const { GRANT_TYPE } = require('../constants');
 
 const createClient = {
   body: Joi.object({

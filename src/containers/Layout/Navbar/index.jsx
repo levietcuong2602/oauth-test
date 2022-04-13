@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import React, { useState } from "react";
-import { useTranslation } from "react-i18next";
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   // Button,
   Typography,
@@ -13,11 +13,11 @@ import {
   Avatar,
   // IconButton,
   // Badge,
-} from "@mui/material";
+} from '@mui/material';
 // import i18n from "@src/languages";
-import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
-import LogoutIcon from "@mui/icons-material/Logout";
-import { StyledMenuItem, StyledNavbar } from "./index.style";
+import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
+import LogoutIcon from '@mui/icons-material/Logout';
+import { StyledMenuItem, StyledNavbar } from './index.style';
 
 // const languages = [
 //   { value: "en-US", label: "English", iconPath: "en-flag.svg" },
@@ -95,9 +95,9 @@ import { StyledMenuItem, StyledNavbar } from "./index.style";
 // };
 
 const Account = () => {
-  const { t } = useTranslation(["layout"]);
+  const { t } = useTranslation(['layout']);
   const [anchorEl, setAnchorEl] = useState(null);
-  const name = "Cuonglv";
+  const name = 'Cuonglv';
 
   const handleClickOpenPopover = (event) => {
     setAnchorEl(event.currentTarget);
@@ -112,7 +112,7 @@ const Account = () => {
   const renderAvatar = () => <Avatar className="avatar" color="primary" />;
 
   const openPopover = Boolean(anchorEl);
-  const id = openPopover ? "simple-popover" : undefined;
+  const id = openPopover ? 'simple-popover' : undefined;
 
   return (
     <div className="account">
@@ -122,18 +122,18 @@ const Account = () => {
         anchorEl={anchorEl}
         onClose={handleClosePopover}
         anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "left",
+          vertical: 'bottom',
+          horizontal: 'left',
         }}
       >
         <MenuList>
           <StyledMenuItem onClick={handleViewInfo}>
             <AssignmentIndIcon className="info-icon" />
-            <Typography>{t("accountInfo")}</Typography>
+            <Typography>{t('accountInfo')}</Typography>
           </StyledMenuItem>
           <StyledMenuItem>
             <LogoutIcon className="logout-icon" />
-            <Typography>{t("logout")}</Typography>
+            <Typography>{t('logout')}</Typography>
           </StyledMenuItem>
         </MenuList>
       </Popover>
@@ -149,7 +149,7 @@ const Account = () => {
         onClick={handleClickOpenPopover}
       >
         <Typography className="text name-text">{name}</Typography>
-        <Typography className="text profile-text">{t("profile")}</Typography>
+        <Typography className="text profile-text">{t('profile')}</Typography>
       </Box>
     </div>
   );

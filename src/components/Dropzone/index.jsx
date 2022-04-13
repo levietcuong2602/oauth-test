@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
-import { StyledDropzone } from "./index.style";
+import { StyledDropzone } from './index.style';
 
 const Dropzone = (props) => {
   const { className, children, onDrop: handleAddFiles } = props;
@@ -30,7 +30,7 @@ const Dropzone = (props) => {
     <StyledDropzone>
       <div
         className={`root ${className !== undefined && className} ${
-          dragging && "drag-active"
+          dragging && 'drag-active'
         }`}
         onDragOver={onDragOver}
         onDragLeave={onDragLeave}

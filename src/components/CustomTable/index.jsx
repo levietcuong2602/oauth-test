@@ -1,6 +1,6 @@
 /* eslint-disable react/no-array-index-key */
-import React, { useCallback, useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
+import React, { useCallback, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   TableContainer,
   Table,
@@ -10,14 +10,14 @@ import {
   IconButton,
   TableCell,
   CircularProgress,
-} from "@mui/material";
-import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-import DragHandleIcon from "@mui/icons-material/DragHandle";
+} from '@mui/material';
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import DragHandleIcon from '@mui/icons-material/DragHandle';
 
-import { PAGINATION_LIMIT } from "@src/constants";
-import { getByPath } from "@src/utils/object";
-import { StyledCustomTable, StyledTableCell } from "./index.style";
-import CustomPagination from "../CustomPagination";
+import { PAGINATION_LIMIT } from '@src/constants';
+import { getByPath } from '@src/utils/object';
+import { StyledCustomTable, StyledTableCell } from './index.style';
+import CustomPagination from '../CustomPagination';
 
 const DroppableComponent = ({ onDragEnd, onBeforeDragStart, ...props }) => (
   <DragDropContext onDragEnd={onDragEnd} onBeforeDragStart={onBeforeDragStart}>
@@ -62,7 +62,7 @@ const CustomTable = ({
   onReorder,
   onBeforeDragStart,
 }) => {
-  const { t } = useTranslation("common");
+  const { t } = useTranslation('common');
   const { page: currentPage, limit, total } = pagination;
 
   const [data, setData] = useState([]);
@@ -117,7 +117,7 @@ const CustomTable = ({
                   border={border}
                   align={head.align}
                 >
-                  {head.valueName === "no" ? t(head.label) : head.label}
+                  {head.valueName === 'no' ? t(head.label) : head.label}
                 </StyledTableCell>
               ))}
             </TableRow>
@@ -134,7 +134,7 @@ const CustomTable = ({
                   colSpan={heads.length}
                   align="center"
                 >
-                  {t("noDataFound")}
+                  {t('noDataFound')}
                 </StyledTableCell>
               </TableRow>
             )}
@@ -148,26 +148,26 @@ const CustomTable = ({
                   index={index}
                 >
                   {heads.map((head) => {
-                    if (item.id === "totalRow") {
+                    if (item.id === 'totalRow') {
                       return (
                         <TableCell
                           className="table-cell"
                           align={head.align}
                           key={head.valueName}
                         >
-                          {head.valueName !== "actions" &&
-                          head.valueName !== "no" &&
+                          {head.valueName !== 'actions' &&
+                          head.valueName !== 'no' &&
                           (item[head.valueName] || item[head.valueName] === 0)
                             ? item[head.valueName]
-                            : " "}
+                            : ' '}
                         </TableCell>
                       );
                     }
 
                     return (
                       <StyledTableCell border={border} align={head.align}>
-                        {head.valueName === "no" && index + 1}
-                        {head.valueName === "actions" &&
+                        {head.valueName === 'no' && index + 1}
+                        {head.valueName === 'actions' &&
                           actions.length &&
                           Object.keys(item).length !== 0 &&
                           actions.map((action) => (
@@ -177,13 +177,13 @@ const CustomTable = ({
                               disabled={action.disable}
                               key={action.icon}
                             >
-                              {typeof action.icon === "function"
+                              {typeof action.icon === 'function'
                                 ? action.icon(item)
                                 : action.icon}
                             </IconButton>
                           ))}
-                        {head.valueName !== "actions" &&
-                          head.valueName !== "no" &&
+                        {head.valueName !== 'actions' &&
+                          head.valueName !== 'no' &&
                           getByPath(item, head.valueName)}
                       </StyledTableCell>
                     );

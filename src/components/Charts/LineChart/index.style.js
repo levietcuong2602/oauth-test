@@ -1,7 +1,7 @@
-import { styled } from "@mui/material/styles";
-import { COLOR } from "@src/styles/color";
+import { styled } from '@mui/material/styles';
+import { COLOR } from '@src/styles/color';
 
-export const StyledLegendLine = styled("div")`
+export const StyledLegendLine = styled('div')`
   background-color: ${(props) => props.color};
   width: 37px;
   height: 4px;
@@ -9,7 +9,7 @@ export const StyledLegendLine = styled("div")`
   margin-right: 9px;
 `;
 
-export const StyledLineChart = styled("div")`
+export const StyledLineChart = styled('div')`
   .chart {
     background-color: ${COLOR.white};
     box-shadow: 0px 4px 24px rgba(0, 0, 0, 0.1);

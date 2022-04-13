@@ -1,7 +1,7 @@
-import { styled } from "@mui/material/styles";
-import { COLOR } from "@src/styles/color";
+import { styled } from '@mui/material/styles';
+import { COLOR } from '@src/styles/color';
 
-export const StyledCustomDateRangePicker = styled("div")`
+export const StyledCustomDateRangePicker = styled('div')`
   .MuiTextField-root {
     width: 100%;
   }
@@ -25,7 +25,7 @@ export const StyledCustomDateRangePicker = styled("div")`
   }
 `;
 
-export const StyledCustomDatePickerRange = styled("div")`
+export const StyledCustomDatePickerRange = styled('div')`
   .reset-button {
     color: ${COLOR.light};
   }

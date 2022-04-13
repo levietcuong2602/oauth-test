@@ -1,8 +1,8 @@
-const express = require("express");
+const express = require('express');
 
 const router = express.Router(); // Instantiate a new router
-const DebugControl = require("../utilities/debug");
-const { successResponse } = require("../utilities/response");
+const DebugControl = require('../utilities/debug');
+const { successResponse } = require('../utilities/response');
 
 /**
  * GET /secure
@@ -17,13 +17,13 @@ const { successResponse } = require("../utilities/response");
  *    "status": 1
  * }
  */
-router.get("/", (req, res) => {
+router.get('/', (req, res) => {
   // Successfully reached if can hit this :)
   DebugControl.log.variable({
-    name: "res.locals.oauth.token",
+    name: 'res.locals.oauth.token',
     value: res.locals.oauth.token,
   });
-  return successResponse(req, res, "success");
+  return successResponse(req, res, 'success');
 });
 
 module.exports = router;

@@ -1,10 +1,10 @@
-import { SERVICE } from "@src/constants";
-import api from "./api";
+import { SERVICE } from '@src/constants';
+import api from './api';
 
 export const getListProviderSiptrunks = async (params) => {
   const res = await api({
-    method: "GET",
-    url: "/provider-siptrunks",
+    method: 'GET',
+    url: '/provider-siptrunks',
     params,
     source: SERVICE.PORTAL,
   });
@@ -13,8 +13,8 @@ export const getListProviderSiptrunks = async (params) => {
 
 export const createProviderSiptrunk = async (data) => {
   const res = await api({
-    method: "POST",
-    url: "/provider-siptrunks",
+    method: 'POST',
+    url: '/provider-siptrunks',
     data,
     source: SERVICE.PORTAL,
   });
@@ -23,7 +23,7 @@ export const createProviderSiptrunk = async (data) => {
 
 export const updateProviderSiptrunk = async (id, data) => {
   const res = await api({
-    method: "PUT",
+    method: 'PUT',
     url: `/provider-siptrunks/${id}`,
     data,
     source: SERVICE.PORTAL,
@@ -33,7 +33,7 @@ export const updateProviderSiptrunk = async (id, data) => {
 
 export const getProviderSiptrunk = async (id) => {
   const res = await api({
-    method: "GET",
+    method: 'GET',
     url: `/provider-siptrunks/${id}`,
     source: SERVICE.PORTAL,
   });
@@ -42,7 +42,7 @@ export const getProviderSiptrunk = async (id) => {
 
 export const deleteProviderSiptrunk = async (id) => {
   const res = await api({
-    method: "DELETE",
+    method: 'DELETE',
     url: `/provider-siptrunks/${id}`,
     source: SERVICE.PORTAL,
   });

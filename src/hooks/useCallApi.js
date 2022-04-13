@@ -1,7 +1,7 @@
-import { useState } from "react";
-import { useSnackbar } from "notistack";
+import { useState } from 'react';
+import { useSnackbar } from 'notistack';
 
-import { delay } from "@src/utils/delay";
+import { delay } from '@src/utils/delay';
 
 const useCallApi = (initData, apiCaller, delayTime) => {
   const { enqueueSnackbar } = useSnackbar();
@@ -20,7 +20,7 @@ const useCallApi = (initData, apiCaller, delayTime) => {
       setLoading(false);
     } catch (error) {
       setLoading(false);
-      enqueueSnackbar(error.message, { variant: "error" });
+      enqueueSnackbar(error.message, { variant: 'error' });
     }
   };
 

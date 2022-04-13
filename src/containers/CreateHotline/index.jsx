@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
-import camelcase from "camelcase";
-import { useSnackbar } from "notistack";
-import { LoadingButton } from "@mui/lab";
+import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import camelcase from 'camelcase';
+import { useSnackbar } from 'notistack';
+import { LoadingButton } from '@mui/lab';
 import {
   Drawer,
   Box,
@@ -11,22 +11,22 @@ import {
   TextField,
   Button,
   CircularProgress,
-} from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
+} from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 
 import {
   HOTLINE_STATUS,
   HOTLINE_TYPE,
   MOBILE_NETWORK_OPERATOR,
-} from "@src/constants";
-import { PHONE_NUMBER_REGEX } from "@src/utils/regex";
-import apis from "@src/apis";
-import CustomSelect from "@src/components/CustomSelect";
+} from '@src/constants';
+import { PHONE_NUMBER_REGEX } from '@src/utils/regex';
+import apis from '@src/apis';
+import CustomSelect from '@src/components/CustomSelect';
 
-import { StyledCreateHotline } from "./index.style";
+import { StyledCreateHotline } from './index.style';
 
 const CreateHotline = ({ open, onClose, onReloadData, hotlineId }) => {
-  const { t } = useTranslation(["hotline", "common"]);
+  const { t } = useTranslation(['hotline', 'common']);
 
   const { enqueueSnackbar } = useSnackbar();
 
@@ -70,7 +70,7 @@ const CreateHotline = ({ open, onClose, onReloadData, hotlineId }) => {
     try {
       const providerRes =
         await apis.providerSiptrunk.getListProviderSiptrunks();
-      if (!providerRes) throw new Error("serverError");
+      if (!providerRes) throw new Error('serverError');
 
       const {
         result: { data },
@@ -80,14 +80,14 @@ const CreateHotline = ({ open, onClose, onReloadData, hotlineId }) => {
 
       if (id) {
         const hotlineRes = await apis.hotline.getHotline(id);
-        if (!hotlineRes) throw new Error("serverError");
+        if (!hotlineRes) throw new Error('serverError');
 
         setHotline(hotlineRes.result);
         initialFields(hotlineRes.result);
       }
     } catch (error) {
       enqueueSnackbar(t(`common:::${error.message}`), {
-        variant: "error",
+        variant: 'error',
       });
     }
 
@@ -113,9 +113,9 @@ const CreateHotline = ({ open, onClose, onReloadData, hotlineId }) => {
       [name]: value,
     }));
 
-    let errorMessage = "";
-    if (value && name === "sipNumber" && !PHONE_NUMBER_REGEX.test(value)) {
-      errorMessage = "invalidValue";
+    let errorMessage = '';
+    if (value && name === 'sipNumber' && !PHONE_NUMBER_REGEX.test(value)) {
+      errorMessage = 'invalidValue';
     }
 
     setErrors((prev) => ({
@@ -132,7 +132,7 @@ const CreateHotline = ({ open, onClose, onReloadData, hotlineId }) => {
 
     setErrors((prev) => ({
       ...prev,
-      [name]: "",
+      [name]: '',
     }));
   };
 
@@ -152,23 +152,23 @@ const CreateHotline = ({ open, onClose, onReloadData, hotlineId }) => {
     let errorApp = {};
 
     if (!sipNumber || !sipNumber.trim()) {
-      errorApp.sipNumber = "fieldRequired";
+      errorApp.sipNumber = 'fieldRequired';
     }
 
     if (!type) {
-      errorApp.type = "fieldRequired";
+      errorApp.type = 'fieldRequired';
     }
 
     if (!mobileNetworkOperator) {
-      errorApp.mobileNetworkOperator = "fieldRequired";
+      errorApp.mobileNetworkOperator = 'fieldRequired';
     }
 
     if (!providerSiptrunkId) {
-      errorApp.providerSiptrunkId = "fieldRequired";
+      errorApp.providerSiptrunkId = 'fieldRequired';
     }
 
     if (!status) {
-      errorApp.status = "fieldRequired";
+      errorApp.status = 'fieldRequired';
     }
 
     errorApp = { ...errors, ...errorApp };
@@ -197,14 +197,14 @@ const CreateHotline = ({ open, onClose, onReloadData, hotlineId }) => {
         res = await apis.hotline.updateHotline(hotlineId, data);
       }
 
-      if (!res) throw new Error("serverError");
+      if (!res) throw new Error('serverError');
       enqueueSnackbar(
-        t(hotlineId ? "updateHotlineSuccess" : "createHotlineSuccess"),
-        { variant: "success" },
+        t(hotlineId ? 'updateHotlineSuccess' : 'createHotlineSuccess'),
+        { variant: 'success' },
       );
       onReloadData();
     } catch (error) {
-      enqueueSnackbar(t(`common:::${error.message}`), { variant: "error" });
+      enqueueSnackbar(t(`common:::${error.message}`), { variant: 'error' });
     }
 
     setIsSubmitting(false);
@@ -230,7 +230,7 @@ const CreateHotline = ({ open, onClose, onReloadData, hotlineId }) => {
       <StyledCreateHotline>
         <Box className="header">
           <Typography className="text">
-            {hotlineId ? t("editHotline") : t("createHotline")}
+            {hotlineId ? t('editHotline') : t('createHotline')}
           </Typography>
           <IconButton
             aria-label="close"
@@ -249,14 +249,14 @@ const CreateHotline = ({ open, onClose, onReloadData, hotlineId }) => {
           <Box>
             <Box className="content">
               <Box className="item">
-                <Typography className="title">{t("hotlineNumber")}</Typography>
+                <Typography className="title">{t('hotlineNumber')}</Typography>
                 <TextField
                   variant="outlined"
                   fullWidth
                   size="small"
-                  placeholder={t("hotlineNumberPlaceholder")}
+                  placeholder={t('hotlineNumberPlaceholder')}
                   name="sipNumber"
-                  value={hotlineData.sipNumber || ""}
+                  value={hotlineData.sipNumber || ''}
                   onChange={handleChange}
                   helperText={
                     errors.sipNumber && t(`common:::${errors.sipNumber}`)
@@ -265,9 +265,9 @@ const CreateHotline = ({ open, onClose, onReloadData, hotlineId }) => {
                 />
               </Box>
               <Box className="item">
-                <Typography className="title">{t("hotlineType")}</Typography>
+                <Typography className="title">{t('hotlineType')}</Typography>
                 <CustomSelect
-                  placeholder={t("chooseHotlineType")}
+                  placeholder={t('chooseHotlineType')}
                   options={Object.keys(HOTLINE_TYPE).map((key) => {
                     const value = HOTLINE_TYPE[key];
                     return {
@@ -276,17 +276,17 @@ const CreateHotline = ({ open, onClose, onReloadData, hotlineId }) => {
                     };
                   })}
                   value={hotlineData.type}
-                  onChange={(value) => handleSelectChange("type", value)}
+                  onChange={(value) => handleSelectChange('type', value)}
                   helperText={errors.type && t(`common:::${errors.type}`)}
                   error={Boolean(errors.type)}
                 />
               </Box>
               <Box className="item">
                 <Typography className="title">
-                  {t("mobileNetworkOperator")}
+                  {t('mobileNetworkOperator')}
                 </Typography>
                 <CustomSelect
-                  placeholder={t("chooseMobileNetworkOperator")}
+                  placeholder={t('chooseMobileNetworkOperator')}
                   options={Object.keys(MOBILE_NETWORK_OPERATOR).map((key) => {
                     const value = MOBILE_NETWORK_OPERATOR[key];
                     return {
@@ -296,7 +296,7 @@ const CreateHotline = ({ open, onClose, onReloadData, hotlineId }) => {
                   })}
                   value={hotlineData.mobileNetworkOperator}
                   onChange={(value) =>
-                    handleSelectChange("mobileNetworkOperator", value)
+                    handleSelectChange('mobileNetworkOperator', value)
                   }
                   helperText={
                     errors.mobileNetworkOperator &&
@@ -306,16 +306,16 @@ const CreateHotline = ({ open, onClose, onReloadData, hotlineId }) => {
                 />
               </Box>
               <Box className="item">
-                <Typography className="title">{t("supplier")}</Typography>
+                <Typography className="title">{t('supplier')}</Typography>
                 <CustomSelect
-                  placeholder={t("chooseSupplier")}
+                  placeholder={t('chooseSupplier')}
                   options={suppliers.map(({ id, name }) => ({
                     value: id,
                     label: name,
                   }))}
                   value={hotlineData.providerSiptrunkId}
                   onChange={(value) =>
-                    handleSelectChange("providerSiptrunkId", value)
+                    handleSelectChange('providerSiptrunkId', value)
                   }
                   helperText={
                     errors.providerSiptrunkId &&
@@ -325,9 +325,9 @@ const CreateHotline = ({ open, onClose, onReloadData, hotlineId }) => {
                 />
               </Box>
               <Box className="item">
-                <Typography className="title">{t("status")}</Typography>
+                <Typography className="title">{t('status')}</Typography>
                 <CustomSelect
-                  placeholder={t("chooseStatus")}
+                  placeholder={t('chooseStatus')}
                   options={Object.keys(HOTLINE_STATUS).map((key) => {
                     const value = HOTLINE_STATUS[key];
                     return {
@@ -336,7 +336,7 @@ const CreateHotline = ({ open, onClose, onReloadData, hotlineId }) => {
                     };
                   })}
                   value={hotlineData.status}
-                  onChange={(value) => handleSelectChange("status", value)}
+                  onChange={(value) => handleSelectChange('status', value)}
                   helperText={errors.status && t(`common:::${errors.status}`)}
                   error={Boolean(errors.status)}
                 />
@@ -350,10 +350,10 @@ const CreateHotline = ({ open, onClose, onReloadData, hotlineId }) => {
                 loadingPosition="start"
                 variant="contained"
               >
-                {hotlineId ? t("update") : t("createNow")}
+                {hotlineId ? t('update') : t('createNow')}
               </LoadingButton>
               <Button variant="outlined" onClick={handleReset}>
-                {t("reset")}
+                {t('reset')}
               </Button>
             </Box>
           </Box>

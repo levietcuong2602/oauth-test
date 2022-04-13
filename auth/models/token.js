@@ -1,8 +1,8 @@
-const { TOKEN_TYPE } = require("../constants");
+const { TOKEN_TYPE } = require('../constants');
 
 module.exports = (sequelize, DataTypes) => {
   const Token = sequelize.define(
-    "Token",
+    'Token',
     {
       id: {
         type: DataTypes.INTEGER(11),
@@ -20,10 +20,10 @@ module.exports = (sequelize, DataTypes) => {
       user_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        onDelete: "CASCADE",
+        onDelete: 'CASCADE',
         references: {
-          model: "User",
-          key: "id",
+          model: 'User',
+          key: 'id',
         },
       },
       type: {
@@ -35,7 +35,7 @@ module.exports = (sequelize, DataTypes) => {
       scope: DataTypes.STRING,
     },
     {
-      tableName: "tokens",
+      tableName: 'tokens',
       underscored: true,
       timestamps: false,
     },
@@ -43,11 +43,11 @@ module.exports = (sequelize, DataTypes) => {
   Token.associate = function (models) {
     // associations can be defined here
     Token.belongsTo(models.Client, {
-      foreignKey: "client_id",
+      foreignKey: 'client_id',
     });
 
     Token.belongsTo(models.User, {
-      foreignKey: "user_id",
+      foreignKey: 'user_id',
     });
   };
   return Token;

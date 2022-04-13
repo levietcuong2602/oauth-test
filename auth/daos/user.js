@@ -1,6 +1,6 @@
-const snakecaseKeys = require("snakecase-keys");
+const snakecaseKeys = require('snakecase-keys');
 
-const { User, sequelize } = require("../models");
+const { User, sequelize } = require('../models');
 
 const findUser = async (condition) => {
   const user = await User.findOne({
@@ -22,11 +22,11 @@ const createUser = async (payload) => {
 };
 
 const deleteUser = async (condition) => {
-  await sequelize.query("SET FOREIGN_KEY_CHECKS = 0");
+  await sequelize.query('SET FOREIGN_KEY_CHECKS = 0');
   await User.destroy({
     where: snakecaseKeys(condition, { deep: true }),
   });
-  await sequelize.query("SET FOREIGN_KEY_CHECKS = 1"); // setting the flag back for security
+  await sequelize.query('SET FOREIGN_KEY_CHECKS = 1'); // setting the flag back for security
 };
 
 const updateUser = async (userId, payload) => {

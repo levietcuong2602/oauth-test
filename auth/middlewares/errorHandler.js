@@ -1,16 +1,16 @@
-const statusCodes = require("../errors/code");
-const getErrorMessage = require("../errors/message");
+const statusCodes = require('../errors/code');
+const getErrorMessage = require('../errors/message');
 
-const { errorResponse } = require("../utilities/response");
-const DebugControl = require("../utilities/debug");
+const { errorResponse } = require('../utilities/response');
+const DebugControl = require('../utilities/debug');
 
 // eslint-disable-next-line no-unused-vars
 const errorHandler = (err, req, res, next) => {
-  DebugControl.log.functionName("Error Handler");
+  DebugControl.log.functionName('Error Handler');
   DebugControl.log.parameters([
-    { name: "message", value: err.message },
-    { name: "errorCode", value: err.code },
-    { name: "statusCode", value: err.statusCode },
+    { name: 'message', value: err.message },
+    { name: 'errorCode', value: err.code },
+    { name: 'statusCode', value: err.statusCode },
   ]);
 
   let statusCode = err.code || err.statusCode;
@@ -19,21 +19,21 @@ const errorHandler = (err, req, res, next) => {
   const code = err.code || err.statusCode || statusCodes.INTERNAL_SERVER_ERROR;
   switch (code) {
     case statusCodes.BAD_REQUEST:
-      message = message || "Bad Request";
+      message = message || 'Bad Request';
       details = err.details;
       break;
     case statusCodes.UNAUTHORIZED:
-      message = "Unauthorized";
+      message = 'Unauthorized';
       break;
     case statusCodes.FORBIDDEN:
-      message = "Forbidden";
+      message = 'Forbidden';
       break;
     case statusCodes.NOT_FOUND:
-      message = message || "Not Found";
+      message = message || 'Not Found';
       break;
     case statusCodes.INTERNAL_SERVER_ERROR:
       statusCode = statusCodes.INTERNAL_SERVER_ERROR;
-      message = message || "Something went wrong";
+      message = message || 'Something went wrong';
       break;
     default:
       message = message || getErrorMessage(code);

@@ -1,7 +1,8 @@
-const DebugControl = require("../utilities/debug.js");
+const DebugControl = require('../utilities/debug');
 
 DebugControl.setLevel(DebugControl.levels.NONE);
 
 module.exports = {
-  server: require("../app.js"),
+  // eslint-disable-next-line global-require
+  server: require('../app'),
 };

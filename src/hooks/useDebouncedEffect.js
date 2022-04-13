@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef } from 'react';
 
 const useDebouncedEffect = (effect, deps, delay = 500) => {
   const handler = useRef(null);

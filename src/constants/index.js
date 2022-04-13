@@ -1,5 +1,5 @@
-import ROUTES from "./route";
-import DATE_TIME_PICKER_TYPES from "./dateTimePickerType";
+import ROUTES from './route';
+import DATE_TIME_PICKER_TYPES from './dateTimePickerType';
 import {
   SERVICE,
   ERROR_CODE_SYSTEM,
@@ -7,16 +7,16 @@ import {
   ERROR_CODE_PAYMENT_SERVICE,
   ERROR_CODE_CALL_SERVICE,
   ERROR_CODE_PUBLIC_SERVICE,
-} from "./responseCode";
+} from './responseCode';
 import {
   HOTLINE_TYPE,
   HOTLINE_STATUS,
   MOBILE_NETWORK_OPERATOR,
-} from "./hotline";
+} from './hotline';
 
 export const A_WEEK = 7 * 24 * 60 * 60 * 1000;
 export const PAGINATION_LIMIT = 10;
-export const ALL = "ALL";
+export const ALL = 'ALL';
 
 export {
   ROUTES,

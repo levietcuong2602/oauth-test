@@ -1,16 +1,16 @@
-const authService = require("../services/auth");
+const authService = require('../services/auth');
 
-const { successResponse } = require("../utilities/response");
-const DebugControl = require("../utilities/debug");
-const { verifyToken } = require("../utilities/auth");
+const { successResponse } = require('../utilities/response');
+const DebugControl = require('../utilities/debug');
+const { verifyToken } = require('../utilities/auth');
 
-const { SECRET_TOKEN } = require("../config");
+const { SECRET_TOKEN } = require('../config');
 
-const CustomError = require("../errors/CustomError");
-const statusCode = require("../errors/code");
+const CustomError = require('../errors/CustomError');
+const statusCode = require('../errors/code');
 
 const registerAccount = async (req, res) => {
-  DebugControl.log.flow("Register User");
+  DebugControl.log.flow('Register User');
   const { username, password, client_id: clientId } = req.body;
 
   const data = await authService.registerAccount({
@@ -22,7 +22,7 @@ const registerAccount = async (req, res) => {
 };
 
 const getAuthorizationTokenByMobile = async (req, res) => {
-  DebugControl.log.flow("Authenticate Handler Mobile");
+  DebugControl.log.flow('Authenticate Handler Mobile');
   const {
     client: { id: clientId },
     user: { id: userId },
@@ -35,7 +35,7 @@ const getAuthorizationTokenByMobile = async (req, res) => {
 };
 
 const generateNonceSession = async (req, res) => {
-  DebugControl.log.flow("Generate Nonce Session");
+  DebugControl.log.flow('Generate Nonce Session');
   const { client_id: clientId, wallet_address: walletAddress } = req.body;
   const data = await authService.generateNonceSession({
     walletAddress,
@@ -45,7 +45,7 @@ const generateNonceSession = async (req, res) => {
 };
 
 const verifySignature = async (req, res) => {
-  DebugControl.log.flow("Verify Signature");
+  DebugControl.log.flow('Verify Signature');
   const {
     session_id: sessionId,
     client_id: clientId,

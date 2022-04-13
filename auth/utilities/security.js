@@ -1,35 +1,35 @@
-const crypto = require("crypto");
+const crypto = require('crypto');
 
 // Must be 256 bits (32 characters)
-const { PEPPER } = require("../config");
+const { PEPPER } = require('../config');
 
 const IV_LENGTH = 16; // For AES, this is always 16
 
 const hashSHA512 = (text) =>
-  crypto.createHash("sha512").update(text).digest("hex");
+  crypto.createHash('sha512').update(text).digest('hex');
 
 const generateSecurityKey = () => {
   const seed = crypto.randomBytes(256);
-  const code = crypto.createHash("sha1").update(seed).digest("hex");
+  const code = crypto.createHash('sha1').update(seed).digest('hex');
   return code;
 };
 
 const encrypt = (text) => {
   const iv = crypto.randomBytes(IV_LENGTH);
-  const cipher = crypto.createCipheriv("aes-256-ctr", Buffer.from(PEPPER), iv);
+  const cipher = crypto.createCipheriv('aes-256-ctr', Buffer.from(PEPPER), iv);
   let encrypted = cipher.update(text);
 
   encrypted = Buffer.concat([encrypted, cipher.final()]);
 
-  return `${iv.toString("hex")}:${encrypted.toString("hex")}`;
+  return `${iv.toString('hex')}:${encrypted.toString('hex')}`;
 };
 
 const decrypt = (text) => {
-  const textParts = text.split(":");
-  const iv = Buffer.from(textParts.shift(), "hex");
-  const encryptedText = Buffer.from(textParts.join(":"), "hex");
+  const textParts = text.split(':');
+  const iv = Buffer.from(textParts.shift(), 'hex');
+  const encryptedText = Buffer.from(textParts.join(':'), 'hex');
   const decipher = crypto.createDecipheriv(
-    "aes-256-ctr",
+    'aes-256-ctr',
     Buffer.from(PEPPER),
     iv,
   );

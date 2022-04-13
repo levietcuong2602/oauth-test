@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
   const AuthorizationCode = sequelize.define(
-    "AuthorizationCode",
+    'AuthorizationCode',
     {
       authorization_code: {
         type: DataTypes.STRING,
@@ -13,11 +13,12 @@ module.exports = (sequelize, DataTypes) => {
       user_id: { type: DataTypes.INTEGER, allowNull: false },
     },
     {
-      tableName: "authorization_codes",
+      tableName: 'authorization_codes',
       underscored: true,
       timestamps: false,
     },
   );
+  // eslint-disable-next-line func-names
   // eslint-disable-next-line no-unused-vars
   AuthorizationCode.associate = function (models) {
     // associations can be defined here

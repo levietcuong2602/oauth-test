@@ -1,13 +1,13 @@
-import React, { useState, useEffect, createRef } from "react";
-import Sidebar from "./Sidebar";
-import Navbar from "./Navbar";
-import { StyledLayout } from "./index.style";
+import React, { useState, useEffect, createRef } from 'react';
+import Sidebar from './Sidebar';
+import Navbar from './Navbar';
+import { StyledLayout } from './index.style';
 
 export default function Layout({ children }) {
   const mainPanel = createRef();
 
   useEffect(() => {
-    document.body.style.overflow = "unset";
+    document.body.style.overflow = 'unset';
     return function cleanup() {};
   });
 

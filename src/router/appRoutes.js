@@ -1,6 +1,6 @@
-import ROUTES from "@src/constants/route";
-import Login from "@src/pages/Login";
-import ListRole from "@src/pages/Role/ListRole";
+import ROUTES from '@src/constants/route';
+import Login from '@src/pages/Login';
+import ListRole from '@src/pages/Role/ListRole';
 
 export default [
   {

@@ -1,18 +1,18 @@
-import * as React from "react";
-import { styled } from "@mui/material/styles";
+import * as React from 'react';
+import { styled } from '@mui/material/styles';
 import {
   Box,
   Icon,
   InputAdornment,
   TextField,
   IconButton,
-} from "@mui/material";
-import { LocalizationProvider, DateRangePicker } from "@mui/lab";
-import AdapterDateFns from "@mui/lab/AdapterDateFns";
-import MuiDateRangePickerDay from "@mui/lab/DateRangePickerDay";
-import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
+} from '@mui/material';
+import { LocalizationProvider, DateRangePicker } from '@mui/lab';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import MuiDateRangePickerDay from '@mui/lab/DateRangePickerDay';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 
-import { StyledCustomDateRangePicker } from "./index.style";
+import { StyledCustomDateRangePicker } from './index.style';
 
 const DateRangePickerDay = styled(MuiDateRangePickerDay)(
   ({ theme, isHighlighting, isStartOfHighlighting, isEndOfHighlighting }) => ({
@@ -20,17 +20,17 @@ const DateRangePickerDay = styled(MuiDateRangePickerDay)(
       borderRadius: 0,
       backgroundColor: theme.palette.primary.main,
       color: theme.palette.common.white,
-      "&:hover, &:focus": {
+      '&:hover, &:focus': {
         backgroundColor: theme.palette.primary.dark,
       },
     }),
     ...(isStartOfHighlighting && {
-      borderTopLeftRadius: "50%",
-      borderBottomLeftRadius: "50%",
+      borderTopLeftRadius: '50%',
+      borderBottomLeftRadius: '50%',
     }),
     ...(isEndOfHighlighting && {
-      borderTopRightRadius: "50%",
-      borderBottomRightRadius: "50%",
+      borderTopRightRadius: '50%',
+      borderBottomRightRadius: '50%',
     }),
   }),
 );

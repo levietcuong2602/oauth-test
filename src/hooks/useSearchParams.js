@@ -1,7 +1,7 @@
-import { useHistory, useLocation } from "react-router-dom";
-import queryString from "query-string";
+import { useHistory, useLocation } from 'react-router-dom';
+import queryString from 'query-string';
 
-import { omitIsNil } from "@src/utils/omit";
+import { omitIsNil } from '@src/utils/omit';
 
 const useSearchParams = () => {
   const location = useLocation();

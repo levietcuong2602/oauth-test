@@ -1,5 +1,5 @@
-import { createTheme } from "@mui/material/styles";
-import { COLOR, TRANSPARENT_COLOR } from "./color";
+import { createTheme } from '@mui/material/styles';
+import { COLOR, TRANSPARENT_COLOR } from './color';
 
 const theme = createTheme({
   palette: {
@@ -34,17 +34,17 @@ const theme = createTheme({
     borderRadius: 6,
   },
   typography: {
-    fontFamily: "SF Pro Display",
+    fontFamily: 'SF Pro Display',
     fontSize: 14,
   },
   components: {
     MuiButton: {
       styleOverrides: {
         root: {
-          fontWeight: "bold",
+          fontWeight: 'bold',
         },
         contained: {
-          boxShadow: "none",
+          boxShadow: 'none',
         },
         containedPrimary: {
           color: COLOR.white,
@@ -64,7 +64,7 @@ const theme = createTheme({
     MuiTab: {
       styleOverrides: {
         root: {
-          "&$selected": {
+          '&$selected': {
             color: COLOR.primary,
           },
         },
@@ -78,7 +78,7 @@ const theme = createTheme({
             backgroundColor: `${COLOR.primary} !important`,
             color: COLOR.white,
           },
-          "&.Mui-focused": {
+          '&.Mui-focused': {
             backgroundColor: TRANSPARENT_COLOR.primary,
           },
         },

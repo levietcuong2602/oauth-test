@@ -1,5 +1,5 @@
-const bcrypt = require("bcrypt");
-const { hashSHA512, encrypt } = require("./security");
+const bcrypt = require('bcrypt');
+const { hashSHA512, encrypt } = require('./security');
 
 const compareBcrypt = async (data, hashed) => {
   const isCorrect = await new Promise((resolve, reject) => {

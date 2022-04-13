@@ -1,5 +1,5 @@
-import React from "react";
-import PackageChargeContainer from "@src/containers/PackageCharge";
+import React from 'react';
+import PackageChargeContainer from '@src/containers/PackageCharge';
 
 const PackageCharge = () => <PackageChargeContainer />;
 

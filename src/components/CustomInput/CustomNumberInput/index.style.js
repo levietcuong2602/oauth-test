@@ -1,6 +1,6 @@
-import { TextField } from "@mui/material";
-import { styled } from "@mui/material/styles";
-import { COLOR } from "@src/styles/color";
+import { TextField } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { COLOR } from '@src/styles/color';
 
 export const StyledTextField = styled(TextField)`
   & .MuiOutlinedInput-root {

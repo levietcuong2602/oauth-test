@@ -1,6 +1,6 @@
-const camelcaseKeys = require("camelcase-keys");
+const camelcaseKeys = require('camelcase-keys');
 
-const userRoleDao = require("../daos/userRole");
+const userRoleDao = require('../daos/userRole');
 
 const getRoleUserInClients = async (userId) => {
   // return list role in all clients

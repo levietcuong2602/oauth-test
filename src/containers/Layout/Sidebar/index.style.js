@@ -1,7 +1,7 @@
-import { SIDEBAR_WIDTH } from "@src/styles/config";
-import { styled } from "@mui/material/styles";
+import { SIDEBAR_WIDTH } from '@src/styles/config';
+import { styled } from '@mui/material/styles';
 
-export const StyledSidebar = styled("div")`
+export const StyledSidebar = styled('div')`
   .toolbar {
     padding: 10px 19px 10px;
     display: flex;

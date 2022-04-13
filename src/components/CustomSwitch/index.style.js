@@ -1,6 +1,6 @@
-import { styled } from "@mui/material/styles";
-import { Switch } from "@mui/material";
-import { COLOR } from "@src/styles/color";
+import { styled } from '@mui/material/styles';
+import { Switch } from '@mui/material';
+import { COLOR } from '@src/styles/color';
 
 const StyledSwitch = styled(Switch)`
   width: 42px;

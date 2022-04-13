@@ -1,10 +1,10 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import { Button, Skeleton, Typography } from "@mui/material";
-import Highcharts from "highcharts";
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { Button, Skeleton, Typography } from '@mui/material';
+import Highcharts from 'highcharts';
 
-import { formatNumber } from "@src/utils/formatNumber";
-import HightChartReact from "../../HighChart";
-import { StyledDonutChart, StyledLegendIcon } from "./index.style";
+import { formatNumber } from '@src/utils/formatNumber';
+import HightChartReact from '../../HighChart';
+import { StyledDonutChart, StyledLegendIcon } from './index.style';
 
 const LegendIcon = (props) => (
   <StyledLegendIcon {...props} viewBox="0 0 27 20">
@@ -38,8 +38,8 @@ const DonutChart = ({
   const optionsMemo = useMemo(
     () => ({
       chart: {
-        renderTo: "container",
-        type: "pie",
+        renderTo: 'container',
+        type: 'pie',
         width: 250,
         height: 250,
       },
@@ -47,18 +47,18 @@ const DonutChart = ({
         text: null,
       },
       tooltip: {
-        pointFormat: "<b>{point.y}</b> ({point.percentage:.2f}%)<br/>",
+        pointFormat: '<b>{point.y}</b> ({point.percentage:.2f}%)<br/>',
         shared: true,
       },
       accessibility: {
         point: {
-          valueSuffix: "%",
+          valueSuffix: '%',
         },
       },
       plotOptions: {
         pie: {
           allowPointSelect: true,
-          cursor: "pointer",
+          cursor: 'pointer',
           colors: pieColors,
           dataLabels: {
             enabled: false,
@@ -68,8 +68,8 @@ const DonutChart = ({
       },
       series: [
         {
-          type: "pie",
-          innerSize: "50%",
+          type: 'pie',
+          innerSize: '50%',
           data: series,
         },
       ],
@@ -135,7 +135,7 @@ const DonutChart = ({
             <Button
               key={index.toString()}
               className={`legend-item ${
-                !listVisible[index] && "legend-item-hidden"
+                !listVisible[index] && 'legend-item-hidden'
               }`}
               onClick={() => legendItemClick(index)}
             >

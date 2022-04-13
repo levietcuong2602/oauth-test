@@ -1,6 +1,6 @@
-const snakecaseKeys = require("snakecase-keys");
+const snakecaseKeys = require('snakecase-keys');
 
-const { Role } = require("../models");
+const { Role } = require('../models');
 
 const findRole = async (condition) => {
   const role = await Role.findOne({

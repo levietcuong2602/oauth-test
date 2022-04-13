@@ -1,8 +1,8 @@
 export const SERVICE = {
-  PORTAL: "PORTAL",
-  PAYMENT: "PAYMENT",
-  CALL: "CALL",
-  PUBLIC_API: "PUBLIC_API",
+  PORTAL: 'PORTAL',
+  PAYMENT: 'PAYMENT',
+  CALL: 'CALL',
+  PUBLIC_API: 'PUBLIC_API',
 };
 
 export const ERROR_CODE_SYSTEM = {

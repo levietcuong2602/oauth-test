@@ -1,6 +1,6 @@
-import { styled } from "@mui/material/styles";
-import { TableCell } from "@mui/material";
-import { COLOR } from "@src/styles/color";
+import { styled } from '@mui/material/styles';
+import { TableCell } from '@mui/material';
+import { COLOR } from '@src/styles/color';
 
 export const StyledTableCell = styled(TableCell)`
   &.MuiTableCell-head {
@@ -10,12 +10,12 @@ export const StyledTableCell = styled(TableCell)`
     // text-transform: uppercase;
     color: ${COLOR.bodyText};
     border: ${(props) =>
-      props.border ? "1px solid rgba(224, 224, 224, 1)" : "none"};
+      props.border ? '1px solid rgba(224, 224, 224, 1)' : 'none'};
   }
   &.MuiTableCell-body {
     font-size: 16px;
     border: ${(props) =>
-      props.border ? "1px solid rgba(224, 224, 224, 1)" : "none"};
+      props.border ? '1px solid rgba(224, 224, 224, 1)' : 'none'};
     border-bottom: 1px solid rgba(224, 224, 224, 1);
     background-color: ${COLOR.white};
   }
@@ -30,7 +30,7 @@ export const StyledTableCell = styled(TableCell)`
   }
 `;
 
-export const StyledCustomTable = styled("div")`
+export const StyledCustomTable = styled('div')`
   .table-cell {
     font-weight: 500;
     font-size: 16px;

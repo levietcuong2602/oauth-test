@@ -11,7 +11,7 @@ module.exports = {
      */
 
     await queryInterface.bulkInsert(
-      "user_roles",
+      'user_roles',
       [
         {
           user_id: 1,
@@ -31,6 +31,6 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    await queryInterface.bulkDelete("user_roles", null, {});
+    await queryInterface.bulkDelete('user_roles', null, {});
   },
 };

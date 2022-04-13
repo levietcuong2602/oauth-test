@@ -1,11 +1,11 @@
 /* eslint-disable camelcase */
-const moment = require("moment");
+const moment = require('moment');
 
-const { generateToken } = require("../utilities/auth");
-const { omitIsNil } = require("../utilities/omit");
-const { encryptPassword, generateSalt } = require("../utilities/bcrypt");
-const { generateSecurityKey } = require("../utilities/security");
-const { verifyMessage } = require("../utilities/ethers");
+const { generateToken } = require('../utilities/auth');
+const { omitIsNil } = require('../utilities/omit');
+const { encryptPassword, generateSalt } = require('../utilities/bcrypt');
+const { generateSecurityKey } = require('../utilities/security');
+const { verifyMessage } = require('../utilities/ethers');
 
 const {
   SECRET_REFRESH,
@@ -13,21 +13,21 @@ const {
   REFRESH_TOKEN_LIFETIME,
   TOKEN_LIFETIME,
   SESSION_LIFETIME,
-} = require("../config");
-const { TOKEN_TYPE, AUTHORIZATION_CODE_LIFETIME } = require("../constants");
-const { sequelize } = require("../models");
+} = require('../config');
+const { TOKEN_TYPE, AUTHORIZATION_CODE_LIFETIME } = require('../constants');
+const { sequelize } = require('../models');
 
-const userDao = require("../daos/user");
-const clientDao = require("../daos/client");
-const userRoleDao = require("../daos/userRole");
-const roleDao = require("../daos/role");
-const tokenDao = require("../daos/token");
-const sessionDao = require("../daos/session");
-const authorizationCodeDao = require("../daos/authorizationCode");
+const userDao = require('../daos/user');
+const clientDao = require('../daos/client');
+const userRoleDao = require('../daos/userRole');
+const roleDao = require('../daos/role');
+const tokenDao = require('../daos/token');
+const sessionDao = require('../daos/session');
+const authorizationCodeDao = require('../daos/authorizationCode');
 
-const userRoleService = require("./userRole");
-const CustomError = require("../errors/CustomError");
-const statusCode = require("../errors/code");
+const userRoleService = require('./userRole');
+const CustomError = require('../errors/CustomError');
+const statusCode = require('../errors/code');
 
 const generateAndSaveToken = async ({
   tokenData,
@@ -68,12 +68,12 @@ const registerAccount = async ({ username, password, clientId }) => {
   if (user)
     throw new CustomError(
       statusCode.BAD_REQUEST,
-      "User already exists with same username",
+      'User already exists with same username',
     );
 
   // check client
   const client = await clientDao.findClient({ clientId });
-  if (!client) throw new CustomError(statusCode.NOT_FOUND, "Client not exists");
+  if (!client) throw new CustomError(statusCode.NOT_FOUND, 'Client not exists');
 
   const salt = generateSalt(10);
   const newUser = await userDao.createUser({
@@ -117,10 +117,10 @@ const registerAccount = async ({ username, password, clientId }) => {
     tokenData,
     options: {
       expiresIn: REFRESH_TOKEN_LIFETIME,
-      algorithm: "HS256",
+      algorithm: 'HS256',
     },
     secretKey: SECRET_REFRESH,
-    tokenExpiresAt: moment().add(REFRESH_TOKEN_LIFETIME, "seconds").toDate(),
+    tokenExpiresAt: moment().add(REFRESH_TOKEN_LIFETIME, 'seconds').toDate(),
     type: TOKEN_TYPE.REFRESH_TOKEN,
   });
 
@@ -129,11 +129,11 @@ const registerAccount = async ({ username, password, clientId }) => {
     tokenData,
     options: {
       expiresIn: TOKEN_LIFETIME,
-      algorithm: "HS256",
+      algorithm: 'HS256',
     },
     referenceId: refresh.id,
     secretKey: SECRET_TOKEN,
-    tokenExpiresAt: moment().add(TOKEN_LIFETIME, "seconds").toDate(),
+    tokenExpiresAt: moment().add(TOKEN_LIFETIME, 'seconds').toDate(),
     type: TOKEN_TYPE.ACCESS_TOKEN,
   });
 
@@ -142,7 +142,7 @@ const registerAccount = async ({ username, password, clientId }) => {
     tokenExpiresAt: token.token_expires_at,
     refreshToken: refresh.token,
     refreshTokenExpiresAt: refresh.token_expires_at,
-    tokenType: "Bearer",
+    tokenType: 'Bearer',
   };
 };
 
@@ -154,7 +154,7 @@ const getAuthorizationTokenByMobile = async ({ userId, clientId }) => {
     authorizationCode,
     userId,
     clientId,
-    expiresAt: moment().add(AUTHORIZATION_CODE_LIFETIME, "seconds").toDate(),
+    expiresAt: moment().add(AUTHORIZATION_CODE_LIFETIME, 'seconds').toDate(),
   };
   const code = await authorizationCodeDao.createAuthorizationCode(codeData);
   // return code
@@ -163,11 +163,11 @@ const getAuthorizationTokenByMobile = async ({ userId, clientId }) => {
 
 const generateNonceSession = async ({ walletAddress, clientId }) => {
   const client = await clientDao.findClient({ clientId });
-  if (!client) throw new CustomError(statusCode.NOT_FOUND, "Client not exists");
+  if (!client) throw new CustomError(statusCode.NOT_FOUND, 'Client not exists');
 
   const sessionData = {
     nonce: generateSecurityKey(),
-    expiresAt: moment().add(SESSION_LIFETIME, "seconds").toDate(),
+    expiresAt: moment().add(SESSION_LIFETIME, 'seconds').toDate(),
     clientId: client.id,
     walletAddress,
   };
@@ -183,22 +183,22 @@ const verifySignature = async ({
 }) => {
   // check client id
   const client = await clientDao.findClient({ clientId });
-  if (!client) throw new CustomError(statusCode.NOT_FOUND, "Client not found");
+  if (!client) throw new CustomError(statusCode.NOT_FOUND, 'Client not found');
 
   // check session id
   const session = await sessionDao.findSession({
     id: sessionId,
   });
   if (!session)
-    throw new CustomError(statusCode.NOT_FOUND, "Session not found");
+    throw new CustomError(statusCode.NOT_FOUND, 'Session not found');
   if (new Date(session.expires_at).valueOf() < new Date().valueOf())
-    throw new CustomError(statusCode.BAD_REQUEST, "Session is expired");
+    throw new CustomError(statusCode.BAD_REQUEST, 'Session is expired');
 
   if (
     session.client_id - client.id !== 0 ||
     session.wallet_address !== walletAddress
   )
-    throw new CustomError(statusCode.BAD_REQUEST, "Session is invalid");
+    throw new CustomError(statusCode.BAD_REQUEST, 'Session is invalid');
 
   // verify signature
   const isVerifyValid = await verifyMessage({
@@ -207,7 +207,7 @@ const verifySignature = async ({
     address: walletAddress,
   });
   if (!isVerifyValid)
-    throw new CustomError(statusCode.UNAUTHORIZED, "Invalid signature");
+    throw new CustomError(statusCode.UNAUTHORIZED, 'Invalid signature');
 
   // remove session
   await sessionDao.deleteSession(sessionId);
@@ -253,10 +253,10 @@ const verifySignature = async ({
     tokenData,
     options: {
       expiresIn: REFRESH_TOKEN_LIFETIME,
-      algorithm: "HS256",
+      algorithm: 'HS256',
     },
     secretKey: SECRET_REFRESH,
-    tokenExpiresAt: moment().add(REFRESH_TOKEN_LIFETIME, "seconds").toDate(),
+    tokenExpiresAt: moment().add(REFRESH_TOKEN_LIFETIME, 'seconds').toDate(),
     type: TOKEN_TYPE.REFRESH_TOKEN,
   });
 
@@ -265,11 +265,11 @@ const verifySignature = async ({
     tokenData,
     options: {
       expiresIn: TOKEN_LIFETIME,
-      algorithm: "HS256",
+      algorithm: 'HS256',
     },
     referenceId: refresh.id,
     secretKey: SECRET_TOKEN,
-    tokenExpiresAt: moment().add(TOKEN_LIFETIME, "seconds").toDate(),
+    tokenExpiresAt: moment().add(TOKEN_LIFETIME, 'seconds').toDate(),
     type: TOKEN_TYPE.ACCESS_TOKEN,
   });
 
@@ -278,33 +278,33 @@ const verifySignature = async ({
     tokenExpiresAt: token.token_expires_at,
     refreshToken: refresh.token,
     refreshTokenExpiresAt: refresh.token_expires_at,
-    tokenType: "Bearer",
+    tokenType: 'Bearer',
   };
 };
 
 const combineAccountAndWallet = async ({ accountId, walletId, clientId }) => {
   // check client id
   const client = await clientDao.findClient({ clientId });
-  if (!client) throw new CustomError(statusCode.NOT_FOUND, "Client not found");
+  if (!client) throw new CustomError(statusCode.NOT_FOUND, 'Client not found');
 
   let transaction;
   let account = await userDao.findUser({ id: accountId });
   if (!account)
-    throw new CustomError(statusCode.NOT_FOUND, "the account not found");
+    throw new CustomError(statusCode.NOT_FOUND, 'the account not found');
 
   if (account.wallet_address)
     throw new CustomError(
       statusCode.BAD_REQUEST,
-      "The account has been linked to the wallet",
+      'The account has been linked to the wallet',
     );
 
   const wallet = await userDao.findUser({ id: walletId });
   if (!wallet)
-    throw new CustomError(statusCode.NOT_FOUND, "the wallet not found");
+    throw new CustomError(statusCode.NOT_FOUND, 'the wallet not found');
   if (!wallet.wallet_address)
     throw new CustomError(
       statusCode.BAD_REQUEST,
-      "the wallet address is invalid",
+      'the wallet address is invalid',
     );
 
   try {
@@ -367,10 +367,10 @@ const combineAccountAndWallet = async ({ accountId, walletId, clientId }) => {
       tokenData,
       options: {
         expiresIn: REFRESH_TOKEN_LIFETIME,
-        algorithm: "HS256",
+        algorithm: 'HS256',
       },
       secretKey: SECRET_REFRESH,
-      tokenExpiresAt: moment().add(REFRESH_TOKEN_LIFETIME, "seconds").toDate(),
+      tokenExpiresAt: moment().add(REFRESH_TOKEN_LIFETIME, 'seconds').toDate(),
       type: TOKEN_TYPE.REFRESH_TOKEN,
     });
 
@@ -379,11 +379,11 @@ const combineAccountAndWallet = async ({ accountId, walletId, clientId }) => {
       tokenData,
       options: {
         expiresIn: TOKEN_LIFETIME,
-        algorithm: "HS256",
+        algorithm: 'HS256',
       },
       referenceId: refresh.id,
       secretKey: SECRET_TOKEN,
-      tokenExpiresAt: moment().add(TOKEN_LIFETIME, "seconds").toDate(),
+      tokenExpiresAt: moment().add(TOKEN_LIFETIME, 'seconds').toDate(),
       type: TOKEN_TYPE.ACCESS_TOKEN,
     });
 
@@ -392,7 +392,7 @@ const combineAccountAndWallet = async ({ accountId, walletId, clientId }) => {
       tokenExpiresAt: token.token_expires_at,
       refreshToken: refresh.token,
       refreshTokenExpiresAt: refresh.token_expires_at,
-      tokenType: "Bearer",
+      tokenType: 'Bearer',
     };
   } catch (err) {
     if (transaction) await transaction.rollback();

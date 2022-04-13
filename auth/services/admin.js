@@ -1,15 +1,15 @@
-const clientDao = require("../daos/client");
-const roleDao = require("../daos/role");
-const userDao = require("../daos/user");
-const userRoleDao = require("../daos/userRole");
-const errorCode = require("../errors/code");
-const CustomError = require("../errors/CustomError");
-const { omitIsNil } = require("../utilities/omit");
-const { generateSecurityKey } = require("../utilities/security");
+const clientDao = require('../daos/client');
+const roleDao = require('../daos/role');
+const userDao = require('../daos/user');
+const userRoleDao = require('../daos/userRole');
+const errorCode = require('../errors/code');
+const CustomError = require('../errors/CustomError');
+const { omitIsNil } = require('../utilities/omit');
+const { generateSecurityKey } = require('../utilities/security');
 
 const createClient = async ({ name, grants = [], redirectUris = [] }) => {
   const clientExists = await clientDao.findClient({ name });
-  if (clientExists) throw new Error("Client already exists with same name");
+  if (clientExists) throw new Error('Client already exists with same name');
 
   const data = {
     name,
@@ -32,13 +32,13 @@ const updateClient = async (id, clientData) => {
   const client = await clientDao.findClient({ id });
 
   if (!client) {
-    throw new CustomError(errorCode.BAD_REQUEST, "Client does not exists");
+    throw new CustomError(errorCode.BAD_REQUEST, 'Client does not exists');
   }
 
   if (name && client.name !== name) {
     const isClientNameExisted = await clientDao.findClient({ name });
     if (isClientNameExisted)
-      throw new Error("Client already exists with same name");
+      throw new Error('Client already exists with same name');
   }
 
   const data = omitIsNil(
@@ -62,7 +62,7 @@ const deleteClient = async (id) => {
   const client = await clientDao.findClient({ id });
 
   if (!client) {
-    throw new CustomError(errorCode.BAD_REQUEST, "Client does not exists");
+    throw new CustomError(errorCode.BAD_REQUEST, 'Client does not exists');
   }
 
   await clientDao.deleteClient(id);
@@ -72,7 +72,7 @@ const findClientById = async (id) => {
   const client = await clientDao.findClient({ id });
 
   if (!client) {
-    throw new CustomError(errorCode.NOT_FOUND, "Client does not exists");
+    throw new CustomError(errorCode.NOT_FOUND, 'Client does not exists');
   }
 
   return client;
@@ -80,7 +80,7 @@ const findClientById = async (id) => {
 
 const createRole = async ({ name, isDefault = false }) => {
   const roleExists = await roleDao.findRole({ name });
-  if (roleExists) throw new Error("Role already exists with same name");
+  if (roleExists) throw new Error('Role already exists with same name');
 
   const data = { name, isDefault };
 
@@ -94,13 +94,13 @@ const updateRole = async (roleId, roleData) => {
   const role = await roleDao.findRole({ id: roleId });
 
   if (!role) {
-    throw new Error("Role does not exists");
+    throw new Error('Role does not exists');
   }
 
   if (name && role.name !== name) {
     const isRoleNameExisted = await roleDao.findRole({ name });
     if (isRoleNameExisted)
-      throw new Error("Role already exists with same name");
+      throw new Error('Role already exists with same name');
   }
 
   const data = omitIsNil(
@@ -119,7 +119,7 @@ const deleteRole = async (roleId) => {
   const role = await roleDao.findRole({ id: roleId });
 
   if (!role) {
-    throw new Error("Role does not exists");
+    throw new Error('Role does not exists');
   }
 
   await roleDao.deleteRole(roleId);
@@ -128,17 +128,17 @@ const deleteRole = async (roleId) => {
 const createUserRole = async ({ userId, clientId, roleId }) => {
   const user = await userDao.findUser({ id: userId });
   if (!user) {
-    throw new Error("User does not exist");
+    throw new Error('User does not exist');
   }
 
   const client = await clientDao.findClient({ id: clientId });
   if (!client) {
-    throw new Error("Client does not exist");
+    throw new Error('Client does not exist');
   }
 
   const role = await roleDao.findRole({ id: roleId });
   if (!role) {
-    throw new Error("Role does not exist");
+    throw new Error('Role does not exist');
   }
 
   const userRoles = await userRoleDao.getUserRoles({
@@ -147,7 +147,7 @@ const createUserRole = async ({ userId, clientId, roleId }) => {
   });
 
   if (userRoles.length) {
-    throw new Error("User role already exists");
+    throw new Error('User role already exists');
   }
   const data = {
     userId,
@@ -162,17 +162,17 @@ const createUserRole = async ({ userId, clientId, roleId }) => {
 const updateUserRole = async ({ userId, clientId }, { roleId }) => {
   const user = await userDao.findUser({ id: userId });
   if (!user) {
-    throw new Error("User does not exist");
+    throw new Error('User does not exist');
   }
 
   const client = await clientDao.findClient({ id: clientId });
   if (!client) {
-    throw new Error("Client does not exist");
+    throw new Error('Client does not exist');
   }
 
   const role = await roleDao.findRole({ id: roleId });
   if (!role) {
-    throw new Error("Role does not exist");
+    throw new Error('Role does not exist');
   }
 
   const newUserRole = await userRoleDao.updateUserRole(
@@ -185,12 +185,12 @@ const updateUserRole = async ({ userId, clientId }, { roleId }) => {
 const deleteUserRole = async ({ userId, clientId }) => {
   const user = await userDao.findUser({ id: userId });
   if (!user) {
-    throw new Error("User does not exist");
+    throw new Error('User does not exist');
   }
 
   const client = await clientDao.findClient({ id: clientId });
   if (!client) {
-    throw new Error("Client does not exist");
+    throw new Error('Client does not exist');
   }
 
   const userRoles = await userRoleDao.getUserRoles({
@@ -199,7 +199,7 @@ const deleteUserRole = async ({ userId, clientId }) => {
   });
 
   if (!userRoles.length) {
-    throw new Error("User role does not exist");
+    throw new Error('User role does not exist');
   }
 
   await userRoleDao.deleteUserRole({ userId, clientId });

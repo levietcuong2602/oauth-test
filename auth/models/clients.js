@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
   const Client = sequelize.define(
-    "Client",
+    'Client',
     {
       id: {
         type: DataTypes.INTEGER(14),
@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
       grants: { type: DataTypes.STRING, allowNull: false },
     },
     {
-      tableName: "clients",
+      tableName: 'clients',
       underscored: true,
       timestamps: false,
     },

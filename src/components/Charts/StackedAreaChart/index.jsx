@@ -1,10 +1,10 @@
 /* eslint-disable react/no-array-index-key */
-import React, { useRef, useMemo, useState, useEffect } from "react";
-import { Button, Typography } from "@mui/material";
-import Highcharts from "highcharts";
+import React, { useRef, useMemo, useState, useEffect } from 'react';
+import { Button, Typography } from '@mui/material';
+import Highcharts from 'highcharts';
 
-import HightChartReact from "../../HighChart";
-import { StyledStackedAreaChart, StyledLegendIcon } from "./index.style";
+import HightChartReact from '../../HighChart';
+import { StyledStackedAreaChart, StyledLegendIcon } from './index.style';
 
 const LegendIcon = ({ color, ...props }) => (
   <StyledLegendIcon {...props} viewBox="0 0 27 20">
@@ -34,21 +34,21 @@ const StackedAreaChart = ({
   const optionsMemo = useMemo(
     () => ({
       chart: {
-        type: "area",
+        type: 'area',
       },
       title: {
         text: null,
       },
       xAxis: {
         categories,
-        tickmarkPlacement: "on",
+        tickmarkPlacement: 'on',
         title: {
           enabled: false,
         },
       },
       yAxis: {
         title: {
-          text: "Billions",
+          text: 'Billions',
         },
         labels: {
           formatter() {
@@ -59,16 +59,16 @@ const StackedAreaChart = ({
       },
       tooltip: {
         split: true,
-        valueSuffix: " millions",
+        valueSuffix: ' millions',
       },
       plotOptions: {
         area: {
-          stacking: "normal",
-          lineColor: "#666666",
+          stacking: 'normal',
+          lineColor: '#666666',
           lineWidth: 1,
           marker: {
             lineWidth: 1,
-            lineColor: "#666666",
+            lineColor: '#666666',
           },
         },
       },
@@ -105,7 +105,7 @@ const StackedAreaChart = ({
             <Button
               key={index.toString()}
               className={`legend-item ${
-                !listVisible[index] && "legend-item-hidden"
+                !listVisible[index] && 'legend-item-hidden'
               }`}
               onClick={() => legendItemClick(index)}
             >

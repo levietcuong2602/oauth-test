@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { StyledSwitch } from "./index.style";
+import React, { useState } from 'react';
+import { StyledSwitch } from './index.style';
 
 const CustomSwitch = ({ noneCheckedColor, checkedColor, onChange }) => {
   const [checked, setChecked] = useState(false);

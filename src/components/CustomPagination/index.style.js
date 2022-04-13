@@ -1,7 +1,7 @@
-import { styled } from "@mui/material/styles";
-import { COLOR } from "@src/styles/color";
+import { styled } from '@mui/material/styles';
+import { COLOR } from '@src/styles/color';
 
-export const StyledCustomPagination = styled("div")`
+export const StyledCustomPagination = styled('div')`
   margin: 15px 0;
 
   .pagination-text {

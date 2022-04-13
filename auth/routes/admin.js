@@ -1,8 +1,8 @@
-const express = require("express");
+const express = require('express');
 
-const userDao = require("../daos/user");
-const { successResponse, errorResponse } = require("../utilities/response");
-const asyncMiddleware = require("../middlewares/async");
+const userDao = require('../daos/user');
+const { successResponse, errorResponse } = require('../utilities/response');
+const asyncMiddleware = require('../middlewares/async');
 
 const {
   createClientValidate,
@@ -14,12 +14,12 @@ const {
   createUserRoleValidate,
   updateUserRoleValidate,
   deleteUserRoleValidate,
-} = require("../validations/admin");
-const adminController = require("../controllers/admin");
+} = require('../validations/admin');
+const adminController = require('../controllers/admin');
 
 const router = express.Router(); // Instantiate a new router
 
-router.get("/users/:userId", async (req, res) => {
+router.get('/users/:userId', async (req, res) => {
   const { userId } = req.params;
   const user = await userDao.findUser({ id: userId });
   if (!user) return errorResponse({ req, res, statusCode: 500 });
@@ -67,7 +67,7 @@ router.get("/users/:userId", async (req, res) => {
  *   "data": null
  * }
  */
-router.get("/clients/:id", asyncMiddleware(adminController.findClientById));
+router.get('/clients/:id', asyncMiddleware(adminController.findClientById));
 
 /**
  * POST /api/admin/clients
@@ -113,7 +113,7 @@ router.get("/clients/:id", asyncMiddleware(adminController.findClientById));
  * }
  */
 router.post(
-  "/clients",
+  '/clients',
   createClientValidate,
   asyncMiddleware(adminController.createClient),
 );
@@ -158,7 +158,7 @@ router.post(
  * }
  */
 router.put(
-  "/clients/:id",
+  '/clients/:id',
   updateClientValidate,
   asyncMiddleware(adminController.updateClient),
 );
@@ -184,7 +184,7 @@ router.put(
  * }
  */
 router.delete(
-  "/clients/:id",
+  '/clients/:id',
   deleteClientValidate,
   asyncMiddleware(adminController.deleteClient),
 );
@@ -207,7 +207,7 @@ router.delete(
  * @tags Admin
  */
 router.post(
-  "/roles",
+  '/roles',
   createRoleValidate,
   asyncMiddleware(adminController.createRole),
 );
@@ -218,7 +218,7 @@ router.post(
  * @tags Admin
  */
 router.put(
-  "/roles/:role_id",
+  '/roles/:role_id',
   updateRoleValidate,
   asyncMiddleware(adminController.updateRole),
 );
@@ -229,7 +229,7 @@ router.put(
  * @tags Admin
  */
 router.delete(
-  "/roles/:role_id",
+  '/roles/:role_id',
   deleteRoleValidate,
   asyncMiddleware(adminController.deleteRole),
 );
@@ -240,7 +240,7 @@ router.delete(
  * @tags Admin
  */
 router.post(
-  "/user-roles",
+  '/user-roles',
   createUserRoleValidate,
   asyncMiddleware(adminController.createUserRole),
 );
@@ -251,7 +251,7 @@ router.post(
  * @tags Admin
  */
 router.put(
-  "/user-roles",
+  '/user-roles',
   updateUserRoleValidate,
   asyncMiddleware(adminController.updateUserRole),
 );
@@ -262,7 +262,7 @@ router.put(
  * @tags Admin
  */
 router.delete(
-  "/user-roles",
+  '/user-roles',
   deleteUserRoleValidate,
   asyncMiddleware(adminController.deleteUserRole),
 );

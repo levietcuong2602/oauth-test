@@ -1,5 +1,5 @@
-import React from "react";
-import HomeContainer from "@src/containers/Home";
+import React from 'react';
+import HomeContainer from '@src/containers/Home';
 
 const Home = () => <HomeContainer />;
 

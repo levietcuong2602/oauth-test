@@ -1,9 +1,9 @@
-import React from "react";
-import Highcharts from "highcharts";
-import HighchartsReact from "highcharts-react-official";
+import React from 'react';
+import Highcharts from 'highcharts';
+import HighchartsReact from 'highcharts-react-official';
 
 const HighChart = React.forwardRef(
-  ({ options, constructorType = "chart" }, ref) => (
+  ({ options, constructorType = 'chart' }, ref) => (
     <HighchartsReact
       ref={ref}
       highcharts={Highcharts}
@@ -12,7 +12,7 @@ const HighChart = React.forwardRef(
       allowChartUpdate
       immutable={false}
       updateArgs={[true, true, true]}
-      containerProps={{ className: "chartContainer" }}
+      containerProps={{ className: 'chartContainer' }}
     />
   ),
 );

@@ -1,8 +1,8 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { Typography } from "@mui/material";
-import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import { StyledBreadcrumbs } from "./index.style";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { Typography } from '@mui/material';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import { StyledBreadcrumbs } from './index.style';
 
 const CustomBreadcrumb = ({ crumbs = [] }) => (
   <StyledBreadcrumbs

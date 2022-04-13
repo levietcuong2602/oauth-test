@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Button,
   DialogActions,
@@ -7,21 +7,21 @@ import {
   DialogTitle,
   IconButton,
   Box,
-} from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
-import { useTranslation } from "react-i18next";
-import { StyledPopup } from "./index.style";
+} from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import { useTranslation } from 'react-i18next';
+import { StyledPopup } from './index.style';
 
 const Popup = (props) => {
-  const { t } = useTranslation(["common"]);
+  const { t } = useTranslation(['common']);
   const {
     open,
     onOk,
     onClose,
-    title = t("note"),
-    okMessage = t("confirm"),
-    cancelMessage = t("cancel"),
-    content = t("cannotUndoAfterConfirm"),
+    title = t('note'),
+    okMessage = t('confirm'),
+    cancelMessage = t('cancel'),
+    content = t('cannotUndoAfterConfirm'),
   } = props;
 
   const handleOk = () => {

@@ -1,7 +1,7 @@
-import { styled } from "@mui/material/styles";
-import { COLOR } from "@src/styles/color";
+import { styled } from '@mui/material/styles';
+import { COLOR } from '@src/styles/color';
 
-export const StyledPackageCharge = styled("div")`
+export const StyledPackageCharge = styled('div')`
   .heading-container {
     margin-bottom: 26px;
   }

@@ -1,6 +1,6 @@
-const snakecaseKeys = require("snakecase-keys");
+const snakecaseKeys = require('snakecase-keys');
 
-const { Client } = require("../models");
+const { Client } = require('../models');
 
 const findClient = async (condition) => {
   const client = await Client.findOne({

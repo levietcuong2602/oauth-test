@@ -1,10 +1,10 @@
-import { SERVICE } from "@src/constants";
-import api from "./api";
+import { SERVICE } from '@src/constants';
+import api from './api';
 
 export const getListHotlines = async (params) => {
   const res = await api({
-    method: "GET",
-    url: "/hotlines",
+    method: 'GET',
+    url: '/hotlines',
     params,
     source: SERVICE.PORTAL,
   });
@@ -13,8 +13,8 @@ export const getListHotlines = async (params) => {
 
 export const createHotline = async (data) => {
   const res = await api({
-    method: "POST",
-    url: "/hotlines",
+    method: 'POST',
+    url: '/hotlines',
     data,
     source: SERVICE.PORTAL,
   });
@@ -23,7 +23,7 @@ export const createHotline = async (data) => {
 
 export const updateHotline = async (id, data) => {
   const res = await api({
-    method: "PUT",
+    method: 'PUT',
     url: `/hotlines/${id}`,
     data,
     source: SERVICE.PORTAL,
@@ -33,7 +33,7 @@ export const updateHotline = async (id, data) => {
 
 export const getHotline = async (id) => {
   const res = await api({
-    method: "GET",
+    method: 'GET',
     url: `/hotlines/${id}`,
     source: SERVICE.PORTAL,
   });
@@ -42,7 +42,7 @@ export const getHotline = async (id) => {
 
 export const deleteHotline = async (id) => {
   const res = await api({
-    method: "DELETE",
+    method: 'DELETE',
     url: `/hotlines/${id}`,
     source: SERVICE.PORTAL,
   });

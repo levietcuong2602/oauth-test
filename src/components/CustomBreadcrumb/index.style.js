@@ -1,6 +1,6 @@
-import { styled } from "@mui/material/styles";
-import { Breadcrumbs } from "@mui/material";
-import { COLOR } from "@src/styles/color";
+import { styled } from '@mui/material/styles';
+import { Breadcrumbs } from '@mui/material';
+import { COLOR } from '@src/styles/color';
 
 export const StyledBreadcrumbs = styled(Breadcrumbs)`
   a {

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 const successResponse = (req, res, data, code = 200) =>
   res.send({
     code,
@@ -10,7 +11,7 @@ const errorResponse = ({
   res,
   statusCode = 500,
   code = 500,
-  message = "Something went wrong",
+  message = 'Something went wrong',
   details,
 }) =>
   res.status(statusCode).json({

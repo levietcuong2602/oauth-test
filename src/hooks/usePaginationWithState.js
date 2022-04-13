@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
-import { useSnackbar } from "notistack";
+import { useState, useEffect } from 'react';
+import { useSnackbar } from 'notistack';
 
-import { PAGINATION_LIMIT } from "@src/constants";
-import { omitIsNil } from "@src/utils/omit";
-import { useTranslation } from "react-i18next";
+import { PAGINATION_LIMIT } from '@src/constants';
+import { omitIsNil } from '@src/utils/omit';
+import { useTranslation } from 'react-i18next';
 
 const usePaginationWithState = (initData, apiFetch, allowCallApi = true) => {
   const [data, setData] = useState(initData);
@@ -17,7 +17,7 @@ const usePaginationWithState = (initData, apiFetch, allowCallApi = true) => {
   });
   const [loading, setLoading] = useState(false);
 
-  const { t } = useTranslation(["common"]);
+  const { t } = useTranslation(['common']);
   const { enqueueSnackbar } = useSnackbar();
 
   const handleSearchParamsChange = (params) => {
@@ -42,7 +42,7 @@ const usePaginationWithState = (initData, apiFetch, allowCallApi = true) => {
       setLoading(false);
     } catch (error) {
       setLoading(false);
-      enqueueSnackbar(t(error.message), { variant: "error" });
+      enqueueSnackbar(t(error.message), { variant: 'error' });
     }
   };
 
@@ -73,7 +73,7 @@ const usePaginationWithState = (initData, apiFetch, allowCallApi = true) => {
       const nextPage = currentPage + 1;
       setCurrentPage(nextPage);
     } catch (error) {
-      enqueueSnackbar(t(error.message), { variant: "error" });
+      enqueueSnackbar(t(error.message), { variant: 'error' });
     }
   };
 

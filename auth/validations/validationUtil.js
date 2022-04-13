@@ -1,4 +1,4 @@
-const { validate } = require("express-validation");
+const { validate } = require('express-validation');
 
 const validateOptionsDefault = {
   context: true,

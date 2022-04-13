@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
   const Session = sequelize.define(
-    "Session",
+    'Session',
     {
       id: {
         type: DataTypes.INTEGER(11),
@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
       wallet_address: { type: DataTypes.STRING },
     },
     {
-      tableName: "sessions",
+      tableName: 'sessions',
       underscored: true,
       timestamps: false,
     },
@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
   Session.associate = function (models) {
     // associations can be defined here
     Session.belongsTo(models.Client, {
-      foreignKey: "client_id",
+      foreignKey: 'client_id',
     });
   };
   return Session;

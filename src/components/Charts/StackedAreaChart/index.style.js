@@ -1,12 +1,12 @@
-import { SvgIcon } from "@mui/material";
-import { styled } from "@mui/material/styles";
-import { COLOR } from "@src/styles/color";
+import { SvgIcon } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { COLOR } from '@src/styles/color';
 
 export const StyledLegendIcon = styled(SvgIcon)`
   color: ${(props) => props.color || COLOR.primary};
 `;
 
-export const StyledStackedAreaChart = styled("div")`
+export const StyledStackedAreaChart = styled('div')`
   position: relative;
 
   .label {

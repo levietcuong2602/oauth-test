@@ -1,4 +1,4 @@
-const moment = require("moment");
+const moment = require('moment');
 
 const getDatesBetweenTwoDates = (
   startDate = new Date(0),
@@ -13,13 +13,13 @@ const getDatesBetweenTwoDates = (
     return date;
   };
   while (currentDate <= endDate) {
-    dates.push(moment(currentDate).format("DD-MM-YYYY"));
+    dates.push(moment(currentDate).format('DD-MM-YYYY'));
     currentDate = addDays.call(currentDate, 1);
   }
   return dates;
 };
 
-const getDiffBetweenTwoDate = ({ start, end, unitOfTime = "days" }) => {
+const getDiffBetweenTwoDate = ({ start, end, unitOfTime = 'days' }) => {
   const from = moment(start);
   const to = moment(end);
   // Difference in number of days

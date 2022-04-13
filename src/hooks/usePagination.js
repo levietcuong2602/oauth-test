@@ -1,14 +1,14 @@
 /* eslint-disable no-param-reassign */
-import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
-import queryString from "query-string";
-import { useTranslation } from "react-i18next";
-import { useSnackbar } from "notistack";
+import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+import queryString from 'query-string';
+import { useTranslation } from 'react-i18next';
+import { useSnackbar } from 'notistack';
 
-import { omitIsNil } from "@src/utils/omit";
-import { delay } from "@src/utils/delay";
-import { ALL, PAGINATION_LIMIT } from "@src/constants";
-import useSearchParams from "./useSearchParams";
+import { omitIsNil } from '@src/utils/omit';
+import { delay } from '@src/utils/delay';
+import { ALL, PAGINATION_LIMIT } from '@src/constants';
+import useSearchParams from './useSearchParams';
 
 const usePagination = (
   initData,
@@ -16,7 +16,7 @@ const usePagination = (
   ignoreParams = [],
   delayTime = 500,
 ) => {
-  const { t } = useTranslation(["common"]);
+  const { t } = useTranslation(['common']);
   const { enqueueSnackbar } = useSnackbar();
 
   const [data, setData] = useState(initData);
@@ -28,7 +28,7 @@ const usePagination = (
 
   const parseSearch = (searchString) => {
     const options = queryString.parse(searchString);
-    const { page = "1", size = PAGINATION_LIMIT, ...searchParams } = options;
+    const { page = '1', size = PAGINATION_LIMIT, ...searchParams } = options;
     const pageNumber = parseInt(page, 10);
     const sizeNumber = parseInt(size, 10);
     const currentPage = pageNumber >= 0 ? pageNumber : 1;
@@ -71,7 +71,7 @@ const usePagination = (
       setData(response.result.data);
       setTotal(response.result.pager.totalCount);
     } catch (error) {
-      enqueueSnackbar(t(error.message), { variant: "error" });
+      enqueueSnackbar(t(error.message), { variant: 'error' });
     }
     setLoading(false);
   };

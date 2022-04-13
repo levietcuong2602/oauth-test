@@ -1,9 +1,9 @@
-const path = require("path"); // has path and __dirname
-const express = require("express");
+const path = require('path'); // has path and __dirname
+const express = require('express');
 
 const router = express.Router(); // Instantiate a new router
 
-const oauthServer = require("../oauth/server");
+const oauthServer = require('../oauth/server');
 
 const {
   registerAccountValidate,
@@ -12,17 +12,17 @@ const {
   generateNonceSessionValidate,
   verifySignatureValidate,
   combineAccountAndWalletValidate,
-} = require("../validations/auth");
-const authController = require("../controllers/auth");
+} = require('../validations/auth');
+const authController = require('../controllers/auth');
 
-const { authenticationLogin } = require("../middlewares/authenticate");
-const asyncMiddleware = require("../middlewares/async");
+const { authenticationLogin } = require('../middlewares/authenticate');
+const asyncMiddleware = require('../middlewares/async');
 
-const DebugControl = require("../utilities/debug");
+const DebugControl = require('../utilities/debug');
 
-const filePath = path.join(__dirname, "../public/oauthAuthenticate.html");
+const filePath = path.join(__dirname, '../public/oauthAuthenticate.html');
 
-router.get("/", (req, res) => {
+router.get('/', (req, res) => {
   // send back a simple form for the oauth
   res.sendFile(filePath);
 });
@@ -108,7 +108,7 @@ router.get("/", (req, res) => {
  * }
  */
 router.post(
-  "/signup",
+  '/signup',
   registerAccountValidate,
   asyncMiddleware(authController.registerAccount),
 );
@@ -131,18 +131,18 @@ router.post(
  * }
  */
 router.post(
-  "/authorize",
+  '/authorize',
   authorizeAccountValidate,
   authenticationLogin,
   (req, res, next) => {
     // sends us to our redirect with an authorization code in our url
-    DebugControl.log.flow("Authorization");
+    DebugControl.log.flow('Authorization');
     return next();
   },
   oauthServer.authorize({
     authenticateHandler: {
       handle: (req) => {
-        DebugControl.log.functionName("Authenticate Handler");
+        DebugControl.log.functionName('Authenticate Handler');
         DebugControl.log.parameters(
           Object.keys(req.body).map((k) => ({ name: k, value: req.body[k] })),
         );
@@ -175,12 +175,12 @@ router.post(
  * }
  */
 router.post(
-  "/authorize-mobiles",
+  '/authorize-mobiles',
   authorizeMobileAccountValidate,
   authenticationLogin,
   (req, res, next) => {
     // sends us to our redirect with an authorization code in our url
-    DebugControl.log.flow("Authorization Mobile");
+    DebugControl.log.flow('Authorization Mobile');
     return next();
   },
   asyncMiddleware(authController.getAuthorizationTokenByMobile),
@@ -215,9 +215,9 @@ router.post(
  * }
  */
 router.post(
-  "/token",
+  '/token',
   (req, res, next) => {
-    DebugControl.log.flow("Token");
+    DebugControl.log.flow('Token');
     next();
   },
   oauthServer.token({
@@ -251,9 +251,9 @@ router.post(
  * }
  */
 router.post(
-  "/me",
+  '/me',
   (req, res, next) => {
-    DebugControl.log.flow("Me");
+    DebugControl.log.flow('Me');
     next();
   },
   oauthServer.authenticate(),
@@ -280,7 +280,7 @@ router.post(
  * }
  */
 router.post(
-  "/nonces",
+  '/nonces',
   generateNonceSessionValidate,
   asyncMiddleware(authController.generateNonceSession),
 );
@@ -308,7 +308,7 @@ router.post(
  * }
  */
 router.post(
-  "/verify-signature",
+  '/verify-signature',
   verifySignatureValidate,
   asyncMiddleware(authController.verifySignature),
 );
@@ -340,9 +340,9 @@ router.post(
  */
 // check middleware login account and verify sign message
 router.post(
-  "/combine-accounts",
+  '/combine-accounts',
   (req, res, next) => {
-    DebugControl.log.flow("Combine Account And Wallet");
+    DebugControl.log.flow('Combine Account And Wallet');
     next();
   },
   combineAccountAndWalletValidate,

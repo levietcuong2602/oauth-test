@@ -1,4 +1,4 @@
-import { styled, keyframes } from "@mui/material/styles";
+import { styled, keyframes } from '@mui/material/styles';
 
 const fadeKeyframe = keyframes`
   from {
@@ -9,7 +9,7 @@ const fadeKeyframe = keyframes`
   }
 `;
 
-export const StyledSpinner = styled("div")`
+export const StyledSpinner = styled('div')`
   position: relative;
   width: ${(props) => `${props.size || 44}px`};
   height: ${(props) => `${props.size || 44}px`};
@@ -18,7 +18,7 @@ export const StyledSpinner = styled("div")`
   & .spinner-blade {
     width: 7%;
     height: 20%;
-    background: ${(props) => props.color || "#323232"};
+    background: ${(props) => props.color || '#323232'};
     position: absolute;
     left: 49%;
     top: 43%;

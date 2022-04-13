@@ -1,6 +1,6 @@
-import { styled } from "@mui/material/styles";
+import { styled } from '@mui/material/styles';
 
-export const StyledDropzone = styled("div")`
+export const StyledDropzone = styled('div')`
   .root {
     border: 1px dashed transparent;
   }

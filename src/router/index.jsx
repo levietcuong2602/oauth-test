@@ -1,15 +1,15 @@
-import React, { useEffect } from "react";
-import { BrowserRouter, Switch, Redirect } from "react-router-dom";
-import nprogress from "nprogress";
-import "nprogress/nprogress.css";
+import React, { useEffect } from 'react';
+import { BrowserRouter, Switch, Redirect } from 'react-router-dom';
+import nprogress from 'nprogress';
+import 'nprogress/nprogress.css';
 
-import ROUTE from "@src/constants/route";
-import Layout from "@src/containers/Layout";
+import ROUTE from '@src/constants/route';
+import Layout from '@src/containers/Layout';
 
-import appRoutes from "./appRoutes";
+import appRoutes from './appRoutes';
 
-import PrivateRoute from "./PrivateRoute";
-import PublicRoute from "./PublicRoute";
+import PrivateRoute from './PrivateRoute';
+import PublicRoute from './PublicRoute';
 
 const PrivateApp = () => {
   const privateRoutes = appRoutes.filter((route) => route.isPrivate);

@@ -1,11 +1,11 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import { LinearProgress } from "@mui/material";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { LinearProgress } from '@mui/material';
 
-import App from "./App";
-import "./index.css";
-import * as serviceWorker from "./serviceWorker";
-import "./languages";
+import App from './App';
+import './index.css';
+import * as serviceWorker from './serviceWorker';
+import './languages';
 // import '@splidejs/splide/dist/css/splide.min.css';
 
 ReactDOM.render(
@@ -14,7 +14,7 @@ ReactDOM.render(
       <App />
     </React.Suspense>
   </React.StrictMode>,
-  document.getElementById("root"),
+  document.getElementById('root'),
 );
 
 // If you want your app to work offline and load faster, you can change

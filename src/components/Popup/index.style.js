@@ -1,10 +1,10 @@
-import { Dialog } from "@mui/material";
-import { styled } from "@mui/material/styles";
-import { COLOR } from "@src/styles/color";
+import { Dialog } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { COLOR } from '@src/styles/color';
 
 export const StyledPopup = styled(Dialog)`
   .MuiDialog-paper {
-    min-width: ${(props) => props.width || "512px"};
+    min-width: ${(props) => props.width || '512px'};
   }
 
   .MuiDialogTitle-root {

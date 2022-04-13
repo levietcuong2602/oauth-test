@@ -1,31 +1,31 @@
 module.exports = (sequelize, DataTypes) => {
   const UserRole = sequelize.define(
-    "UserRole",
+    'UserRole',
     {
       user_id: {
         type: DataTypes.STRING,
         allowNull: false,
         primaryKey: true,
-        onDelete: "CASCADE",
+        onDelete: 'CASCADE',
         references: {
-          model: "User",
-          key: "id",
+          model: 'User',
+          key: 'id',
         },
       },
       client_id: {
         type: DataTypes.STRING,
         allowNull: false.valueOf,
         primaryKey: true,
-        onDelete: "CASCADE",
+        onDelete: 'CASCADE',
         references: {
-          model: "Client",
-          key: "id",
+          model: 'Client',
+          key: 'id',
         },
       },
       role_id: { type: DataTypes.STRING, allowNull: false, primaryKey: true },
     },
     {
-      tableName: "user_roles",
+      tableName: 'user_roles',
       underscored: true,
       timestamps: false,
     },

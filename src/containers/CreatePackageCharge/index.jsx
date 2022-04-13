@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { useSnackbar } from "notistack";
+import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useSnackbar } from 'notistack';
 import {
   Drawer,
   Box,
@@ -11,17 +11,17 @@ import {
   CircularProgress,
   FormControlLabel,
   Switch,
-} from "@mui/material";
-import { LoadingButton } from "@mui/lab";
-import CloseIcon from "@mui/icons-material/Close";
+} from '@mui/material';
+import { LoadingButton } from '@mui/lab';
+import CloseIcon from '@mui/icons-material/Close';
 
-import CustomNumberInput from "@src/components/CustomInput/CustomNumberInput";
-import apis from "@src/apis";
+import CustomNumberInput from '@src/components/CustomInput/CustomNumberInput';
+import apis from '@src/apis';
 
-import { StyledCreatePackageCharge } from "./index.style";
+import { StyledCreatePackageCharge } from './index.style';
 
 const CreatePackageCharge = ({ open, onClose, onReloadData, packageId }) => {
-  const { t } = useTranslation(["packageCharge", "common"]);
+  const { t } = useTranslation(['packageCharge', 'common']);
   const { enqueueSnackbar } = useSnackbar();
 
   const [loading, setLoading] = useState(true);
@@ -53,13 +53,13 @@ const CreatePackageCharge = ({ open, onClose, onReloadData, packageId }) => {
 
     try {
       const res = await apis.packageCharge.getPackageCharge(packageId);
-      if (!res) throw new Error("serverError");
+      if (!res) throw new Error('serverError');
 
       setPackageCharge(res.result);
       initialFields(res.result);
     } catch (error) {
       enqueueSnackbar(t(`common:::${error.message}`), {
-        variant: "error",
+        variant: 'error',
       });
     }
 
@@ -86,7 +86,7 @@ const CreatePackageCharge = ({ open, onClose, onReloadData, packageId }) => {
 
     setErrors((prev) => ({
       ...prev,
-      [name]: "",
+      [name]: '',
     }));
   };
 
@@ -98,7 +98,7 @@ const CreatePackageCharge = ({ open, onClose, onReloadData, packageId }) => {
 
     setErrors((prev) => ({
       ...prev,
-      price: "",
+      price: '',
     }));
   };
 
@@ -110,7 +110,7 @@ const CreatePackageCharge = ({ open, onClose, onReloadData, packageId }) => {
 
     setErrors((prev) => ({
       ...prev,
-      percentPlus: "",
+      percentPlus: '',
     }));
   };
 
@@ -131,15 +131,15 @@ const CreatePackageCharge = ({ open, onClose, onReloadData, packageId }) => {
     let errorPackage = {};
 
     if (!code || !code.trim()) {
-      errorPackage.code = "fieldRequired";
+      errorPackage.code = 'fieldRequired';
     }
 
-    if (price === undefined || price === "") {
-      errorPackage.price = "fieldRequired";
+    if (price === undefined || price === '') {
+      errorPackage.price = 'fieldRequired';
     }
 
-    if (percentPlus === undefined || percentPlus === "") {
-      errorPackage.percentPlus = "fieldRequired";
+    if (percentPlus === undefined || percentPlus === '') {
+      errorPackage.percentPlus = 'fieldRequired';
     }
 
     errorPackage = { ...errors, ...errorPackage };
@@ -169,14 +169,14 @@ const CreatePackageCharge = ({ open, onClose, onReloadData, packageId }) => {
         );
       }
 
-      if (!res) throw new Error("serverError");
+      if (!res) throw new Error('serverError');
       enqueueSnackbar(
-        t(packageId ? "updatePackageSuccess" : "createPackageSuccess"),
-        { variant: "success" },
+        t(packageId ? 'updatePackageSuccess' : 'createPackageSuccess'),
+        { variant: 'success' },
       );
       onReloadData();
     } catch (error) {
-      enqueueSnackbar(t(`common:::${error.message}`), { variant: "error" });
+      enqueueSnackbar(t(`common:::${error.message}`), { variant: 'error' });
     }
 
     setIsSubmitting(false);
@@ -196,7 +196,7 @@ const CreatePackageCharge = ({ open, onClose, onReloadData, packageId }) => {
       <StyledCreatePackageCharge>
         <Box className="header">
           <Typography className="text">
-            {packageId ? t("editPackage") : t("createPackage")}
+            {packageId ? t('editPackage') : t('createPackage')}
           </Typography>
           <IconButton
             aria-label="close"
@@ -221,9 +221,9 @@ const CreatePackageCharge = ({ open, onClose, onReloadData, packageId }) => {
                   variant="outlined"
                   fullWidth
                   size="small"
-                  placeholder={t("keyPlaceholder")}
+                  placeholder={t('keyPlaceholder')}
                   name="code"
-                  value={packageChargeData.code || ""}
+                  value={packageChargeData.code || ''}
                   onChange={handleChange}
                   helperText={errors.code && t(`common:::${errors.code}`)}
                   error={Boolean(errors.code)}
@@ -231,7 +231,7 @@ const CreatePackageCharge = ({ open, onClose, onReloadData, packageId }) => {
               </Box>
               <Box className="item">
                 <Typography className="title">{`${t(
-                  "price",
+                  'price',
                 )} (VND)`}</Typography>
                 <CustomNumberInput
                   className="number-input dashed-border mr-18"
@@ -248,7 +248,7 @@ const CreatePackageCharge = ({ open, onClose, onReloadData, packageId }) => {
               </Box>
               <Box className="item">
                 <Typography className="title">{`${t(
-                  "preferential",
+                  'preferential',
                 )} (%)`}</Typography>
                 <CustomNumberInput
                   className="number-input dashed-border mr-18"
@@ -272,7 +272,7 @@ const CreatePackageCharge = ({ open, onClose, onReloadData, packageId }) => {
                   checked={packageChargeData.active || false}
                   onChange={handleChangeActive}
                   control={<Switch color="primary" />}
-                  label={t("status")}
+                  label={t('status')}
                   labelPlacement="start"
                 />
               </Box>
@@ -285,10 +285,10 @@ const CreatePackageCharge = ({ open, onClose, onReloadData, packageId }) => {
                 loadingPosition="start"
                 variant="contained"
               >
-                {packageId ? t("update") : t("createNow")}
+                {packageId ? t('update') : t('createNow')}
               </LoadingButton>
               <Button variant="outlined" onClick={handleReset}>
-                {t("reset")}
+                {t('reset')}
               </Button>
             </Box>
           </Box>

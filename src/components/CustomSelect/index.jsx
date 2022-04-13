@@ -1,12 +1,12 @@
-import { FormControl, FormHelperText, Select } from "@mui/material";
-import React from "react";
-import { StyledMenuItem, StyledPlaceholder } from "./index.style";
+import { FormControl, FormHelperText, Select } from '@mui/material';
+import React from 'react';
+import { StyledMenuItem, StyledPlaceholder } from './index.style';
 
-export const NONE_VALUE = "none";
+export const NONE_VALUE = 'none';
 
 const CustomSelect = ({
-  className = "",
-  placeholder = "",
+  className = '',
+  placeholder = '',
   options = [],
   value,
   onChange,
