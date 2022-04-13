@@ -49,6 +49,7 @@ const combineAccountAndWallet = {
   body: Joi.object({
     account_token: Joi.string().trim().required(),
     wallet_token: Joi.string().trim().required(),
+    client_id: Joi.string().trim().required(),
   }),
 };
 

@@ -282,9 +282,12 @@ const verifySignature = async ({
   };
 };
 
-const combineAccountAndWallet = async ({ accountId, walletId }) => {
-  let transaction;
+const combineAccountAndWallet = async ({ accountId, walletId, clientId }) => {
+  // check client id
+  const client = await clientDao.findClient({ clientId });
+  if (!client) throw new CustomError(statusCode.NOT_FOUND, "Client not found");
 
+  let transaction;
   let account = await userDao.findUser({ id: accountId });
   if (!account)
     throw new CustomError(statusCode.NOT_FOUND, "the account not found");
@@ -339,11 +342,57 @@ const combineAccountAndWallet = async ({ accountId, walletId }) => {
     });
     await transaction.commit();
     // return info account combine
+    const roles = await userRoleService.getRoleUserInClients(account.id);
+
+    const tokenData = {
+      user: {
+        id: account.id,
+        username: account.username,
+        walletAddress: account.wallet_address,
+      },
+      client: {
+        id: client.id,
+        clientId: client.client_id,
+        clientRedirectUris: client.rediect_uris,
+        grants: client.grants,
+      },
+      roles: roles.map((item) => ({
+        roleId: item.roleId,
+        clientId: item.client.clientId,
+        roleName: item.role.name,
+      })),
+    };
+    // generate refresh token and save token
+    const refresh = await generateAndSaveToken({
+      tokenData,
+      options: {
+        expiresIn: REFRESH_TOKEN_LIFETIME,
+        algorithm: "HS256",
+      },
+      secretKey: SECRET_REFRESH,
+      tokenExpiresAt: moment().add(REFRESH_TOKEN_LIFETIME, "seconds").toDate(),
+      type: TOKEN_TYPE.REFRESH_TOKEN,
+    });
+
+    // generate access token and save token
+    const token = await generateAndSaveToken({
+      tokenData,
+      options: {
+        expiresIn: TOKEN_LIFETIME,
+        algorithm: "HS256",
+      },
+      referenceId: refresh.id,
+      secretKey: SECRET_TOKEN,
+      tokenExpiresAt: moment().add(TOKEN_LIFETIME, "seconds").toDate(),
+      type: TOKEN_TYPE.ACCESS_TOKEN,
+    });
 
     return {
-      id: account.id,
-      username: account.username,
-      walletAddress: account.wallet_address,
+      accessToken: token.token,
+      tokenExpiresAt: token.token_expires_at,
+      refreshToken: refresh.token,
+      refreshTokenExpiresAt: refresh.token_expires_at,
+      tokenType: "Bearer",
     };
   } catch (err) {
     if (transaction) await transaction.rollback();

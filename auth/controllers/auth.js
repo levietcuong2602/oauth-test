@@ -63,13 +63,18 @@ const verifySignature = async (req, res) => {
 };
 
 const combineAccountAndWallet = async (req, res) => {
-  const { account_token: accountToken, wallet_token: walletToken } = req.body;
+  const {
+    account_token: accountToken,
+    wallet_token: walletToken,
+    client_id: clientId,
+  } = req.body;
   try {
     const accountData = await verifyToken(accountToken, SECRET_TOKEN);
     const walletData = await verifyToken(walletToken, SECRET_TOKEN);
     const data = await authService.combineAccountAndWallet({
       accountId: accountData.user.id,
       walletId: walletData.user.id,
+      clientId,
     });
     return successResponse(req, res, data);
   } catch (error) {
