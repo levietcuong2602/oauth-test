@@ -28,7 +28,7 @@ const findToken = async (condition) => {
 };
 
 const saveToken = async (payload) => {
-  let token = await Token.create(snakecaseKeys(payload, { deep: true }));
+  const token = await Token.create(snakecaseKeys(payload, { deep: true }));
   return token.get({
     plain: true,
   });

@@ -4,7 +4,7 @@ const { UserRole, Client, Role } = require("../models");
 
 const createUserRole = async (payload) => {
   const userRole = await UserRole.create(
-    snakecaseKeys(payload, { deep: true })
+    snakecaseKeys(payload, { deep: true }),
   );
 
   return userRole

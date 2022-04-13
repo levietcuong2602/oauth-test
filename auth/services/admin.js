@@ -47,7 +47,7 @@ const updateClient = async (id, clientData) => {
       grants: JSON.stringify(grants),
       redirectUris: JSON.stringify(redirectUris),
     },
-    { deep: false }
+    { deep: false },
   );
 
   const newClient = await clientDao.updateClient(id, data);
@@ -108,7 +108,7 @@ const updateRole = async (roleId, roleData) => {
       name,
       isDefault,
     },
-    { deep: false }
+    { deep: false },
   );
 
   const newRole = await roleDao.updateRole(roleId, data);
@@ -177,7 +177,7 @@ const updateUserRole = async ({ userId, clientId }, { roleId }) => {
 
   const newUserRole = await userRoleDao.updateUserRole(
     { userId, clientId },
-    { roleId }
+    { roleId },
   );
   return newUserRole;
 };

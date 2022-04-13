@@ -1,0 +1,15 @@
+{
+  "profile": "Profile",
+  "accountInfo": "Account Info",
+  "logout": "Logout",
+  "customer": "Customer",
+  "organizationalManagement": "Organizational Management",
+  "order": "Order",
+  "hotlineManagement": "Hotline Management",
+  "supportTicket": "Support ticket",
+  "affilliate": "Affilliate",
+  "notiAndEmail": "Notification & Email",
+  "system": "System",
+  "frequentlyAskedQuestions": "Frequently asked questions",
+  "packageAdministrator": "Package administrator"
+}

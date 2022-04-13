@@ -1,6 +1,6 @@
 const adminService = require("../services/admin");
 
-const DebugControl = require("../utilities/debug.js");
+const DebugControl = require("../utilities/debug");
 const { successResponse } = require("../utilities/response");
 
 const createClient = async (req, res) => {
@@ -108,7 +108,7 @@ const updateUserRole = async (req, res) => {
     { userId, clientId },
     {
       roleId,
-    }
+    },
   );
 
   return successResponse(req, res, result);

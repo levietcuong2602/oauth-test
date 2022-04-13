@@ -1,0 +1,23 @@
+{
+  "placeholder": "Search...",
+  "packageAdministrator": "Package administrator",
+  "list": "List",
+  "addNewPackage": "Add new package",
+  "packageName": "Package name",
+  "price": "Price",
+  "preferential": "Preferential",
+  "status": "Status",
+  "actions": "Actions",
+  "activated": "Activated",
+  "notActivated": "Not activated",
+  "percentPlus": "+ {{percent}}% value",
+  "denominationAdministrator": "Denomination administrator",
+  "order": "Order",
+  "createPackage": "Create package",
+  "editPackage": "Edit package",
+  "keyPlaceholder": "Enter key",
+  "createNow": "Create now",
+  "reset": "Reset",
+  "createPackageSuccess": "Create package successful",
+  "updatePackageSuccess": "Update package successful"
+}

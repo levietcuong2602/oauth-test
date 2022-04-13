@@ -1,7 +1,7 @@
 const authService = require("../services/auth");
 
 const { successResponse } = require("../utilities/response");
-const DebugControl = require("../utilities/debug.js");
+const DebugControl = require("../utilities/debug");
 const { verifyToken } = require("../utilities/auth");
 
 const { SECRET_TOKEN } = require("../config");
@@ -11,12 +11,12 @@ const statusCode = require("../errors/code");
 
 const registerAccount = async (req, res) => {
   DebugControl.log.flow("Register User");
-  const { username, password, client_id } = req.body;
+  const { username, password, client_id: clientId } = req.body;
 
   const data = await authService.registerAccount({
     username,
     password,
-    client_id,
+    clientId,
   });
   return successResponse(req, res, data);
 };
@@ -63,7 +63,7 @@ const verifySignature = async (req, res) => {
 };
 
 const combineAccountAndWallet = async (req, res) => {
-  let { account_token: accountToken, wallet_token: walletToken } = req.body;
+  const { account_token: accountToken, wallet_token: walletToken } = req.body;
   try {
     const accountData = await verifyToken(accountToken, SECRET_TOKEN);
     const walletData = await verifyToken(walletToken, SECRET_TOKEN);

@@ -1,6 +1,7 @@
+/* eslint-disable camelcase */
 const moment = require("moment");
 
-const { generateToken, verifyToken } = require("../utilities/auth");
+const { generateToken } = require("../utilities/auth");
 const { omitIsNil } = require("../utilities/omit");
 const { encryptPassword, generateSalt } = require("../utilities/bcrypt");
 const { generateSecurityKey } = require("../utilities/security");
@@ -24,7 +25,7 @@ const tokenDao = require("../daos/token");
 const sessionDao = require("../daos/session");
 const authorizationCodeDao = require("../daos/authorizationCode");
 
-const userRoleService = require("../services/userRole");
+const userRoleService = require("./userRole");
 const CustomError = require("../errors/CustomError");
 const statusCode = require("../errors/code");
 
@@ -54,24 +55,24 @@ const generateAndSaveToken = async ({
         tokenExpiresAt,
         referenceId,
       },
-      { deep: true }
-    )
+      { deep: true },
+    ),
   );
 
   return data;
 };
 
-const registerAccount = async ({ username, password, client_id }) => {
+const registerAccount = async ({ username, password, clientId }) => {
   // check username exists
   const user = await userDao.findUser({ username });
   if (user)
     throw new CustomError(
       statusCode.BAD_REQUEST,
-      "User already exists with same username"
+      "User already exists with same username",
     );
 
   // check client
-  const client = await clientDao.findClient({ client_id });
+  const client = await clientDao.findClient({ clientId });
   if (!client) throw new CustomError(statusCode.NOT_FOUND, "Client not exists");
 
   const salt = generateSalt(10);
@@ -91,7 +92,7 @@ const registerAccount = async ({ username, password, client_id }) => {
     });
   }
   // return list role in all clients
-  let roles = await userRoleService.getRoleUserInClients(newUser.id);
+  const roles = await userRoleService.getRoleUserInClients(newUser.id);
 
   const tokenData = {
     user: {
@@ -227,7 +228,7 @@ const verifySignature = async ({
   }
 
   // return list role in all clients
-  let roles = await userRoleService.getRoleUserInClients(user.id);
+  const roles = await userRoleService.getRoleUserInClients(user.id);
 
   const tokenData = {
     user: {
@@ -287,11 +288,11 @@ const combineAccountAndWallet = async ({ accountId, walletId }) => {
   let account = await userDao.findUser({ id: accountId });
   if (!account)
     throw new CustomError(statusCode.NOT_FOUND, "the account not found");
-  console.log({ address: account.wallet_address });
+
   if (account.wallet_address)
     throw new CustomError(
       statusCode.BAD_REQUEST,
-      "The account has been linked to the wallet"
+      "The account has been linked to the wallet",
     );
 
   const wallet = await userDao.findUser({ id: walletId });
@@ -300,7 +301,7 @@ const combineAccountAndWallet = async ({ accountId, walletId }) => {
   if (!wallet.wallet_address)
     throw new CustomError(
       statusCode.BAD_REQUEST,
-      "the wallet address is invalid"
+      "the wallet address is invalid",
     );
 
   try {
@@ -325,7 +326,7 @@ const combineAccountAndWallet = async ({ accountId, walletId }) => {
           userId: item.userId,
           clientId: item.clientId,
         });
-      })
+      }),
     );
     // delete account
     await userDao.deleteUser({

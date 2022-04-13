@@ -11,7 +11,7 @@ const createClient = {
         Joi.string()
           .trim()
           .valid(...Object.values(GRANT_TYPE))
-          .required()
+          .required(),
       )
       .required(),
     redirect_uris: Joi.array().items(Joi.string().trim().required()).required(),
@@ -29,7 +29,7 @@ const updateClient = {
     grants: Joi.array().items(
       Joi.string()
         .trim()
-        .valid(...Object.values(GRANT_TYPE))
+        .valid(...Object.values(GRANT_TYPE)),
     ),
     redirect_uris: Joi.array().items(Joi.string().trim().required()),
   }),

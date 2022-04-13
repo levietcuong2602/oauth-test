@@ -1,8 +1,9 @@
 const path = require("path"); // has path and __dirname
 const express = require("express");
+
 const router = express.Router(); // Instantiate a new router
 
-const oauthServer = require("../oauth/server.js");
+const oauthServer = require("../oauth/server");
 
 const {
   registerAccountValidate,
@@ -17,7 +18,7 @@ const authController = require("../controllers/auth");
 const { authenticationLogin } = require("../middlewares/authenticate");
 const asyncMiddleware = require("../middlewares/async");
 
-const DebugControl = require("../utilities/debug.js");
+const DebugControl = require("../utilities/debug");
 
 const filePath = path.join(__dirname, "../public/oauthAuthenticate.html");
 
@@ -109,7 +110,7 @@ router.get("/", (req, res) => {
 router.post(
   "/signup",
   registerAccountValidate,
-  asyncMiddleware(authController.registerAccount)
+  asyncMiddleware(authController.registerAccount),
 );
 
 /**
@@ -143,12 +144,12 @@ router.post(
       handle: (req) => {
         DebugControl.log.functionName("Authenticate Handler");
         DebugControl.log.parameters(
-          Object.keys(req.body).map((k) => ({ name: k, value: req.body[k] }))
+          Object.keys(req.body).map((k) => ({ name: k, value: req.body[k] })),
         );
         return req.body.user;
       },
     },
-  })
+  }),
 );
 
 /**
@@ -182,7 +183,7 @@ router.post(
     DebugControl.log.flow("Authorization Mobile");
     return next();
   },
-  asyncMiddleware(authController.getAuthorizationTokenByMobile)
+  asyncMiddleware(authController.getAuthorizationTokenByMobile),
 );
 
 /**
@@ -221,7 +222,7 @@ router.post(
   },
   oauthServer.token({
     requireClientAuthentication: {},
-  })
+  }),
 ); // Sends back token
 
 /**
@@ -256,9 +257,7 @@ router.post(
     next();
   },
   oauthServer.authenticate(),
-  (req, res) => {
-    return res.send({ data: res.locals.oauth.token, status: 1 });
-  }
+  (req, res) => res.send({ data: res.locals.oauth.token, status: 1 }),
 );
 
 /**
@@ -283,7 +282,7 @@ router.post(
 router.post(
   "/nonces",
   generateNonceSessionValidate,
-  asyncMiddleware(authController.generateNonceSession)
+  asyncMiddleware(authController.generateNonceSession),
 );
 
 /**
@@ -311,7 +310,7 @@ router.post(
 router.post(
   "/verify-signature",
   verifySignatureValidate,
-  asyncMiddleware(authController.verifySignature)
+  asyncMiddleware(authController.verifySignature),
 );
 
 /**
@@ -344,7 +343,7 @@ router.post(
     next();
   },
   combineAccountAndWalletValidate,
-  asyncMiddleware(authController.combineAccountAndWallet)
+  asyncMiddleware(authController.combineAccountAndWallet),
 );
 
 module.exports = router;

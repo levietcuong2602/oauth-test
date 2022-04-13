@@ -1,5 +1,3 @@
-const { TOKEN_TYPE } = require("../constants");
-
 module.exports = (sequelize, DataTypes) => {
   const Session = sequelize.define(
     "Session",
@@ -23,8 +21,9 @@ module.exports = (sequelize, DataTypes) => {
       tableName: "sessions",
       underscored: true,
       timestamps: false,
-    }
+    },
   );
+
   Session.associate = function (models) {
     // associations can be defined here
     Session.belongsTo(models.Client, {

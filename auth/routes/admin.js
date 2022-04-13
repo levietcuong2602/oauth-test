@@ -1,4 +1,3 @@
-const path = require("path"); // has path and __dirname
 const express = require("express");
 
 const userDao = require("../daos/user");
@@ -20,7 +19,7 @@ const adminController = require("../controllers/admin");
 
 const router = express.Router(); // Instantiate a new router
 
-router.get("/users/:userId", async (req, res, next) => {
+router.get("/users/:userId", async (req, res) => {
   const { userId } = req.params;
   const user = await userDao.findUser({ id: userId });
   if (!user) return errorResponse({ req, res, statusCode: 500 });
@@ -116,7 +115,7 @@ router.get("/clients/:id", asyncMiddleware(adminController.findClientById));
 router.post(
   "/clients",
   createClientValidate,
-  asyncMiddleware(adminController.createClient)
+  asyncMiddleware(adminController.createClient),
 );
 
 /**
@@ -161,7 +160,7 @@ router.post(
 router.put(
   "/clients/:id",
   updateClientValidate,
-  asyncMiddleware(adminController.updateClient)
+  asyncMiddleware(adminController.updateClient),
 );
 
 /**
@@ -187,7 +186,7 @@ router.put(
 router.delete(
   "/clients/:id",
   deleteClientValidate,
-  asyncMiddleware(adminController.deleteClient)
+  asyncMiddleware(adminController.deleteClient),
 );
 
 /**
@@ -210,7 +209,7 @@ router.delete(
 router.post(
   "/roles",
   createRoleValidate,
-  asyncMiddleware(adminController.createRole)
+  asyncMiddleware(adminController.createRole),
 );
 
 /**
@@ -221,7 +220,7 @@ router.post(
 router.put(
   "/roles/:role_id",
   updateRoleValidate,
-  asyncMiddleware(adminController.updateRole)
+  asyncMiddleware(adminController.updateRole),
 );
 
 /**
@@ -232,7 +231,7 @@ router.put(
 router.delete(
   "/roles/:role_id",
   deleteRoleValidate,
-  asyncMiddleware(adminController.deleteRole)
+  asyncMiddleware(adminController.deleteRole),
 );
 
 /**
@@ -243,7 +242,7 @@ router.delete(
 router.post(
   "/user-roles",
   createUserRoleValidate,
-  asyncMiddleware(adminController.createUserRole)
+  asyncMiddleware(adminController.createUserRole),
 );
 
 /**
@@ -254,7 +253,7 @@ router.post(
 router.put(
   "/user-roles",
   updateUserRoleValidate,
-  asyncMiddleware(adminController.updateUserRole)
+  asyncMiddleware(adminController.updateUserRole),
 );
 
 /**
@@ -265,7 +264,7 @@ router.put(
 router.delete(
   "/user-roles",
   deleteUserRoleValidate,
-  asyncMiddleware(adminController.deleteUserRole)
+  asyncMiddleware(adminController.deleteUserRole),
 );
 
 module.exports = router;

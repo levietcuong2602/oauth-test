@@ -1,4 +1,3 @@
-"use strict";
 module.exports = (sequelize, DataTypes) => {
   const UserRole = sequelize.define(
     "UserRole",
@@ -29,8 +28,9 @@ module.exports = (sequelize, DataTypes) => {
       tableName: "user_roles",
       underscored: true,
       timestamps: false,
-    }
+    },
   );
+  // eslint-disable-next-line no-unused-vars
   UserRole.associate = function (models) {
     // associations can be defined here
     // UserRole.belongsTo(models.Client, {

@@ -42,9 +42,9 @@ function transformObjectId(obj) {
 }
 
 function snakecaseRes() {
-  return mung.json(function transform(body, req, res) {
-    return snakecaseKeys(transformObjectId(body), { deep: true });
-  });
+  return mung.json((body, req, res) =>
+    snakecaseKeys(transformObjectId(body), { deep: true }),
+  );
 }
 
 module.exports = snakecaseRes;

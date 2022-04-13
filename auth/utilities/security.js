@@ -5,9 +5,8 @@ const { PEPPER } = require("../config");
 
 const IV_LENGTH = 16; // For AES, this is always 16
 
-const hashSHA512 = (text) => {
-  return crypto.createHash("sha512").update(text).digest("hex");
-};
+const hashSHA512 = (text) =>
+  crypto.createHash("sha512").update(text).digest("hex");
 
 const generateSecurityKey = () => {
   const seed = crypto.randomBytes(256);
@@ -32,7 +31,7 @@ const decrypt = (text) => {
   const decipher = crypto.createDecipheriv(
     "aes-256-ctr",
     Buffer.from(PEPPER),
-    iv
+    iv,
   );
   let decrypted = decipher.update(encryptedText);
 

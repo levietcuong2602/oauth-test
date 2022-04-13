@@ -1,0 +1,21 @@
+{
+  "placeholder": "Tìm kiếm...",
+  "packageAdministrator": "Quản trị gói cước",
+  "list": "Danh sách",
+  "addNewPackage": "Thêm mới gói cước",
+  "packageName": "Tên gói cước",
+  "price": "Giá gốc",
+  "preferential": "Ưu đãi",
+  "status": "Trạng thái",
+  "actions": "Thao tác",
+  "activated": "Kích hoạt",
+  "notActivated": "Chưa kích hoạt",
+  "percentPlus": "+ {{percent}}% giá trị",
+  "denominationAdministrator": "Quản trị mệnh giá",
+  "order": "Đơn hàng",
+  "createPackage": "Tạo gói cước",
+  "editPackage": "Sửa gói cước",
+  "keyPlaceholder": "Nhập key",
+  "createNow": "Tạo ngay",
+  "reset": "Đặt lại"
+}
