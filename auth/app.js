@@ -79,7 +79,7 @@ app.use(errorHandler);
 
 app.use('/', (req, res) => res.redirect('/client'));
 
-app.listen(3030);
+app.listen(port);
 console.log('Oauth Server listening on port ', port);
 
 module.exports = app; // For testing
