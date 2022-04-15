@@ -1,13 +1,13 @@
 import * as auth from './auth';
-import * as providerSiptrunk from './providerSiptrunk';
+import * as role from './role';
 import * as hotline from './hotline';
-import * as item from './item';
-import * as shop from './shop';
+import * as client from './client';
+import * as user from './user';
 
 export default {
   auth,
-  providerSiptrunk,
+  role,
   hotline,
-  item,
-  shop,
+  client,
+  user,
 };

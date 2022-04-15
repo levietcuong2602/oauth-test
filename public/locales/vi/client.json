@@ -1,0 +1,7 @@
+{
+  "clientName": "Tên ứng dụng",
+  "grants": "Grants",
+  "redirectUris": "Redirect uris",
+  "action": "Hành động",
+  "clientId": "Client ID"
+}

@@ -1,9 +1,9 @@
 import api from './api';
 
-export const getListShops = async (params) => {
+export const getListUsers = async (params) => {
   const res = await api({
     method: 'GET',
-    url: '/shops',
+    url: '/api/admin/users',
     params,
   });
   return res;

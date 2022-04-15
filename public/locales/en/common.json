@@ -20,10 +20,5 @@
   "cancel": "Cancel",
   "noDataFound": "No data found",
   "invalidValue": "Invalid value",
-  "supplierNameExist": "Supplier name already exists",
-  "supplierNotFound": "Supplier not found",
-  "supplierLinkedHotline": "The supplier has been linked to the hotline",
-  "hotlineNotFound": "Hotline not found",
-  "hotlineExists": "Hotline already exists",
-  "hotlineLinkedCampaign": "The hotline has been linked to the campaign"
+  "addNew": "Add new"
 }

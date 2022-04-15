@@ -4,7 +4,7 @@ import { API_URL } from '@src/configs';
 import getErrorMessage from '@src/errors/getErrorMessage';
 
 const axiosClient = axios.create({
-  baseURL: `${API_URL}/api/v1`,
+  baseURL: `${API_URL}`,
   responseType: 'json',
   timeout: 30 * 1000,
 });

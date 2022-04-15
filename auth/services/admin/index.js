@@ -1,11 +1,11 @@
-const clientDao = require('../daos/client');
-const roleDao = require('../daos/role');
-const userDao = require('../daos/user');
-const userRoleDao = require('../daos/userRole');
-const errorCode = require('../errors/code');
-const CustomError = require('../errors/CustomError');
-const { omitIsNil } = require('../utilities/omit');
-const { generateSecurityKey } = require('../utilities/security');
+const clientDao = require('../../daos/client');
+const roleDao = require('../../daos/role');
+const userDao = require('../../daos/user');
+const userRoleDao = require('../../daos/userRole');
+const errorCode = require('../../errors/code');
+const CustomError = require('../../errors/CustomError');
+const { omitIsNil } = require('../../utilities/omit');
+const { generateSecurityKey } = require('../../utilities/security');
 
 const createClient = async ({ name, grants = [], redirectUris = [] }) => {
   const clientExists = await clientDao.findClient({ name });
@@ -76,53 +76,6 @@ const findClientById = async (id) => {
   }
 
   return client;
-};
-
-const createRole = async ({ name, isDefault = false }) => {
-  const roleExists = await roleDao.findRole({ name });
-  if (roleExists) throw new Error('Role already exists with same name');
-
-  const data = { name, isDefault };
-
-  const newRole = await roleDao.createRole(data);
-  return newRole;
-};
-
-const updateRole = async (roleId, roleData) => {
-  const { name, isDefault } = roleData;
-
-  const role = await roleDao.findRole({ id: roleId });
-
-  if (!role) {
-    throw new Error('Role does not exists');
-  }
-
-  if (name && role.name !== name) {
-    const isRoleNameExisted = await roleDao.findRole({ name });
-    if (isRoleNameExisted)
-      throw new Error('Role already exists with same name');
-  }
-
-  const data = omitIsNil(
-    {
-      name,
-      isDefault,
-    },
-    { deep: false },
-  );
-
-  const newRole = await roleDao.updateRole(roleId, data);
-  return newRole;
-};
-
-const deleteRole = async (roleId) => {
-  const role = await roleDao.findRole({ id: roleId });
-
-  if (!role) {
-    throw new Error('Role does not exists');
-  }
-
-  await roleDao.deleteRole(roleId);
 };
 
 const createUserRole = async ({ userId, clientId, roleId }) => {
@@ -210,9 +163,6 @@ module.exports = {
   updateClient,
   deleteClient,
   findClientById,
-  createRole,
-  updateRole,
-  deleteRole,
   createUserRole,
   updateUserRole,
   deleteUserRole,

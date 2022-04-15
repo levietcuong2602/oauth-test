@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useSnackbar } from 'notistack';
+import snakecaseKeys from 'snakecase-keys';
 
 import { PAGINATION_LIMIT } from '@src/constants';
 import { omitIsNil } from '@src/utils/omit';
@@ -32,13 +33,13 @@ const usePaginationWithState = (initData, apiFetch, allowCallApi = true) => {
     omitIsNil(params, { deep: false });
     try {
       setLoading(true);
-      const response = await apiFetch(params);
+      const response = await apiFetch(snakecaseKeys(params, { deep: true }));
       if (!response) return;
 
-      setData(response.result.data);
-      setTotal(response.result.pager.totalCount);
-      setTotalPage(response.result.pager.lastPageNum);
-      setHasNext(response.result.pager.hasNext);
+      setData(response.data.data);
+      setTotal(response.data.pager.totalCount);
+      setTotalPage(response.data.pager.lastPageNum);
+      setHasNext(response.data.pager.hasNext);
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -62,13 +63,13 @@ const usePaginationWithState = (initData, apiFetch, allowCallApi = true) => {
     );
 
     try {
-      const response = await apiFetch(params);
+      const response = await apiFetch(snakecaseKeys(params, { deep: true }));
       if (!response) return;
 
-      setData(response.result.data);
-      setTotal(response.result.pager.totalCount);
-      setTotalPage(response.result.pager.lastPageNum);
-      setHasNext(response.result.pager.hasNext);
+      setData(response.data.data);
+      setTotal(response.data.pager.totalCount);
+      setTotalPage(response.data.pager.lastPageNum);
+      setHasNext(response.data.pager.hasNext);
 
       const nextPage = currentPage + 1;
       setCurrentPage(nextPage);
@@ -90,7 +91,7 @@ const usePaginationWithState = (initData, apiFetch, allowCallApi = true) => {
     total,
     limit: searchParams.limit,
     hasNext,
-    onPageChange: handleChangePage,
+    onPaginationChange: handleChangePage,
     onLoadMore: handleLoadMore,
     searchParams,
     onParamsChange: handleSearchParamsChange,

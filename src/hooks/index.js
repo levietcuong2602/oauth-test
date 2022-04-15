@@ -4,6 +4,7 @@ import useSearchParams from './useSearchParams';
 import useDebouncedEffect from './useDebouncedEffect';
 import useDebounce from './useDebounce';
 import usePaginationWithState from './usePaginationWithState';
+import usePaginationWithLocation from './usePaginationWithLocation';
 
 export {
   useCallApi,
@@ -12,4 +13,5 @@ export {
   useDebouncedEffect,
   useDebounce,
   usePaginationWithState,
+  usePaginationWithLocation,
 };

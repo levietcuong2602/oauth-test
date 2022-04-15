@@ -13,7 +13,7 @@ const useCallApi = (initData, apiCaller, delayTime) => {
     try {
       setLoading(true);
       const response = await apiCaller(...args);
-      setData(response.results.data);
+      setData(response.data.data);
       if (delayTime) {
         await delay(delayTime);
       }

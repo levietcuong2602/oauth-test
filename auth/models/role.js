@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       tableName: 'roles',
       underscored: true,
-      timestamps: false,
+      timestamps: true,
     },
   );
   // eslint-disable-next-line no-unused-vars

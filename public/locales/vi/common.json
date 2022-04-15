@@ -25,5 +25,6 @@
   "supplierLinkedHotline": "Nhà cung cấp đang có hotline liên kết",
   "hotlineNotFound": "Không tìm thấy hotline",
   "hotlineExists": "Hotline đã tồn tại",
-  "hotlineLinkedCampaign": "Hotline đang có chiến dịch liên kết"
+  "hotlineLinkedCampaign": "Hotline đang có chiến dịch liên kết",
+  "addNew": "Thêm mới"
 }

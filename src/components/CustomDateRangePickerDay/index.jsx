@@ -61,8 +61,8 @@ export default function CustomDateRangePickerDay({
           <DateRangePicker
             displayStaticWrapperAs="desktop"
             label="date range"
-            startText="Start date"
-            endText="End date"
+            startText=""
+            endText=""
             inputFormat="dd/MM/yyyy"
             value={dateRange}
             onChange={(newValue) => onChangeDateRange(newValue)}
@@ -71,6 +71,7 @@ export default function CustomDateRangePickerDay({
             renderInput={(startProps, endProps) => (
               <>
                 <TextField
+                  className="date_range_start"
                   inputRef={startInputRef}
                   {...startProps}
                   InputProps={{
@@ -89,6 +90,7 @@ export default function CustomDateRangePickerDay({
                 />
                 <Box sx={{ mx: 2 }}> to </Box>
                 <TextField
+                  className="date_range_end"
                   {...endProps}
                   inputRef={endInputRef}
                   InputProps={{
