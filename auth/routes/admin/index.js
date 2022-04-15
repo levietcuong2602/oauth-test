@@ -1,5 +1,7 @@
 const express = require('express');
 
+const router = express.Router(); // Instantiate a new router
+
 const userDao = require('../daos/user');
 const { successResponse, errorResponse } = require('../utilities/response');
 const asyncMiddleware = require('../middlewares/async');
@@ -21,17 +23,6 @@ const {
 const adminController = require('../controllers/admin/client');
 const roleAdminController = require('../controllers/admin/role');
 const userRoleAdminController = require('../controllers/admin/userRole');
-const userAdminController = require('../controllers/admin/user');
-
-const router = express.Router(); // Instantiate a new router
-
-router.get('/users/:userId', async (req, res) => {
-  const { userId } = req.params;
-  const user = await userDao.findUser({ id: userId });
-  if (!user) return errorResponse({ req, res, statusCode: 500 });
-
-  return successResponse(req, res, user);
-});
 
 /**
  * NewClient
@@ -205,22 +196,6 @@ router.get(
   getClientsValidate,
   asyncMiddleware(adminController.getClients),
 );
-
-/**
- * GET /api/admin/users
- * @summary Get list users
- * @tags Admin
- */
-router.get(
-  '/users',
-  getUsersValidate,
-  asyncMiddleware(userAdminController.getUsers),
-);
-/**
- * PUT /api/admin/users
- * @summary Update user info
- * @tags Admin
- */
 
 /**
  * GET /api/admin/roles

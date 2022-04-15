@@ -42,9 +42,9 @@ const usePaginationWithState = (initData, apiFetch, allowCallApi = true) => {
       setHasNext(response.data.pager.hasNext);
       setLoading(false);
     } catch (error) {
-      setLoading(false);
       enqueueSnackbar(t(error.message), { variant: 'error' });
     }
+    setLoading(false);
   };
 
   const handleChangePage = async (page) => {
