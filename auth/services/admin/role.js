@@ -2,8 +2,12 @@ const roleDao = require('../../daos/role');
 
 const { omitIsNil } = require('../../utilities/omit');
 
-const getRoles = async () => {
-  const roles = await roleDao.getRoles();
+const getRoles = async ({ limit, pageNum, ...condition }) => {
+  const roles = await roleDao.getRoles({
+    ...condition,
+    limit: parseInt(limit, 10) || 10,
+    pageNum: parseInt(pageNum, 10) > 0 ? +pageNum : 1,
+  });
 
   return roles;
 };

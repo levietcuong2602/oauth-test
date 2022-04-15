@@ -19,6 +19,13 @@ export const sidebarMenu = [
     role: ['user'],
   },
   {
+    key: 'ClientManagement',
+    heading: 'Client Management',
+    icon: <Icon>analytics</Icon>,
+    route: ROUTES.CLIENTS,
+    role: ['user'],
+  },
+  {
     key: 'PermisstionManagement',
     heading: 'Permisstion Management',
     icon: <Icon>assessment</Icon>,

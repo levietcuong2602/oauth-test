@@ -4,4 +4,5 @@ export default {
   ROLES: '/roles',
   PERMISSIONS: '/permissions',
   USERS: '/users',
+  CLIENTS: '/clients',
 };

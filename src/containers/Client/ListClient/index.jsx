@@ -6,14 +6,14 @@ import EditIcon from '@mui/icons-material/Edit';
 import apis from '@src/apis';
 import ContentBase from '@src/components/ContentBase';
 import { usePaginationWithState } from '@src/hooks';
-import { FILTER_TYPE, STATUS_USER } from '@src/constants';
-import ListUserStyle from './index.style';
+import { FILTER_TYPE } from '@src/constants';
+import ListClientStyle from './index.style';
 
-const ListUser = () => {
-  const { t } = useTranslation(['user']);
+const ListClient = () => {
+  const { t } = useTranslation(['client']);
   const {
-    data: listUsers,
-    handleCallApi: fetchListUsers,
+    data: listClients,
+    handleCallApi: fetchListClients,
     currentPage,
     total,
     totalPage,
@@ -22,7 +22,7 @@ const ListUser = () => {
     onPaginationChange,
     onParamsChange,
     searchParams,
-  } = usePaginationWithState([], apis.user.getListUsers);
+  } = usePaginationWithState([], apis.client.getListClients);
 
   const handleUpdateItem = () => {
     // eslint-disable-next-line no-console
@@ -47,25 +47,30 @@ const ListUser = () => {
     },
   ];
 
-  const userHeaders = [
+  const clientHeaders = [
     {
       label: t('no'),
       valueName: 'no',
       align: 'left',
     },
     {
-      label: t('username'),
-      valueName: 'username',
+      label: t('clientName'),
+      valueName: 'name',
       align: 'left',
     },
     {
-      label: t('walletAddress'),
-      valueName: 'walletAddress',
+      label: t('clientId'),
+      valueName: 'clientId',
       align: 'left',
     },
     {
-      label: t('status'),
-      valueName: 'status',
+      label: t('grants'),
+      valueName: 'grants',
+      align: 'left',
+    },
+    {
+      label: t('redirectUris'),
+      valueName: 'redirectUris',
       align: 'left',
     },
     {
@@ -76,17 +81,12 @@ const ListUser = () => {
   ];
 
   return (
-    <ListUserStyle>
+    <ListClientStyle>
       <ContentBase
-        items={listUsers.map((item) => ({
-          ...item,
-          status: item.status ? 'Active' : 'Deactive',
-        }))}
-        headers={userHeaders}
+        items={listClients}
+        headers={clientHeaders}
         actions={actions}
-        onFetchData={fetchListUsers}
-        onParamsChange={onParamsChange}
-        searchParams={searchParams}
+        onFetchData={fetchListClients}
         loading={loading}
         pagination={{
           page: currentPage,
@@ -95,32 +95,18 @@ const ListUser = () => {
           total,
         }}
         onChangePagination={onPaginationChange}
+        onParamsChange={onParamsChange}
+        searchParams={searchParams}
         filters={[
           {
             field: 'dateRange',
             type: FILTER_TYPE.DATE_RANGE,
             default: [],
           },
-          {
-            field: 'status',
-            type: FILTER_TYPE.SELECT,
-            default: null,
-            placeholder: 'Chọn trạng thái',
-            options: [
-              {
-                value: STATUS_USER.ACTIVE,
-                label: 'Active',
-              },
-              {
-                value: STATUS_USER.DEACTIVE,
-                label: 'Deactive',
-              },
-            ],
-          },
         ]}
       />
-    </ListUserStyle>
+    </ListClientStyle>
   );
 };
 
-export default ListUser;
+export default ListClient;

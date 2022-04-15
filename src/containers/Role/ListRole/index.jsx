@@ -1,15 +1,28 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
+import apis from '@src/apis';
 import ContentBase from '@src/components/ContentBase';
+import { usePaginationWithState } from '@src/hooks';
 import ListRoleStyle from './index.style';
 
 const ListRole = () => {
   const { t } = useTranslation(['role']);
-  // eslint-disable-next-line no-unused-vars
-  const [listRole] = useState([]);
+
+  const {
+    data: listRoles,
+    handleCallApi: fetchListRoles,
+    onParamsChange,
+    searchParams,
+    currentPage,
+    total,
+    totalPage,
+    limit,
+    loading,
+    onPaginationChange,
+  } = usePaginationWithState([], apis.role.getListRoles);
 
   const handleUpdateItem = () => {};
 
@@ -34,7 +47,12 @@ const ListRole = () => {
     },
     {
       label: t('roleName'),
-      valueName: 'rolName',
+      valueName: 'name',
+      align: 'left',
+    },
+    {
+      label: t('default'),
+      valueName: 'isDefault',
       align: 'left',
     },
     {
@@ -47,10 +65,23 @@ const ListRole = () => {
   return (
     <ListRoleStyle>
       <ContentBase
-        key={1}
-        items={listRole}
+        items={listRoles.map((item) => ({
+          ...item,
+          isDefault: item.isDefault ? 'Có' : 'Không',
+        }))}
         headers={roleHeaders}
         actions={actions}
+        onFetchData={fetchListRoles}
+        onParamsChange={onParamsChange}
+        searchParams={searchParams}
+        loading={loading}
+        pagination={{
+          page: currentPage,
+          totalPages: totalPage,
+          limit,
+          total,
+        }}
+        onChangePagination={onPaginationChange}
       />
     </ListRoleStyle>
   );

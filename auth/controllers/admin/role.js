@@ -1,3 +1,5 @@
+const camelCaseKeys = require('camelcase-keys');
+
 const roleAdminService = require('../../services/admin/role');
 
 const DebugControl = require('../../utilities/debug');
@@ -34,7 +36,9 @@ const deleteRole = async (req, res) => {
 
 const getRoles = async (req, res) => {
   DebugControl.log.flow('Get roles');
-  const data = await roleAdminService.getRoles();
+  const data = await roleAdminService.getRoles(
+    camelCaseKeys(req.query, { deep: true }),
+  );
   return successResponse(req, res, data);
 };
 

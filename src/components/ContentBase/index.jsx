@@ -1,10 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import { Button, Box, Grid } from '@mui/material';
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import {
+  Button,
+  Box,
+  Grid,
+  TextField,
+  InputAdornment,
+  IconButton,
+} from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 import CustomTable from '@src/components/CustomTable';
 import CustomDateRangePickerDay from '@src/components/CustomDateRangePickerDay';
 import CustomSelect from '@src/components/CustomSelect';
-import { useSearchParams } from '@src/hooks';
 
 import { FILTER_TYPE } from '@src/constants';
 import ContentBaseStyle, { ContainerHeaderStyle } from './index.style';
@@ -21,25 +30,30 @@ const ContentBase = ({
     total: 0,
   },
   onChangePagination,
+  onParamsChange,
+  searchParams,
+  onFetchData,
   onCreateItem,
   filters = [],
 }) => {
+  // eslint-disable-next-line no-console
+  const { t } = useTranslation(['common']);
   const [filterData, setFilterData] = useState({
     dateRange: [new Date(), new Date()],
   });
-  const { addParams } = useSearchParams();
-
-  useEffect(() => {
-    filters.forEach((item) => {
-      setFilterData({ ...filterData, [item.field]: item.default });
-    });
-  }, []);
 
   // eslint-disable-next-line no-unused-vars
   const [errors, setErrors] = useState({});
 
+  const handleSearchChange = (e) => {
+    const search = e.target.value;
+    onParamsChange({ search });
+    onFetchData({ ...searchParams, search });
+  };
+
   const handleSelectChange = (item, value) => {
-    addParams({ [item.field]: value });
+    onParamsChange({ [item.field]: value });
+    onFetchData({ ...searchParams, [item.field]: value });
 
     setFilterData({ ...filterData, [item.field]: value });
   };
@@ -51,7 +65,13 @@ const ContentBase = ({
   const handleRefreshDateRange = () => {};
 
   const handleAcceptDateRange = (dateRange) => {
-    addParams({ start_time: dateRange[0], end_time: dateRange[1] });
+    // eslint-disable-next-line no-console
+    onParamsChange({ start_time: dateRange[0], end_time: dateRange[1] });
+    onFetchData({
+      ...searchParams,
+      start_time: dateRange[0],
+      end_time: dateRange[1],
+    });
   };
 
   const renderFilterComponent = (item) => {
@@ -90,12 +110,34 @@ const ContentBase = ({
 
   return (
     <ContentBaseStyle>
+      <Box mb={1}>
+        <TextField
+          className="filter_search"
+          size="small"
+          placeholder="Nhập thông tin tìm kiếm"
+          value={filterData.search}
+          onChange={handleSearchChange}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton>
+                  <SearchIcon />
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
+      </Box>
       <ContainerHeaderStyle>
         <Grid className="filter_item" flex>
           {filters.map((item) => renderFilterComponent(item))}
         </Grid>
-        <Button variant="outlined" onClick={onCreateItem}>
-          Thêm mới
+        <Button
+          variant="contained"
+          onClick={onCreateItem}
+          startIcon={<AddCircleOutlineIcon />}
+        >
+          {t('addNew')}
         </Button>
       </ContainerHeaderStyle>
       <CustomTable

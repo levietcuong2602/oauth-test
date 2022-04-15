@@ -41,6 +41,16 @@ const deleteClient = {
   }),
 };
 
+const getClients = {
+  query: Joi.object({
+    search: Joi.string().trim().allow(''),
+    start_time: Joi.date(),
+    end_time: Joi.date(),
+    limit: Joi.number().default(10),
+    page_num: Joi.number().default(1),
+  }),
+};
+
 const createRole = {
   body: Joi.object({
     name: Joi.string().required(),
@@ -91,13 +101,15 @@ const deleteUserRole = {
 
 const getRoles = {
   query: Joi.object({
-    search: Joi.string().trim(),
+    search: Joi.string().trim().allow(''),
+    limit: Joi.number().default(10),
+    page_num: Joi.number().default(1),
   }),
 };
 
 const getUsers = {
   query: Joi.object({
-    search: Joi.string().trim(),
+    search: Joi.string().trim().allow(''),
     status: Joi.number().valid(...Object.values(STATUS_USER)),
     start_time: Joi.date(),
     end_time: Joi.date(),
@@ -110,6 +122,7 @@ module.exports = {
   createClientValidate: customValidate(createClient),
   updateClientValidate: customValidate(updateClient),
   deleteClientValidate: customValidate(deleteClient),
+  getClientsValidate: customValidate(getClients),
   createRoleValidate: customValidate(createRole),
   updateRoleValidate: customValidate(updateRole),
   deleteRoleValidate: customValidate(deleteRole),

@@ -2,5 +2,6 @@
   "no": "No",
   "roleName": "Role name",
   "roleStatus": "Role status",
-  "action": "Action"
+  "action": "Action",
+  "default": "Default"
 }

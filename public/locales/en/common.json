@@ -19,5 +19,6 @@
   "cannotUndoAfterConfirm": "After confirmation you cannot undo",
   "cancel": "Cancel",
   "noDataFound": "No data found",
-  "invalidValue": "Invalid value"
+  "invalidValue": "Invalid value",
+  "addNew": "Add new"
 }

@@ -1,4 +1,6 @@
-const adminService = require('../../services/admin');
+const camelCaseKeys = require('camelcase-keys');
+
+const adminService = require('../../services/admin/client');
 
 const DebugControl = require('../../utilities/debug');
 const { successResponse } = require('../../utilities/response');
@@ -56,9 +58,18 @@ const findClientById = async (req, res) => {
   return successResponse(req, res, client);
 };
 
+const getClients = async (req, res) => {
+  DebugControl.log.flow('Get clients');
+  const data = await adminService.getClients(
+    camelCaseKeys(req.query, { deep: true }),
+  );
+  return successResponse(req, res, data);
+};
+
 module.exports = {
   createClient,
   updateClient,
   deleteClient,
   findClientById,
+  getClients,
 };

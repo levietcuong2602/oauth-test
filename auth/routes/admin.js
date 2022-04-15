@@ -16,8 +16,9 @@ const {
   deleteUserRoleValidate,
   getRolesValidate,
   getUsersValidate,
+  getClientsValidate,
 } = require('../validations/admin');
-const adminController = require('../controllers/admin');
+const adminController = require('../controllers/admin/client');
 const roleAdminController = require('../controllers/admin/role');
 const userRoleAdminController = require('../controllers/admin/userRole');
 const userAdminController = require('../controllers/admin/user');
@@ -192,6 +193,17 @@ router.delete(
   '/clients/:id',
   deleteClientValidate,
   asyncMiddleware(adminController.deleteClient),
+);
+
+/**
+ * GET /api/admin/clients
+ * @summary Get list clients
+ * @tags Admin
+ */
+router.get(
+  '/clients',
+  getClientsValidate,
+  asyncMiddleware(adminController.getClients),
 );
 
 /**

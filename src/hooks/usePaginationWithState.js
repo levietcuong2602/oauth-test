@@ -91,7 +91,7 @@ const usePaginationWithState = (initData, apiFetch, allowCallApi = true) => {
     total,
     limit: searchParams.limit,
     hasNext,
-    onPageChange: handleChangePage,
+    onPaginationChange: handleChangePage,
     onLoadMore: handleLoadMore,
     searchParams,
     onParamsChange: handleSearchParamsChange,

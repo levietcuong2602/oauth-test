@@ -62,7 +62,6 @@ const getUsers = async ({
   if (Object.values(STATUS_USER).includes(status)) {
     query.where.status = status;
   }
-  console.log({ startTime, endTime });
   if (startTime && endTime) {
     query.where.created_at = {
       [Op.between]: [new Date(startTime), new Date(endTime)],
