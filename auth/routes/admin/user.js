@@ -8,7 +8,7 @@ const asyncMiddleware = require('../../middlewares/async');
 
 const userAdminController = require('../../controllers/admin/user');
 
-const { getUsersValidate } = require('../../validations/admin');
+const { getUsersValidate } = require('../../validations/admin/user');
 
 /**
  * GET /api/admin/users
@@ -39,3 +39,5 @@ router.get(
  * @summary Update user info
  * @tags Admin
  */
+
+module.exports = router;

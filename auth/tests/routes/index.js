@@ -4,7 +4,7 @@ const chaiHttp = require('chai-http');
 
 chai.use(chaiHttp);
 
-const { server } = require('../setup.js');
+const { server } = require('../setup');
 
 const validData = {
   code: '',

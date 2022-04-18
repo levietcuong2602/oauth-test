@@ -71,7 +71,7 @@ app.use(
   require('./routes/secure'),
 ); // routes to access the protected stuff
 
-app.use('/api/admin', require('./routes/admin'));
+require('./routes/admin')(app);
 
 app.use(errorHandler);
 
