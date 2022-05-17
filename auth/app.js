@@ -2,6 +2,8 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const expressJSDocSwagger = require('express-jsdoc-swagger');
+const session = require('express-session');
+const cp = require('cookie-parser');
 
 dotenv.config();
 require('./config/sequelize');
@@ -11,6 +13,7 @@ const port = process.env.PORT || 3030;
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const compression = require('compression');
+const RedisStore = require('connect-redis')(session);
 
 const oauthServer = require('./oauth/server');
 
@@ -19,9 +22,23 @@ const snakecaseResponse = require('./middlewares/snakeCaseResponse');
 const omitReq = require('./middlewares/omitReq');
 
 const DebugControl = require('./utilities/debug');
+const { client } = require('./utilities/redis');
 
 // Here we are configuring express to use body-parser as middle-ware.
-app.use(cors());
+app.use(
+  session({
+    secret: 'keyboard cat',
+    saveUninitialized: false,
+    resave: false,
+    store: new RedisStore({
+      host: 'localhost',
+      port: 6379,
+      client,
+      ttl: 260,
+    }),
+  }),
+);
+app.use(cors({ origin: 'http://localhost:8000', credentials: true }));
 app.use(compression());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -55,9 +72,10 @@ const swaggerOptions = {
 
 expressJSDocSwagger(app)(swaggerOptions);
 
-app.use(snakecaseResponse());
+// app.use(snakecaseResponse());
 app.use(omitReq);
 
+app.use('/captcha', require('./routes/captcha')); // Client routes
 app.use('/client', require('./routes/client')); // Client routes
 app.use('/oauth', require('./routes/auth')); // routes to access the auth stuff
 // Note that the next router uses middleware. That protects all routes within this middleware
@@ -77,7 +95,9 @@ app.use(errorHandler);
 
 app.use('/', (req, res) => res.redirect('/client'));
 
-app.listen(port);
-console.log('Oauth Server listening on port ', port);
+app.listen(8080);
+console.log('Oauth Server listening on port ', 8080);
 
 module.exports = app; // For testing
+
+global.CAPTCHA = 'initial';

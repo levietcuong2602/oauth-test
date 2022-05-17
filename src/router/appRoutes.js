@@ -3,6 +3,7 @@ import Login from '@src/pages/Login';
 import ListRole from '@src/pages/Role/ListRole';
 import ListUser from '@src/pages/User/ListUser';
 import ListClient from '@src/pages/Client/ListClient';
+import Home from '@src/pages/Home';
 
 export default [
   {
@@ -32,5 +33,12 @@ export default [
     exact: true,
     restricted: false,
     isPrivate: true,
+  },
+  {
+    path: ROUTES.HOME,
+    component: Home,
+    exact: true,
+    restricted: false,
+    isPrivate: false,
   },
 ];
