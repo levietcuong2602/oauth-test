@@ -1,17 +1,23 @@
+const fs = require('fs');
+const path = require('path');
+
 const express = require('express');
 const sliderCaptcha = require('@slider-captcha/core');
 
 const router = express.Router(); // Instantiate a new router
 
-router.get('/create', (req, res) => {
+router.get('/create', async (req, res) => {
   const sessionKey = `sess:${req.session.id}`;
   console.log({ create: sessionKey });
   req.session.save();
-  sliderCaptcha.create().then(({ data, solution }) => {
-    console.log({
-      type: Buffer.isBuffer(data.background),
-      hih: Buffer.isBuffer('123'),
-    });
+
+  let imgBuff = await fs.readFileSync(
+    path.join(__dirname, '../../public/logo192.png'),
+  );
+  const str = imgBuff.toString('base64');
+  imgBuff = Buffer.from(str, 'base64');
+
+  sliderCaptcha.create({ image: imgBuff }).then(({ data, solution }) => {
     req.session.captcha = solution;
     req.session.save();
     res.status(200).send(data);
