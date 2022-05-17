@@ -5,7 +5,7 @@ const {
   TOKEN_LIFETIME,
   REFRESH_TOKEN_LIFETIME,
   SESSION_LIFETIME,
-  REDIS_URI = 'redis://:redis_password@localhost:6379',
+  REDIS_URI = 'redis://@localhost:6379',
 } = process.env;
 
 module.exports = {

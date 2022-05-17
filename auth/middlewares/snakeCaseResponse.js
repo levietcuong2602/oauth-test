@@ -14,12 +14,14 @@ function sortObject(obj) {
 }
 
 function transformObjectId(obj) {
+  if (Buffer.isBuffer(obj)) return obj;
+
   if (typeof obj !== 'object') {
     return obj;
   }
 
-  // typeof null = object
   if (obj === null) {
+    // typeof null = object
     return null;
   }
 
@@ -46,7 +48,9 @@ function transformObjectId(obj) {
 
 function snakecaseRes() {
   return mung.json((body, req, res) =>
-    snakecaseKeys(transformObjectId(body), { deep: true }),
+    snakecaseKeys(transformObjectId(body), {
+      deep: true,
+    }),
   );
 }
 

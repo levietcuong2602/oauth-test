@@ -27,18 +27,23 @@ const { client } = require('./utilities/redis');
 // Here we are configuring express to use body-parser as middle-ware.
 app.use(
   session({
-    secret: 'keyboard cat',
-    saveUninitialized: false,
+    store: new RedisStore({ client }),
+    secret: 'secret$%^134',
     resave: false,
-    store: new RedisStore({
-      host: 'localhost',
-      port: 6379,
-      client,
-      ttl: 260,
-    }),
+    saveUninitialized: true,
+    cookie: {
+      secure: false, // if true only transmit cookie over https
+      httpOnly: false, // if true prevent client side JS from reading the cookie
+      maxAge: 1000 * 60 * 10, // session max age in miliseconds
+    },
   }),
 );
-app.use(cors({ origin: 'http://localhost:8000', credentials: true }));
+app.use(
+  cors({
+    origin: ['http://localhost:3030', 'https://localhost:8080'],
+    credentials: true,
+  }),
+);
 app.use(compression());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -72,10 +77,12 @@ const swaggerOptions = {
 
 expressJSDocSwagger(app)(swaggerOptions);
 
-// app.use(snakecaseResponse());
+app.use('/captcha', require('./routes/captcha'));
+
+app.use(snakecaseResponse());
 app.use(omitReq);
 
-app.use('/captcha', require('./routes/captcha')); // Client routes
+// Client routes
 app.use('/client', require('./routes/client')); // Client routes
 app.use('/oauth', require('./routes/auth')); // routes to access the auth stuff
 // Note that the next router uses middleware. That protects all routes within this middleware
